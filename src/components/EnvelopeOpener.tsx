@@ -10,9 +10,9 @@ interface EnvelopeOpenerProps {
 type OpeningStage = 'idle' | 'illuminating' | 'opening' | 'flooding' | 'revealed';
 
 const OPENING_TIMING = {
-  upperGlow: 800,
-  flapJourney: 2600,
-  finalFlood: 1000,
+  upperGlow: 1500,
+  flapJourney: 3800,
+  finalFlood: 1100,
 } as const;
 
 interface BotanicalEmbroideryProps {

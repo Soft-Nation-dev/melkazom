@@ -226,7 +226,7 @@
   transform-style: preserve-3d;
   backface-visibility: visible;
   will-change: transform;
-  transition: transform var(--flap-journey-duration, 2.6s) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--flap-journey-duration, 3.8s) cubic-bezier(0.25, 0.08, 0.25, 1);
 }
 
 .envelope-flap--upper::before {
@@ -324,22 +324,22 @@
 
 .envelope-opener:not([data-stage='idle']) .botanical-embroidery--upper .embroidery-glow .embroidery-segment {
   animation:
-    embroidery-cluster-in .65s ease-out var(--segment-delay, 0s) forwards,
-    embroidery-stitch-in .85s cubic-bezier(.36,.1,.18,1) var(--segment-delay, 0s) forwards;
+    embroidery-cluster-in .75s ease-out var(--segment-delay, 0s) forwards,
+    embroidery-stitch-in .95s cubic-bezier(.25, 1, .5, 1) var(--segment-delay, 0s) forwards;
 }
 
 .envelope-opener[data-stage='opening'] .botanical-embroidery:not(.botanical-embroidery--upper) .embroidery-glow .embroidery-segment,
 .envelope-opener[data-stage='flooding'] .botanical-embroidery:not(.botanical-embroidery--upper) .embroidery-glow .embroidery-segment {
   animation:
-    lower-embroidery-glow-fade var(--flap-journey-duration, 2.6s) ease-out forwards;
+    lower-embroidery-glow-fade var(--flap-journey-duration, 3.8s) cubic-bezier(0.25, 0.08, 0.25, 1) forwards;
 }
-.embroidery-segment-1 { --segment-delay: .04s; }
-.embroidery-segment-2 { --segment-delay: .22s; }
-.embroidery-segment-3 { --segment-delay: .40s; }
-.embroidery-segment-4 { --segment-delay: .58s; }
-.embroidery-segment-5 { --segment-delay: .74s; }
-.embroidery-segment-6 { --segment-delay: .88s; }
-.embroidery-segment-7 { --segment-delay: 1.02s; }
+.embroidery-segment-1 { --segment-delay: 0s; }
+.embroidery-segment-2 { --segment-delay: .12s; }
+.embroidery-segment-3 { --segment-delay: .24s; }
+.embroidery-segment-4 { --segment-delay: .36s; }
+.embroidery-segment-5 { --segment-delay: .48s; }
+.embroidery-segment-6 { --segment-delay: .60s; }
+.embroidery-segment-7 { --segment-delay: .72s; }
 
 .envelope-radiance {
   position: absolute;
@@ -350,7 +350,7 @@
   pointer-events: none;
   opacity: 0;
   clip-path: polygon(0 0, 100% 0, 100% 39.5%, 50% 82.5%, 0 39.5%);
-  transition: opacity 1.1s ease;
+  transition: opacity 1.4s ease;
 }
 
 .envelope-radiance::after {
@@ -372,7 +372,7 @@
   background: radial-gradient(circle, #ffffff 0%, rgba(255,247,199,0.95) 18%, rgba(240,200,60,0.55) 42%, rgba(200,150,40,0.12) 65%, transparent 75%);
   opacity: .25;
   transform: translate3d(-50%, -50%, 0) scale(.28);
-  transition: transform 1.6s cubic-bezier(.22,.61,.36,1), opacity 1.2s ease;
+  transition: transform 2.8s cubic-bezier(.25,.08,.25,1), opacity 1.8s ease;
   will-change: transform, opacity;
 }
 
@@ -381,26 +381,26 @@
   inset: 0;
   background: radial-gradient(circle at 50% 82%, rgba(255,255,255,.94), rgba(255,232,166,.68) 24%, rgba(166,115,35,.2) 52%, transparent 76%);
   opacity: 0;
-  transition: opacity 1.3s ease .1s;
+  transition: opacity 1.8s ease .1s;
 }
 
 .envelope-opener[data-stage='opening'] .envelope-radiance { opacity: .65; }
 .envelope-opener[data-stage='opening'] .envelope-radiance__beam { opacity: .5; }
 .envelope-opener[data-stage='opening'] .envelope-radiance__core { opacity: .75; transform: translate3d(-50%, -50%, 0) scale(1.15); }
 .envelope-opener[data-stage='flooding'] .envelope-radiance {
-  animation: envelope-flood-radiance var(--final-flood-duration, 1s) cubic-bezier(.32,0,.18,1) forwards;
+  animation: envelope-flood-radiance var(--final-flood-duration, 1.1s) cubic-bezier(.32,0,.18,1) forwards;
 }
 
 .envelope-opener[data-stage='flooding'] .envelope-radiance::after {
-  animation: envelope-flood-bloom var(--final-flood-duration, 1s) cubic-bezier(.32,0,.18,1) forwards;
+  animation: envelope-flood-bloom var(--final-flood-duration, 1.1s) cubic-bezier(.32,0,.18,1) forwards;
 }
 
 .envelope-opener[data-stage='flooding'] .envelope-radiance__beam {
-  animation: envelope-flood-beam var(--final-flood-duration, 1s) cubic-bezier(.32,0,.18,1) forwards;
+  animation: envelope-flood-beam var(--final-flood-duration, 1.1s) cubic-bezier(.32,0,.18,1) forwards;
 }
 
 .envelope-opener[data-stage='flooding'] .envelope-radiance__core {
-  animation: envelope-flood-core var(--final-flood-duration, 1s) cubic-bezier(.32,0,.18,1) forwards;
+  animation: envelope-flood-core var(--final-flood-duration, 1.1s) cubic-bezier(.32,0,.18,1) forwards;
 }
 
 .envelope-seams {
@@ -419,12 +419,12 @@
 .envelope-seam--lower-landscape { display: none; }
 .envelope-seam--light { stroke: #d7bd72; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 4px #c9aa5c); }
 .envelope-opener:not([data-stage='idle']) .envelope-seam--upper-light {
-  animation: envelope-seam-light .95s cubic-bezier(.4,0,.2,1) .1s forwards;
+  animation: envelope-seam-light 1.35s cubic-bezier(.25, 1, .5, 1) .05s forwards;
 }
 
 .envelope-opener[data-stage='opening'] .envelope-seam--lower-light,
 .envelope-opener[data-stage='flooding'] .envelope-seam--lower-light {
-  animation: envelope-seam-light var(--flap-journey-duration, 2.6s) cubic-bezier(.4,0,.2,1) forwards;
+  animation: envelope-seam-light var(--flap-journey-duration, 3.8s) cubic-bezier(0.25, 0.08, 0.25, 1) forwards;
 }
 
 .wax-seal-wrap {
@@ -461,22 +461,24 @@
 
 .wax-seal-aura {
   position: absolute;
-  inset: 8%;
+  inset: 6%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(184,133,68,.45) 0%, rgba(142,91,42,.15) 60%, transparent 75%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.48) 0%, rgba(184, 133, 68, 0.2) 55%, transparent 72%);
   transform: scale(1);
-  transition: transform 1s ease, opacity .6s ease;
+  opacity: 0.25;
+  transition: transform 1.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .envelope-opener:not([data-stage='idle']) .wax-seal-aura {
-  transform: scale(1.4);
-  animation: seal-breathe 1.8s ease-in-out infinite alternate;
+  transform: scale(1.45);
+  opacity: 0.95;
 }
 
 .envelope-opener[data-stage='opening'] .wax-seal-aura,
 .envelope-opener[data-stage='flooding'] .wax-seal-aura {
-  animation: none;
   opacity: 0;
+  transform: scale(1.1);
+  transition: opacity .6s ease, transform .6s ease;
 }
 
 .wax-seal {
