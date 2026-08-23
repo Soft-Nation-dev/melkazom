@@ -49,6 +49,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
         src={autumnFrame}
         alt=""
         aria-hidden="true"
+        decoding="async"
         className={`hero-frame pointer-events-none absolute inset-0 z-[1] h-full w-full object-fill ${isVisible ? 'is-visible' : ''}`}
       />
 

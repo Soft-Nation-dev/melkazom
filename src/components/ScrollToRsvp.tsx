@@ -4,6 +4,9 @@ export const ScrollToRsvp: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 640px)');
+    if (!desktopQuery.matches) return;
+
     const handleScroll = () => {
       if (window.scrollY < window.innerHeight * 0.55) {
         setIsVisible(false);
@@ -22,7 +25,7 @@ export const ScrollToRsvp: React.FC = () => {
       setIsVisible(true);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);

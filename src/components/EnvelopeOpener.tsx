@@ -20,10 +20,12 @@ interface BotanicalEmbroideryProps {
   mirrored?: boolean;
 }
 
-const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '', mirrored = false }) => {
-  const embroidery = (glowing: boolean) => (
-    <g className={glowing ? 'embroidery-glow' : 'embroidery-relief'}>
-      <g className="embroidery-segment embroidery-segment-1">
+const EMBROIDERY_SEGMENTS = [1, 2, 3, 4, 5, 6, 7] as const;
+
+const BotanicalEmbroideryDefinitions: React.FC = () => (
+  <svg className="botanical-embroidery-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="botanical-segment-1">
         <path data-stitch pathLength="1" d="M495 565 C475 492 438 428 388 367 C339 307 309 236 314 124" />
         <path data-stitch pathLength="1" d="M388 367 C327 338 270 290 226 224" />
         <path data-stitch pathLength="1" d="M365 334 C322 323 282 330 247 361" />
@@ -31,7 +33,7 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
         <path data-stitch pathLength="1" d="M447 465 C393 459 350 478 317 520" />
       </g>
 
-      <g className="embroidery-segment embroidery-segment-2">
+      <g id="botanical-segment-2">
         <path data-stitch pathLength="1" d="M316 130 C294 111 291 86 310 69 C331 85 334 108 316 130Z" />
         <path data-stitch pathLength="1" d="M315 156 C280 151 262 130 269 106 C300 108 318 127 315 156Z" />
         <path data-stitch pathLength="1" d="M319 184 C348 168 374 171 388 194 C363 213 337 207 319 184Z" />
@@ -45,7 +47,7 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
         <path data-stitch pathLength="1" d="M267 271 C290 253 313 254 326 273 C307 294 283 291 267 271Z" />
       </g>
 
-      <g className="embroidery-segment embroidery-segment-3">
+      <g id="botanical-segment-3">
         <path data-stitch pathLength="1" d="M505 565 C530 493 566 430 610 370 C656 307 679 237 682 114" />
         <path data-stitch pathLength="1" d="M610 370 C667 350 724 310 774 250" />
         <path data-stitch pathLength="1" d="M575 431 C631 414 680 430 720 470" />
@@ -53,7 +55,7 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
         <path data-stitch pathLength="1" d="M679 172 C723 138 754 101 769 61" />
       </g>
 
-      <g className="embroidery-segment embroidery-segment-4">
+      <g id="botanical-segment-4">
         <path data-stitch pathLength="1" d="M612 371 C642 339 678 333 706 354 C684 389 648 394 612 371Z" />
         <path data-stitch pathLength="1" d="M575 431 C606 399 643 395 671 418 C647 451 610 456 575 431Z" />
         <path data-stitch pathLength="1" d="M545 492 C575 463 610 461 636 482 C613 514 578 517 545 492Z" />
@@ -68,7 +70,7 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
         <path data-stitch pathLength="1" d="M724 299 C743 282 764 282 777 298 C760 318 739 318 724 299Z" />
       </g>
 
-      <g className="embroidery-segment embroidery-segment-5">
+      <g id="botanical-segment-5">
         <path data-stitch pathLength="1" d="M649 230 C618 239 587 219 585 187 C584 162 605 142 631 149 C650 160 655 191 649 230Z" />
         <path data-stitch pathLength="1" d="M649 230 C642 196 653 158 680 148 C705 149 722 173 714 198 C704 222 677 233 649 230Z" />
         <path data-stitch pathLength="1" d="M650 230 C671 217 702 221 713 242 C708 267 682 283 659 270 C646 260 644 245 650 230Z" />
@@ -80,7 +82,7 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
         <path data-stitch pathLength="1" d="M650 223 L640 205 M650 223 L652 201 M653 223 L669 207 M646 224 L629 211" />
       </g>
 
-      <g className="embroidery-segment embroidery-segment-6 embroidery-buds">
+      <g id="botanical-segment-6">
         {[
           [292, 91, 6], [319, 104, 7], [286, 131, 7], [323, 143, 8], [295, 170, 7],
           [205, 196, 6], [228, 211, 7], [199, 230, 6], [244, 236, 7], [226, 259, 6],
@@ -91,12 +93,31 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
         ))}
       </g>
 
-      <g className="embroidery-segment embroidery-segment-7 embroidery-veins">
+      <g id="botanical-segment-7">
         <path data-stitch pathLength="1" d="M258 355 L312 350 M288 438 L348 442 M332 512 L386 498" />
         <path data-stitch pathLength="1" d="M624 365 L692 361 M588 424 L658 424 M557 489 L623 487" />
         <path data-stitch pathLength="1" d="M277 349 L294 337 M305 354 L320 365 M311 438 L327 424 M335 445 L349 458" />
         <path data-stitch pathLength="1" d="M642 361 L657 346 M672 363 L687 376 M610 423 L626 407 M637 427 L651 441" />
       </g>
+    </defs>
+  </svg>
+);
+
+const segmentClassName = (segment: number) => {
+  const detailClass = segment === 6 ? ' embroidery-buds' : segment === 7 ? ' embroidery-veins' : '';
+  return `embroidery-segment embroidery-segment-${segment}${detailClass}`;
+};
+
+const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '', mirrored = false }) => {
+  const embroidery = (glowing: boolean) => (
+    <g className={glowing ? 'embroidery-glow' : 'embroidery-relief'}>
+      {EMBROIDERY_SEGMENTS.map((segment) => (
+        <use
+          key={segment}
+          className={segmentClassName(segment)}
+          href={`#botanical-segment-${segment}`}
+        />
+      ))}
     </g>
   );
 
@@ -160,6 +181,8 @@ export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart,
       </div>
 
       <div className="envelope-shell">
+        <BotanicalEmbroideryDefinitions />
+
         <div className="envelope-panel envelope-panel--left" aria-hidden="true">
           <BotanicalEmbroidery className="botanical-embroidery--left" mirrored />
         </div>
@@ -201,7 +224,7 @@ export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart,
             >
               <span className="wax-seal-aura" aria-hidden="true" />
               <span className="wax-seal">
-                <img src={botanicalSealImg} alt="" />
+                <img src={botanicalSealImg} alt="" decoding="async" />
                 <span className="wax-seal__bevel" aria-hidden="true" />
                 <span className="wax-seal__glint" aria-hidden="true" />
               </span>

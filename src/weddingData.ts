@@ -165,16 +165,16 @@ export const WEDDING_CONFIG: WeddingConfig = {
   ],
   menu: {
     starter: {
-      title: "Crispy Appetizers & Fresh Salads",
-      desc: "Delicate canapés, garden greens with lemon-herb vinaigrette, artisanal rolls"
+      title: "Nigerian Small Chops & Peppered Bites",
+      desc: "Puff-puff, mosa, spicy chicken, peppered gizzard and golden plantain"
     },
     main: {
-      title: "Royal Nigerian & Continental Banquet",
-      desc: "Jollof Royale, Fried Rice, Gourmet Pounded Yam with Egusi/Ofe Owerri, Slow-Braised Tender Beef & Seasoned Fish"
+      title: "A Feast of Nigerian Classics",
+      desc: "Smoky party jollof, native rice, pounded yam with egusi and oha soup, served with peppered chicken, beef and fish"
     },
     dessert: {
-      title: "Velvet White Chocolate & Fruit Infusion",
-      desc: "Delicate sponge infused with vanilla bean, berry coulis, sparkling sorbet"
+      title: "Nigerian Sweets & Tropical Fruit",
+      desc: "Chin chin, coconut candy, fresh pineapple, watermelon and chilled zobo"
     }
   },
   faqs: [
@@ -184,7 +184,7 @@ export const WEDDING_CONFIG: WeddingConfig = {
     },
     {
       question: "Can I bring my children?",
-      answer: "We love your little ones, but our wedding reception will be primarily an adult celebration. We appreciate your understanding!"
+      answer: "Absolutely — children are warmly welcome to celebrate with us. Please include them in your guest count when completing your RSVP."
     },
     {
       question: "Is there parking available at Amadeo Event Center?",

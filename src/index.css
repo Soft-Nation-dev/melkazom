@@ -65,6 +65,7 @@
   color: #f6e9aa;
   background: #030303;
   isolation: isolate;
+  contain: layout paint style;
   opacity: 1;
   transition: opacity 1.15s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
@@ -220,9 +221,7 @@
   transform-style: preserve-3d;
   backface-visibility: visible;
   will-change: transform, filter;
-  transition:
-    transform var(--flap-journey-duration, 5.3s) cubic-bezier(.45,.05,.55,.95),
-    filter var(--flap-journey-duration, 5.3s) cubic-bezier(.45,.05,.55,.95);
+  transition: transform var(--flap-journey-duration, 5.3s) cubic-bezier(.45,.05,.55,.95);
   filter: drop-shadow(0 24px 19px rgba(0,0,0,.92)) drop-shadow(0 6px 4px rgba(0,0,0,.76));
 }
 
@@ -267,13 +266,20 @@
 .envelope-opener[data-stage='opening'] .envelope-flap--upper,
 .envelope-opener[data-stage='flooding'] .envelope-flap--upper {
   transform: rotateX(120deg) translateZ(18px);
-  filter: drop-shadow(0 -22px 24px rgba(0,0,0,.78)) drop-shadow(0 -7px 8px rgba(0,0,0,.62)) drop-shadow(0 10px 24px rgba(113,82,20,.26));
 }
 
 .botanical-embroidery {
   position: absolute;
   z-index: 2;
   overflow: visible;
+  pointer-events: none;
+}
+
+.botanical-embroidery-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
   pointer-events: none;
 }
 
@@ -299,7 +305,7 @@
 }
 
 .embroidery-relief .embroidery-veins { stroke-width: 1.1; opacity: .7; }
-.embroidery-relief .embroidery-buds circle { fill: #202020; stroke-width: 1.15; }
+.embroidery-relief .embroidery-buds { fill: #202020; stroke-width: 1.15; }
 
 .embroidery-glow {
   stroke: #e8dda4;
@@ -308,31 +314,21 @@
   filter: drop-shadow(0 0 2px rgba(255,246,204,.92)) drop-shadow(0 0 7px rgba(210,186,104,.72)) drop-shadow(0 0 18px rgba(166,126,51,.42));
 }
 
-.embroidery-glow .embroidery-segment { opacity: 0; }
-.embroidery-glow [data-stitch] { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.embroidery-glow .embroidery-buds circle { fill: rgba(232,221,164,.86); stroke-width: 1; }
+.embroidery-glow .embroidery-segment { opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.embroidery-glow .embroidery-buds { fill: rgba(232,221,164,.86); stroke-width: 1; }
 .embroidery-glow .embroidery-veins { stroke-width: 1.15; }
 
 .envelope-opener:not([data-stage='idle']) .botanical-embroidery--upper .embroidery-glow .embroidery-segment {
-  animation: embroidery-cluster-in .72s ease-out forwards;
-  animation-delay: calc(var(--segment-delay, 0s));
-}
-
-.envelope-opener:not([data-stage='idle']) .botanical-embroidery--upper .embroidery-glow [data-stitch] {
-  animation: embroidery-stitch-in 1s cubic-bezier(.36,.1,.18,1) forwards;
-  animation-delay: calc(var(--segment-delay, 0s));
+  animation:
+    embroidery-cluster-in .72s ease-out var(--segment-delay, 0s) forwards,
+    embroidery-stitch-in 1s cubic-bezier(.36,.1,.18,1) var(--segment-delay, 0s) forwards;
 }
 
 .envelope-opener[data-stage='opening'] .botanical-embroidery:not(.botanical-embroidery--upper) .embroidery-glow .embroidery-segment,
 .envelope-opener[data-stage='flooding'] .botanical-embroidery:not(.botanical-embroidery--upper) .embroidery-glow .embroidery-segment {
-  animation: lower-embroidery-cluster-in var(--flap-journey-duration, 5.3s) linear forwards;
-  animation-delay: 0s;
-}
-
-.envelope-opener[data-stage='opening'] .botanical-embroidery:not(.botanical-embroidery--upper) .embroidery-glow [data-stitch],
-.envelope-opener[data-stage='flooding'] .botanical-embroidery:not(.botanical-embroidery--upper) .embroidery-glow [data-stitch] {
-  animation: lower-embroidery-stitch-in var(--flap-journey-duration, 5.3s) cubic-bezier(.45,.05,.55,.95) forwards;
-  animation-delay: 0s;
+  animation:
+    lower-embroidery-cluster-in var(--flap-journey-duration, 5.3s) linear forwards,
+    lower-embroidery-stitch-in var(--flap-journey-duration, 5.3s) cubic-bezier(.45,.05,.55,.95) forwards;
 }
 .embroidery-segment-1 { --segment-delay: .05s; }
 .embroidery-segment-2 { --segment-delay: .35s; }
@@ -453,9 +449,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.wax-seal-button:hover { transform: scale(1.035); }
-.wax-seal-button:active { transform: scale(.965); }
 .wax-seal-button:focus-visible { outline: 2px solid #fff2a3; outline-offset: 8px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .wax-seal-button:hover { transform: scale(1.035); }
+  .wax-seal-button:active { transform: scale(.965); }
+}
 
 .wax-seal-aura {
   position: absolute;
@@ -518,26 +517,57 @@
 }
 
 @keyframes envelope-flood-beam {
-  0% { opacity: .5; filter: brightness(1) saturate(1); }
-  48% { opacity: .78; filter: brightness(1.28) saturate(.92); }
-  78% { opacity: .94; filter: brightness(1.62) saturate(.72); }
-  100% { opacity: 1; filter: brightness(2.15) saturate(.45); }
+  0% { opacity: .5; }
+  48% { opacity: .78; }
+  78% { opacity: .94; }
+  100% { opacity: 1; }
 }
 
 @keyframes envelope-flood-core {
-  0% { opacity: .72; filter: blur(16px) brightness(1); transform: translate(-50%, -50%) scale(1.15); }
-  42% { opacity: .86; filter: blur(15px) brightness(1.24); transform: translate(-50%, -50%) scale(2.45); }
-  76% { opacity: .96; filter: blur(12px) brightness(1.55); transform: translate(-50%, -50%) scale(4.9); }
-  100% { opacity: 1; filter: blur(9px) brightness(1.9); transform: translate(-50%, -50%) scale(7.8); }
+  0% { opacity: .72; transform: translate(-50%, -50%) scale(1.15); }
+  42% { opacity: .86; transform: translate(-50%, -50%) scale(2.45); }
+  76% { opacity: .96; transform: translate(-50%, -50%) scale(4.9); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(7.8); }
 }
 
 @keyframes envelope-flood-bloom {
-  0% { opacity: 0; filter: brightness(1); }
-  48% { opacity: .18; filter: brightness(1.18); }
-  78% { opacity: .5; filter: brightness(1.48); }
-  100% { opacity: .92; filter: brightness(1.9); }
+  0% { opacity: 0; }
+  48% { opacity: .18; }
+  78% { opacity: .5; }
+  100% { opacity: .92; }
 }
 @keyframes seal-breathe { from { opacity: .72; transform: scale(1.4); } to { opacity: 1; transform: scale(1.68); } }
+
+@media (max-width: 700px) {
+  /* Keep animated artwork off the large filtered panel layers on phones. */
+  .envelope-panel--left,
+  .envelope-panel--right,
+  .envelope-panel--bottom,
+  .envelope-flap--upper {
+    filter: none;
+  }
+
+  .envelope-flap__surface,
+  .envelope-flap--upper::before {
+    filter: drop-shadow(0 14px 11px rgba(0,0,0,.78)) drop-shadow(0 4px 3px rgba(0,0,0,.64));
+  }
+
+  .embroidery-glow {
+    filter: drop-shadow(0 0 5px rgba(232,210,137,.78));
+  }
+
+  .invitation-section {
+    filter: none;
+    transition:
+      opacity .82s cubic-bezier(.22,.61,.36,1) var(--section-delay),
+      transform .98s cubic-bezier(.16,1,.3,1) var(--section-delay);
+  }
+
+  .vintage-letter,
+  .hero-detail {
+    filter: none;
+  }
+}
 
 @media (min-width: 800px) and (orientation: landscape) {
   .envelope-flap--upper { height: 61%; }
@@ -588,7 +618,7 @@
 }
 
 .invitation-document::before {
-  opacity: .085;
+  opacity: 0;
   filter: saturate(.72) sepia(.14);
   background-image:
     url('./assets/images/hero-autumn-frame-v1.webp'),
@@ -615,6 +645,7 @@
 }
 
 .invitation-document::after {
+  opacity: 0;
   background:
     radial-gradient(ellipse at 12% 17%, rgba(109,132,109,.13), transparent 18%),
     radial-gradient(ellipse at 91% 31%, rgba(190,144,72,.13), transparent 19%),
@@ -622,6 +653,9 @@
     radial-gradient(ellipse at 88% 65%, rgba(100,126,108,.12), transparent 19%),
     radial-gradient(ellipse at 14% 82%, rgba(190,144,72,.11), transparent 18%);
 }
+
+.invitation-document.is-ready::before { opacity: .085; }
+.invitation-document.is-ready::after { opacity: 1; }
 
 .invitation-document > * {
   position: relative;
@@ -637,7 +671,12 @@
     opacity 1s cubic-bezier(.22,.61,.36,1) var(--section-delay),
     transform 1.15s cubic-bezier(.16,1,.3,1) var(--section-delay),
     filter .9s ease var(--section-delay);
-  will-change: opacity, transform;
+}
+
+.invitation-document > section:not(:first-child),
+.invitation-document > footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 760px;
 }
 
 .invitation-section.is-revealed {

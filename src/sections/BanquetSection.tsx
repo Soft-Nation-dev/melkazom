@@ -9,6 +9,8 @@ export const BanquetSection: React.FC = () => {
         <img
           src={banquetImg}
           alt="Wedding Dining Experience"
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 z-10 flex items-end bg-gradient-to-t from-[#1c2923]/88 via-transparent to-transparent p-7">

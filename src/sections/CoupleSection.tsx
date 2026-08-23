@@ -17,6 +17,8 @@ export const CoupleSection: React.FC = () => {
           <img
             src={coupleImg}
             alt="Melford & Chiazokam"
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
         </div>

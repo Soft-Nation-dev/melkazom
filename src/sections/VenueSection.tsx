@@ -16,6 +16,8 @@ export const VenueSection: React.FC = () => {
           <img
             src={churchImg}
             alt={WEDDING_CONFIG.event.church.name}
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div className="absolute top-4 left-4 z-10 rounded-full border border-[#c6a45d]/45 bg-[#26372f]/88 px-3 py-1 font-serif text-[10px] tracking-widest text-[#f4e6bd] uppercase backdrop-blur-sm">
@@ -54,6 +56,8 @@ export const VenueSection: React.FC = () => {
           <img
             src={hallImg}
             alt={WEDDING_CONFIG.event.reception.center}
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div className="absolute top-4 left-4 z-10 rounded-full border border-[#c6a45d]/45 bg-[#26372f]/88 px-3 py-1 font-serif text-[10px] tracking-widest text-[#f4e6bd] uppercase backdrop-blur-sm">
