@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import botanicalSealImg from '../assets/images/wax-seal-botanical-v2.webp';
 
 interface EnvelopeOpenerProps {
@@ -132,17 +132,37 @@ const BotanicalEmbroidery: React.FC<BotanicalEmbroideryProps> = ({ className = '
 };
 
 export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart, isOpen }) => {
-  const [stage, setStage] = useState<OpeningStage>('idle');
+  const openerRef = useRef<HTMLDivElement>(null);
+  const sealButtonRef = useRef<HTMLButtonElement>(null);
+  const promptRef = useRef<HTMLSpanElement>(null);
+  const stageRef = useRef<OpeningStage>('idle');
   const timersRef = useRef<number[]>([]);
 
   useEffect(() => () => {
     timersRef.current.forEach((timer) => window.clearTimeout(timer));
   }, []);
 
+  const setStage = (nextStage: OpeningStage) => {
+    stageRef.current = nextStage;
+    if (openerRef.current) openerRef.current.dataset.stage = nextStage;
+    if (sealButtonRef.current) sealButtonRef.current.disabled = nextStage !== 'idle';
+    if (promptRef.current) {
+      promptRef.current.textContent = nextStage === 'idle'
+        ? 'Touch the seal'
+        : nextStage === 'illuminating'
+          ? 'Made with love'
+          : 'Opening for you';
+    }
+  };
+
   const handleStartOpen = () => {
-    if (stage !== 'idle' || isOpen) return;
-    onStart();
+    if (stageRef.current !== 'idle' || isOpen) return;
     setStage('illuminating');
+
+    // Let the illuminated seal paint before audio decoding joins the main
+    // thread. This is only one displayed frame, so playback still feels
+    // immediate while the tap remains visually responsive on slower phones.
+    window.requestAnimationFrame(() => window.requestAnimationFrame(onStart));
 
     const timing = {
       open: OPENING_TIMING.upperGlow,
@@ -160,12 +180,13 @@ export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart,
     ];
   };
 
-  if (isOpen || stage === 'revealed') return null;
+  if (isOpen) return null;
 
   return (
     <div
+      ref={openerRef}
       className="envelope-opener"
-      data-stage={stage}
+      data-stage="idle"
       style={{
         '--flap-journey-duration': `${OPENING_TIMING.flapJourney}ms`,
         '--final-flood-duration': `${OPENING_TIMING.finalFlood}ms`,
@@ -216,15 +237,15 @@ export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart,
 
           <div className="wax-seal-wrap">
             <button
+              ref={sealButtonRef}
               type="button"
               onClick={handleStartOpen}
-              disabled={stage !== 'idle'}
               className="wax-seal-button"
               aria-label="Open Melford and Chiazokam's wedding invitation"
             >
               <span className="wax-seal-aura" aria-hidden="true" />
               <span className="wax-seal">
-                <img src={botanicalSealImg} alt="" decoding="async" />
+                <img src={botanicalSealImg} alt="" width={768} height={768} decoding="async" />
                 <span className="wax-seal__bevel" aria-hidden="true" />
                 <span className="wax-seal__glint" aria-hidden="true" />
               </span>
@@ -233,7 +254,7 @@ export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart,
         </div>
 
         <div className="envelope-prompt" aria-live="polite">
-          <span>{stage === 'idle' ? 'Touch the seal' : stage === 'illuminating' ? 'Made with love' : 'Opening for you'}</span>
+          <span ref={promptRef}>Touch the seal</span>
           <i aria-hidden="true" />
         </div>
       </div>

@@ -12,10 +12,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle>(function AudioPlayer(_,
 
   const playAudio = useCallback(() => {
     if (!audioRef.current) return;
-    audioRef.current
-      .play()
-      .then(() => setIsPlaying(true))
-      .catch(() => setIsPlaying(false));
+    void audioRef.current.play().catch(() => setIsPlaying(false));
   }, []);
 
   useImperativeHandle(ref, () => ({ play: playAudio }), [playAudio]);
@@ -24,7 +21,6 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle>(function AudioPlayer(_,
     if (!audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
-      setIsPlaying(false);
     } else {
       playAudio();
     }
@@ -37,6 +33,8 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle>(function AudioPlayer(_,
         src={beautifulPeopleTrack}
         loop
         preload="auto"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       />
       <button
         onClick={toggleAudio}

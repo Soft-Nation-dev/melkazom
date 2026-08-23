@@ -1,6 +1,7 @@
 import React from 'react';
 import { WEDDING_CONFIG } from '../weddingData';
-import banquetImg from '../assets/images/menu-banquet.jpg';
+import banquetImg from '../assets/images/menu-banquet-720.webp';
+import banquetImgLarge from '../assets/images/menu-banquet-1200.webp';
 
 export const BanquetSection: React.FC = () => {
   return (
@@ -8,7 +9,11 @@ export const BanquetSection: React.FC = () => {
       <div className="vintage-media relative h-56 overflow-hidden sm:h-72">
         <img
           src={banquetImg}
+          srcSet={`${banquetImg} 720w, ${banquetImgLarge} 1200w`}
+          sizes="(max-width: 640px) calc(100vw - 2rem), 616px"
           alt="Wedding Dining Experience"
+          width={1200}
+          height={896}
           loading="lazy"
           decoding="async"
           className="h-full w-full object-cover"

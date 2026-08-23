@@ -1,5 +1,6 @@
 import React from 'react';
-import coupleImg from '../assets/images/couple.jpg';
+import coupleImg from '../assets/images/couple-720.webp';
+import coupleImgLarge from '../assets/images/couple-1024.webp';
 
 export const CoupleSection: React.FC = () => {
   return (
@@ -16,7 +17,11 @@ export const CoupleSection: React.FC = () => {
         <div className="vintage-media aspect-[4/5] overflow-hidden rounded-t-[158px] rounded-b-2xl">
           <img
             src={coupleImg}
+            srcSet={`${coupleImg} 720w, ${coupleImgLarge} 1024w`}
+            sizes="(max-width: 640px) calc(100vw - 3.5rem), 384px"
             alt="Melford & Chiazokam"
+            width={1024}
+            height={1024}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"

@@ -1,7 +1,8 @@
 import React from 'react';
 import { MapPin, ExternalLink } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
-import churchImg from '../assets/images/church image.jpg';
+import churchImg from '../assets/images/church-720.webp';
+import churchImgLarge from '../assets/images/church-1280.webp';
 import hallImg from '../assets/images/Hall image.webp';
 import { VintageHeading } from '../components/VintageHeading';
 
@@ -15,7 +16,11 @@ export const VenueSection: React.FC = () => {
         <div className="vintage-media relative h-52 overflow-hidden sm:h-64">
           <img
             src={churchImg}
+            srcSet={`${churchImg} 720w, ${churchImgLarge} 1280w`}
+            sizes="(max-width: 640px) calc(100vw - 2rem), 616px"
             alt={WEDDING_CONFIG.event.church.name}
+            width={1280}
+            height={851}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"
@@ -56,6 +61,8 @@ export const VenueSection: React.FC = () => {
           <img
             src={hallImg}
             alt={WEDDING_CONFIG.event.reception.center}
+            width={474}
+            height={315}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"

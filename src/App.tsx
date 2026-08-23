@@ -1,22 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { EnvelopeOpener } from './components/EnvelopeOpener';
 import { AudioPlayer, type AudioPlayerHandle } from './components/AudioPlayer';
 import { ScrollToRsvp } from './components/ScrollToRsvp';
 
 // Modular Subfolder Sections for Easy Editing
 import { HeroSection } from './sections/HeroSection';
-import { ParentsSection } from './sections/ParentsSection';
-import { VenueSection } from './sections/VenueSection';
-import { StorySection } from './sections/StorySection';
-import { ItinerarySection } from './sections/ItinerarySection';
-import { CountdownSection } from './sections/CountdownSection';
-import { BanquetSection } from './sections/BanquetSection';
-import { CoupleSection } from './sections/CoupleSection';
-import { PaletteSection } from './sections/PaletteSection';
-import { FaqSection } from './sections/FaqSection';
-import { AccommodationsSection } from './sections/AccommodationsSection';
-import { RSVPSection } from './components/RSVPSection';
-import { FooterSection } from './sections/FooterSection';
+
+let invitationBodyPromise: ReturnType<typeof importInvitationBody> | undefined;
+
+function importInvitationBody() {
+  return import('./components/InvitationBody');
+}
+
+const loadInvitationBody = () => {
+  invitationBodyPromise ??= importInvitationBody();
+  return invitationBodyPromise;
+};
+
+const InvitationBody = lazy(loadInvitationBody);
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
@@ -45,7 +46,7 @@ export default function App() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, [isOpened, isDocumentReady]);
+  }, [isOpened]);
 
   useEffect(() => {
     if (!isOpened) return;
@@ -53,8 +54,17 @@ export default function App() {
     // Keep the hero entrance free from the cost of mounting the full document.
     // Guests naturally remain on the full-height hero while the remaining
     // sections are prepared below the fold.
-    const timer = window.setTimeout(() => setIsDocumentReady(true), 2600);
-    return () => window.clearTimeout(timer);
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void loadInvitationBody().then(() => {
+        if (!cancelled) setIsDocumentReady(true);
+      });
+    }, 2600);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
   }, [isOpened]);
 
   return (
@@ -76,43 +86,9 @@ export default function App() {
         <HeroSection isVisible={isOpened} />
 
         {isDocumentReady && (
-          <>
-            {/* Section 2: Parents' Blessing & Hometowns (Nsukka & Igbo-Etiti) */}
-            <ParentsSection />
-
-            {/* Section 3: Venues (Christ the King Church & Amadeo Event Center) */}
-            <VenueSection />
-
-            {/* Section 4: Why This Is Special / Couple Quote */}
-            <StorySection />
-
-            {/* Section 5: Order of Events Timeline */}
-            <ItinerarySection />
-
-            {/* Section 6: Live Countdown to January 4, 2027 */}
-            <CountdownSection />
-
-            {/* Section 7: Banquet & Dining Experience */}
-            <BanquetSection />
-
-            {/* Section 8: Romantic Couple Portrait */}
-            <CoupleSection />
-
-            {/* Section 9: Dress Code & Colors of the Day */}
-            <PaletteSection />
-
-            {/* Section 10: Frequently Asked Questions Accordion */}
-            <FaqSection />
-
-            {/* Section 11: Accommodations in Enugu */}
-            <AccommodationsSection />
-
-            {/* Section 12: Interactive RSVP Form */}
-            <RSVPSection />
-
-            {/* Section 13: Footer */}
-            <FooterSection />
-          </>
+          <Suspense fallback={null}>
+            <InvitationBody />
+          </Suspense>
         )}
       </main>
     </div>
