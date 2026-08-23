@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
-import { VintageHeading } from '../components/VintageHeading';
 
 export const FaqSection: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -11,36 +10,54 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section className="my-16 space-y-6">
-      <VintageHeading eyebrow="A Few Details" title="Frequently Asked" subtitle="Everything you need to know" />
+    <section className="my-20 space-y-8 text-center">
+      <div>
+        <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center text-[#34516d]">
+          <HelpCircle className="h-6 w-6 stroke-[1.5]" />
+        </div>
+        <h2 className="font-serif text-3xl font-normal tracking-[0.25em] text-[#2c3e50] uppercase sm:text-4xl">
+          FAQ
+        </h2>
+        <div className="mx-auto mt-2.5 flex w-16 items-center justify-center gap-2" aria-hidden="true">
+          <span className="h-px flex-1 bg-[#6c829c]/40" />
+          <span className="h-1 w-1 rotate-45 bg-[#4c6580]" />
+          <span className="h-px flex-1 bg-[#6c829c]/40" />
+        </div>
+      </div>
 
-      <div className="space-y-3">
+      <div className="mx-auto max-w-md space-y-3 px-4 text-left">
         {WEDDING_CONFIG.faqs.map((faq, index) => {
           const isOpen = openFaq === index;
           return (
             <div
               key={index}
-              className={`vintage-reveal-item overflow-hidden border-b transition-all duration-500 ${
-                isOpen ? 'border-[#9d7d49]/60' : 'border-[#bba77f]/35'
+              className={`reference-faq overflow-hidden transition-all duration-300 ${
+                isOpen
+                  ? 'is-open'
+                  : ''
               }`}
             >
               <button
                 onClick={() => toggleFaq(index)}
                 type="button"
-                className="flex w-full cursor-pointer items-center justify-between gap-3 p-5 text-left"
+                className="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left"
               >
-                <span className="font-serif font-semibold text-sm text-[#1a2520]">
+                <span className="font-serif text-xs font-semibold tracking-wider text-[#2c3e50] uppercase">
                   {faq.question}
                 </span>
                 {isOpen ? (
-                  <ChevronUp className="w-4 h-4 text-[#d4af37] shrink-0" />
+                  <ChevronUp className="h-4 w-4 shrink-0 text-[#34516d]" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-[#8e7f6e] shrink-0" />
+                  <ChevronDown className="h-4 w-4 shrink-0 text-[#7a92ad]" />
                 )}
               </button>
-              <div className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(.16,1,.3,1)] ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+              <div
+                className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                  isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                }`}
+              >
                 <div className="overflow-hidden">
-                  <p className="border-t border-[#bba579]/25 px-5 pt-4 pb-5 text-xs leading-relaxed text-[#675c51]">
+                  <p className="reference-faq-answer px-4 pt-3 pb-4 text-xs leading-relaxed text-[#556987]">
                     {faq.answer}
                   </p>
                 </div>

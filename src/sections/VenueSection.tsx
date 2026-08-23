@@ -1,63 +1,75 @@
 import React from 'react';
-import { MapPin, ExternalLink } from 'lucide-react';
+import { MapPin, Navigation, ExternalLink } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
-import churchImg from '../assets/images/church-720.webp';
-import churchImgLarge from '../assets/images/church-1280.webp';
+import venueWatercolour from '../assets/images/venue-watercolour.jpg';
 import hallImg from '../assets/images/Hall image.webp';
-import { VintageHeading } from '../components/VintageHeading';
 
 export const VenueSection: React.FC = () => {
   return (
-    <section className="my-16 space-y-7">
-      <VintageHeading eyebrow="The Celebration" title="Venues & Locations" subtitle="Join us as we take our vows and celebrate" />
+    <section className="my-20 space-y-16 text-center">
+      {/* Church Solemnization */}
+      <div className="space-y-6">
+        <div>
+          <h2 className="font-serif text-3xl font-normal tracking-[0.25em] text-[#2c3e50] uppercase sm:text-4xl">
+            VENUE
+          </h2>
+          <div className="mx-auto mt-2.5 flex w-16 items-center justify-center gap-2" aria-hidden="true">
+            <span className="h-px flex-1 bg-[#6c829c]/40" />
+            <span className="h-1 w-1 rotate-45 bg-[#4c6580]" />
+            <span className="h-px flex-1 bg-[#6c829c]/40" />
+          </div>
+        </div>
 
-      {/* Church Venue Card */}
-      <div className="vintage-panel vintage-reveal-item">
-        <div className="vintage-media relative h-52 overflow-hidden sm:h-64">
+        {/* Floating Watercolor Artwork */}
+        <div className="reference-media relative mx-auto aspect-[4/3] max-w-sm overflow-hidden sm:max-w-md">
           <img
-            src={churchImg}
-            srcSet={`${churchImg} 720w, ${churchImgLarge} 1280w`}
-            sizes="(max-width: 640px) calc(100vw - 2rem), 616px"
+            src={venueWatercolour}
             alt={WEDDING_CONFIG.event.church.name}
-            width={1280}
-            height={851}
+            width={800}
+            height={600}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"
           />
-          <div className="absolute top-4 left-4 z-10 rounded-full border border-[#c6a45d]/45 bg-[#26372f]/88 px-3 py-1 font-serif text-[10px] tracking-widest text-[#f4e6bd] uppercase backdrop-blur-sm">
-            Church Solemnization
-          </div>
         </div>
-        <div className="p-6 sm:p-7">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <h3 className="font-serif text-xl sm:text-2xl text-[#1a2520] font-semibold">
-              {WEDDING_CONFIG.event.church.name}
-            </h3>
-            <span className="shrink-0 whitespace-nowrap rounded-full bg-[#0e3b2e]/10 px-3 py-1 font-sans text-xs font-bold text-[#0e3b2e]">
-              {WEDDING_CONFIG.event.church.time}
-            </span>
-          </div>
-          <p className="text-xs text-[#5c544d] mb-4 flex items-start gap-2">
-            <MapPin className="w-4 h-4 text-[#d4af37] shrink-0 mt-0.5" />
-            <span>{WEDDING_CONFIG.event.church.address}</span>
+
+        {/* Location Pin Icon */}
+        <div className="reference-mark mx-auto flex h-11 w-11 items-center justify-center text-[#34516d]">
+          <MapPin className="h-5 w-5" />
+        </div>
+
+        {/* Venue Title & Address in Script / Italic */}
+        <div>
+          <h3 className="font-script text-3xl text-[#2c3e50] sm:text-4xl">
+            {WEDDING_CONFIG.event.church.name}
+          </h3>
+          <p className="mt-1 font-serif text-xs italic tracking-wider text-[#556987]">
+            {WEDDING_CONFIG.event.church.address}
           </p>
+          <p className="mt-2 text-xs font-semibold tracking-wider text-[#34516d]">
+            {WEDDING_CONFIG.event.church.time}
+          </p>
+        </div>
+
+        {/* Frosted Pill Button */}
+        <div>
           <a
             href={WEDDING_CONFIG.event.church.mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="vintage-button inline-flex min-h-12 w-full items-center justify-center gap-1.5 px-3 py-3 text-center font-serif text-[10px] leading-relaxed font-semibold tracking-[.14em] uppercase sm:gap-2 sm:text-xs sm:tracking-widest"
+            className="reference-link inline-flex min-h-11 items-center justify-center gap-2 px-6 py-2.5 text-center font-sans text-xs font-semibold tracking-wide text-[#344d66] transition-all"
           >
-            <MapPin className="h-3.5 w-3.5 shrink-0 text-[#d4af37]" />
-            <span>Get Directions to Church</span>
-            <ExternalLink className="ml-1 h-3.5 w-3.5 shrink-0 opacity-70" />
+            <Navigation className="h-3.5 w-3.5 rotate-45 text-[#34516d]" />
+            <span>Get directions · Open in Google Maps</span>
+            <ExternalLink className="h-3 w-3 opacity-60" />
           </a>
         </div>
       </div>
 
-      {/* Reception Hall Venue Card */}
-      <div className="vintage-panel vintage-reveal-item">
-        <div className="vintage-media relative h-52 overflow-hidden sm:h-64">
+      {/* Reception Hall */}
+      <div className="space-y-6 pt-4">
+        {/* Floating Reception Artwork */}
+        <div className="reference-media relative mx-auto aspect-[16/9] max-w-sm overflow-hidden sm:max-w-md">
           <img
             src={hallImg}
             alt={WEDDING_CONFIG.event.reception.center}
@@ -67,32 +79,35 @@ export const VenueSection: React.FC = () => {
             decoding="async"
             className="h-full w-full object-cover"
           />
-          <div className="absolute top-4 left-4 z-10 rounded-full border border-[#c6a45d]/45 bg-[#26372f]/88 px-3 py-1 font-serif text-[10px] tracking-widest text-[#f4e6bd] uppercase backdrop-blur-sm">
-            Grand Reception
-          </div>
         </div>
-        <div className="p-6 sm:p-7">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <h3 className="font-serif text-xl sm:text-2xl text-[#1a2520] font-semibold">
-              {WEDDING_CONFIG.event.reception.hall}
-            </h3>
-            <span className="shrink-0 whitespace-nowrap rounded-full bg-[#d4af37]/20 px-3 py-1 font-sans text-xs font-bold text-[#8a6e14]">
-              {WEDDING_CONFIG.event.reception.time}
-            </span>
-          </div>
-          <p className="text-xs text-[#5c544d] mb-4 flex items-start gap-2">
-            <MapPin className="w-4 h-4 text-[#d4af37] shrink-0 mt-0.5" />
-            <span>{WEDDING_CONFIG.event.reception.address}</span>
+
+        {/* Location Pin Icon */}
+        <div className="reference-mark mx-auto flex h-11 w-11 items-center justify-center text-[#34516d]">
+          <MapPin className="h-5 w-5" />
+        </div>
+
+        <div>
+          <h3 className="font-script text-3xl text-[#2c3e50] sm:text-4xl">
+            {WEDDING_CONFIG.event.reception.hall}
+          </h3>
+          <p className="mt-1 font-serif text-xs italic tracking-wider text-[#556987]">
+            {WEDDING_CONFIG.event.reception.address}
           </p>
+          <p className="mt-2 text-xs font-semibold tracking-wider text-[#34516d]">
+            {WEDDING_CONFIG.event.reception.time}
+          </p>
+        </div>
+
+        <div>
           <a
             href={WEDDING_CONFIG.event.reception.mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="vintage-button inline-flex min-h-12 w-full items-center justify-center gap-1.5 px-3 py-3 text-center font-serif text-[10px] leading-relaxed font-semibold tracking-[.14em] uppercase sm:gap-2 sm:text-xs sm:tracking-widest"
+            className="reference-link inline-flex min-h-11 items-center justify-center gap-2 px-6 py-2.5 text-center font-sans text-xs font-semibold tracking-wide text-[#344d66] transition-all"
           >
-            <MapPin className="h-3.5 w-3.5 shrink-0 text-[#d4af37]" />
-            <span>Get Directions to Reception</span>
-            <ExternalLink className="ml-1 h-3.5 w-3.5 shrink-0 opacity-70" />
+            <Navigation className="h-3.5 w-3.5 rotate-45 text-[#34516d]" />
+            <span>Get directions · Open in Google Maps</span>
+            <ExternalLink className="h-3 w-3 opacity-60" />
           </a>
         </div>
       </div>

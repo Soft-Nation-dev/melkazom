@@ -598,14 +598,17 @@
   .botanical-embroidery--upper { inset: -3% 18% auto; width: 64%; }
 }
 
-/* Vintage invitation document */
+/* Invitation document — sky-blue reference palette */
 .invitation-canvas {
-  background-color: #eee5d7;
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(255,255,255,.72), transparent 30%),
-    linear-gradient(90deg, rgba(83,62,41,.025) 1px, transparent 1px),
-    linear-gradient(rgba(83,62,41,.02) 1px, transparent 1px);
-  background-size: 100% 100%, 8px 8px, 8px 8px;
+  background: linear-gradient(180deg,
+    #b8d4e8 0%,
+    #d0e5f2 18%,
+    #e8f2f8 36%,
+    #f4f8fb 52%,
+    #f8f5ef 68%,
+    #f5f0e8 84%,
+    #f0ead8 100%
+  );
 }
 
 .invitation-canvas::before {
@@ -614,14 +617,14 @@
   inset: 0;
   content: '';
   pointer-events: none;
-  opacity: .32;
-  background: radial-gradient(ellipse at center, transparent 45%, rgba(77,54,35,.12) 100%);
+  opacity: .18;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(45,58,90,.08) 100%);
 }
 
 .invitation-document {
   isolation: isolate;
-  background: rgba(249,245,237,.52);
-  box-shadow: 0 0 80px rgba(71,49,29,.08);
+  background: transparent;
+  box-shadow: none;
 }
 
 .invitation-document::before,
@@ -633,44 +636,27 @@
   pointer-events: none;
 }
 
+/* Wisteria vine page border — left & right edges on every section */
 .invitation-document::before {
   opacity: 0;
-  filter: saturate(.72) sepia(.14);
   background-image:
-    url('./assets/images/hero-autumn-frame-v1.webp'),
-    url('./assets/images/hero-autumn-frame-v1.webp'),
-    url('./assets/images/hero-autumn-frame-v1.webp'),
-    url('./assets/images/hero-autumn-frame-v1.webp'),
-    url('./assets/images/hero-autumn-frame-v1.webp'),
-    url('./assets/images/hero-autumn-frame-v1.webp');
-  background-position:
-    left -12rem top 7%,
-    right -13rem top 23%,
-    left -14rem top 40%,
-    right -11rem top 57%,
-    left -12rem top 74%,
-    right -14rem top 91%;
-  background-size:
-    31rem 39rem,
-    35rem 43rem,
-    32rem 40rem,
-    36rem 44rem,
-    34rem 42rem,
-    31rem 39rem;
+    linear-gradient(180deg, rgba(90,110,160,.07) 0%, transparent 60%),
+    linear-gradient(270deg, rgba(90,110,160,.05) 0%, transparent 50%);
   background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .invitation-document::after {
   opacity: 0;
   background:
-    radial-gradient(ellipse at 12% 17%, rgba(109,132,109,.13), transparent 18%),
-    radial-gradient(ellipse at 91% 31%, rgba(190,144,72,.13), transparent 19%),
-    radial-gradient(ellipse at 9% 48%, rgba(166,107,95,.1), transparent 18%),
-    radial-gradient(ellipse at 88% 65%, rgba(100,126,108,.12), transparent 19%),
-    radial-gradient(ellipse at 14% 82%, rgba(190,144,72,.11), transparent 18%);
+    radial-gradient(ellipse at 8% 18%, rgba(130,158,210,.12), transparent 22%),
+    radial-gradient(ellipse at 94% 33%, rgba(180,140,90,.09), transparent 20%),
+    radial-gradient(ellipse at 6% 52%, rgba(160,180,220,.10), transparent 20%),
+    radial-gradient(ellipse at 92% 68%, rgba(120,150,100,.08), transparent 20%),
+    radial-gradient(ellipse at 10% 84%, rgba(180,140,90,.08), transparent 18%);
 }
 
-.invitation-document.is-ready::before { opacity: .085; }
+.invitation-document.is-ready::before { opacity: 1; }
 .invitation-document.is-ready::after { opacity: 1; }
 
 .invitation-document > * {
@@ -1007,4 +993,230 @@
     opacity: 0;
     transform: translate(calc(-50% + var(--flower-x)), 30vh) rotate(var(--flower-rotation)) scale(.92);
   }
+}
+
+/* -------------------------------------------------------------------------
+   Reference-frame overhaul (post-envelope only)
+   Soft paper, lilac-blue washes, fine botanical linework and open spacing.
+   The envelope rules above are intentionally left untouched.               */
+
+.invitation-canvas {
+  background:
+    radial-gradient(ellipse at 82% 7%, rgba(201, 190, 226, .48), transparent 29rem),
+    radial-gradient(ellipse at 8% 36%, rgba(191, 211, 229, .45), transparent 31rem),
+    linear-gradient(180deg, #f9f4f1 0%, #faf7f5 45%, #f0eef8 100%);
+}
+
+.invitation-canvas::before {
+  z-index: 0;
+  opacity: 1;
+  background:
+    radial-gradient(rgba(96, 76, 93, .11) .38px, transparent .62px),
+    linear-gradient(90deg, rgba(255,255,255,.36), rgba(237,231,241,.18), rgba(255,255,255,.32));
+  background-size: 8px 8px, 100% 100%;
+}
+
+.reference-floral-frame {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.reference-floral-frame img {
+  width: min(100%, 48rem);
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: .22;
+  mix-blend-mode: multiply;
+}
+
+.invitation-document {
+  max-width: 44rem;
+  padding-bottom: 5rem;
+}
+
+.invitation-document::before,
+.invitation-document::after { display: none; }
+
+.invitation-document > section:not(:first-child),
+.invitation-document > footer {
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 4.75rem clamp(.25rem, 2.5vw, 1rem);
+}
+
+.invitation-document > section:not(:first-child)::after {
+  position: absolute;
+  right: 20%;
+  bottom: 0;
+  left: 20%;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, transparent, rgba(117, 95, 125, .28), transparent);
+}
+
+.reference-hero {
+  background: #edf0f4;
+  box-shadow: 0 18px 42px rgba(69, 55, 78, .08);
+}
+
+.reference-hero::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,249,247,.48) 0%, rgba(255,252,249,.12) 48%, rgba(246,234,235,.2) 100%),
+    radial-gradient(ellipse at 50% 34%, transparent 32%, rgba(255,255,255,.1) 70%);
+}
+
+.reference-hero .hero-frame { filter: saturate(.78) contrast(.96) brightness(1.045); }
+.reference-hero .hero-frame.is-visible { animation-name: reference-hero-develop; }
+.reference-hero h1 { color: #4b4054 !important; }
+.reference-hero .hero-ampersand { color: #9b7489 !important; }
+.reference-hero .hero-detail--copy { color: #665569 !important; }
+.reference-hero .hero-detail--date { color: #514255 !important; }
+.reference-hero .hero-detail--divider span { background-color: rgba(135, 102, 128, .48) !important; }
+.reference-hero .hero-detail--divider span:nth-child(2) { background-color: #95728a !important; }
+
+@keyframes reference-hero-develop {
+  to { opacity: .92; transform: scale(1); filter: saturate(.78) contrast(.96) brightness(1.045); }
+}
+
+.invitation-section {
+  transform: translateY(38px) scale(.994);
+  transition-duration: .78s, .92s, .72s;
+}
+
+.vintage-heading,
+.invitation-document h2 { color: #4b4054; }
+
+.vintage-eyebrow,
+.vintage-subtitle { color: #876a81; }
+
+.vintage-divider,
+.vintage-divider b { color: #a27b90; }
+
+.vintage-divider i { background: linear-gradient(90deg, transparent, rgba(147, 110, 137, .68)); }
+
+.reference-media {
+  border: 1px solid rgba(114, 94, 116, .24);
+  border-radius: 2px;
+  background: #f7f0f2;
+  box-shadow: 0 13px 28px rgba(79, 62, 84, .12), 0 0 0 5px rgba(255, 252, 249, .56);
+}
+
+.reference-media::after {
+  position: absolute;
+  inset: 5px;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  border: 1px solid rgba(255, 250, 247, .56);
+}
+
+.reference-media img { filter: saturate(.78) contrast(.97) brightness(1.04); }
+
+.reference-mark {
+  border: 1px solid rgba(121, 97, 126, .35);
+  border-radius: 50%;
+  background: rgba(255, 250, 248, .5);
+}
+
+.reference-link {
+  border-bottom: 1px solid rgba(126, 98, 124, .45);
+  color: #735a71;
+  letter-spacing: .08em;
+}
+
+.reference-link:hover { color: #4d4151; border-bottom-color: #4d4151; }
+
+.reference-family,
+.reference-stay,
+.reference-listing {
+  border-top: 1px solid rgba(122, 99, 127, .26);
+  border-bottom: 1px solid rgba(122, 99, 127, .15);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.37), transparent);
+}
+
+.reference-family h3,
+.reference-stay h3,
+.reference-listing h4 { color: #4e4052 !important; }
+
+.reference-family p,
+.reference-stay p,
+.reference-listing p { color: #735f77 !important; }
+
+.reference-listing + .reference-listing { margin-top: -.1rem; border-top: 0; }
+
+.reference-countdown-unit {
+  border-top: 1px solid rgba(122, 99, 127, .35);
+  border-bottom: 1px solid rgba(122, 99, 127, .19);
+  background: rgba(255, 252, 250, .28);
+}
+
+.reference-countdown-unit + .reference-countdown-unit { border-left: 1px solid rgba(122, 99, 127, .18); }
+
+.reference-swatch {
+  border-bottom: 1px solid rgba(121, 97, 126, .28);
+  background: transparent;
+  border-radius: 0;
+}
+
+.reference-faq {
+  border-top: 1px solid rgba(121, 97, 126, .28);
+  border-radius: 0;
+  background: transparent;
+}
+
+.reference-faq:last-child { border-bottom: 1px solid rgba(121, 97, 126, .28); }
+.reference-faq.is-open { background: rgba(255, 253, 250, .38); }
+.reference-faq-answer { border-top: 1px solid rgba(121, 97, 126, .18); }
+
+#rsvp-section form > div > label { color: #5a4b5d !important; }
+
+#rsvp-section input,
+#rsvp-section select,
+#rsvp-section textarea {
+  border-color: rgba(126, 100, 127, .28) !important;
+  border-radius: 0 !important;
+  background: rgba(255, 252, 250, .56) !important;
+  color: #4e4052 !important;
+  box-shadow: inset 0 -1px 0 rgba(126, 100, 127, .08);
+}
+
+#rsvp-section input:focus,
+#rsvp-section select:focus,
+#rsvp-section textarea:focus {
+  border-color: #a27b90 !important;
+  box-shadow: 0 2px 0 rgba(162, 123, 144, .18) !important;
+}
+
+#rsvp-section form button.rounded-2xl {
+  border-radius: 0 !important;
+}
+
+#rsvp-section form > button[type='submit'] {
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, #856478, #a2788c) !important;
+  box-shadow: 0 10px 24px rgba(112, 77, 100, .18) !important;
+}
+
+.invitation-document footer {
+  border-color: rgba(121, 97, 126, .28) !important;
+  background: linear-gradient(180deg, transparent, rgba(213, 207, 230, .23));
+}
+
+@media (max-width: 640px) {
+  .reference-floral-frame img { width: 100%; opacity: .16; }
+  .invitation-document > section:not(:first-child),
+  .invitation-document > footer { padding-top: 4rem; padding-bottom: 4rem; }
+  .reference-hero { box-shadow: none; }
 }

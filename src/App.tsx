@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { EnvelopeOpener } from './components/EnvelopeOpener';
 import { AudioPlayer, type AudioPlayerHandle } from './components/AudioPlayer';
 import { ScrollToRsvp } from './components/ScrollToRsvp';
+import { FloralFrameOverlay } from './components/FloralFrameOverlay';
 
 // Modular Subfolder Sections for Easy Editing
 import { HeroSection } from './sections/HeroSection';
@@ -68,7 +69,7 @@ export default function App() {
   }, [isOpened]);
 
   return (
-    <div className="invitation-canvas relative min-h-screen overflow-x-hidden bg-[#eee5d7] font-sans text-[#382f28] antialiased selection:bg-[#a8874b]/30 selection:text-[#26342b]">
+    <div className="invitation-canvas relative min-h-screen overflow-x-hidden font-sans text-[#382f28] antialiased selection:bg-[#b7899a]/20 selection:text-[#38485d]">
       {/* 1. Full-Screen Origami Envelope Opener */}
       <EnvelopeOpener
         isOpen={isOpened}
@@ -76,9 +77,10 @@ export default function App() {
         onOpen={() => setIsOpened(true)}
       />
 
-      {/* 2. Floating Bottom Controls */}
+      {/* 2. Floating Bottom Controls & Persistent Floral Framing */}
       <AudioPlayer ref={audioPlayerRef} />
       {isDocumentReady && <ScrollToRsvp />}
+      {isDocumentReady && <FloralFrameOverlay />}
 
       {/* Main Wedding Invitation Document */}
       <main className={`invitation-document relative z-10 mx-auto max-w-2xl px-4 py-4 sm:px-7 sm:py-8 ${isDocumentReady ? 'is-ready' : ''}`}>

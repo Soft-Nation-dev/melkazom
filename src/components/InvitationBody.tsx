@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
-import { ParentsSection } from '../sections/ParentsSection';
-import { VenueSection } from '../sections/VenueSection';
 import { StorySection } from '../sections/StorySection';
+import { VenueSection } from '../sections/VenueSection';
 import { ItinerarySection } from '../sections/ItinerarySection';
 import { CountdownSection } from '../sections/CountdownSection';
-import { BanquetSection } from '../sections/BanquetSection';
 import { CoupleSection } from '../sections/CoupleSection';
 import { PaletteSection } from '../sections/PaletteSection';
 import { FaqSection } from '../sections/FaqSection';
 import { AccommodationsSection } from '../sections/AccommodationsSection';
+import { ParentsSection } from '../sections/ParentsSection';
+import { BanquetSection } from '../sections/BanquetSection';
 import { RSVPSection } from './RSVPSection';
 import { FooterSection } from '../sections/FooterSection';
 
@@ -40,16 +40,16 @@ export default function InvitationBody() {
 
   return (
     <>
-      <ParentsSection />
-      <VenueSection />
       <StorySection />
+      <VenueSection />
       <ItinerarySection />
       <CountdownSection />
-      <BanquetSection />
       <CoupleSection />
       <PaletteSection />
+      <BanquetSection />
       <FaqSection />
       <AccommodationsSection />
+      <ParentsSection />
       <RSVPSection />
       <FooterSection />
     </>

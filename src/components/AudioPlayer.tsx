@@ -39,10 +39,10 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle>(function AudioPlayer(_,
       <button
         onClick={toggleAudio}
         type="button"
-        className="group flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-[#171a17]/92 p-0 text-[#f5e8b8] shadow-[0_8px_20px_rgba(0,0,0,.3)] backdrop-blur-md transition-all duration-300 hover:border-[#d4af37] hover:bg-[#25352e] sm:h-auto sm:w-auto sm:gap-2.5 sm:px-3.5 sm:py-2.5"
+        className="group flex h-12 w-12 items-center justify-center rounded-full border border-[#6f5c70]/15 bg-[#6f5c70]/92 p-0 text-[#fff9f5] shadow-[0_8px_20px_rgba(62,47,66,.22)] backdrop-blur-md transition-all duration-300 hover:border-[#b68c9d] hover:bg-[#5c4b5b] sm:h-auto sm:w-auto sm:gap-2.5 sm:px-3.5 sm:py-2.5"
         aria-label={isPlaying ? 'Mute background music' : 'Play background music'}
       >
-        {isPlaying ? <Volume2 className="h-5 w-5 text-[#e4cc76]" /> : <VolumeX className="h-5 w-5 text-[#e4cc76]" />}
+        {isPlaying ? <Volume2 className="h-5 w-5 text-[#fff4ef]" /> : <VolumeX className="h-5 w-5 text-[#fff4ef]" />}
         <span className="text-[11px] font-sans tracking-wider uppercase pr-1 font-medium hidden sm:inline-block">
           {isPlaying ? 'Music On' : 'Play Music'}
         </span>

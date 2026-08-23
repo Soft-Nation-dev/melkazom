@@ -1,33 +1,46 @@
 import React from 'react';
+import { Church, Utensils, Sparkles, Music, Car } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
-import { VintageHeading } from '../components/VintageHeading';
+
+const eventIcons = [
+  Church,
+  Utensils,
+  Sparkles,
+  Music,
+  Car,
+];
 
 export const ItinerarySection: React.FC = () => {
   return (
-    <section className="my-16 space-y-7">
-      <VintageHeading eyebrow="The Wedding Day" title="What We Have Planned" subtitle="Order of events and schedule" />
+    <section className="my-20 space-y-12 text-center">
+      {/* Floating Vertical Schedule Items */}
+      <div className="mx-auto max-w-md space-y-10 px-4">
+        {WEDDING_CONFIG.itinerary.map((item, index) => {
+          const IconComponent = eventIcons[index % eventIcons.length];
+          return (
+            <div key={index} className="flex flex-col items-center text-center">
+              {/* Event Icon */}
+              <div className="mb-2 flex h-9 w-9 items-center justify-center text-[#4a6b82]">
+                <IconComponent className="h-5 w-5 stroke-[1.5]" />
+              </div>
 
-      <div className="relative space-y-4 before:absolute before:top-7 before:bottom-7 before:left-7 before:w-px before:bg-gradient-to-b before:from-transparent before:via-[#aa8b56]/45 before:to-transparent">
-        {WEDDING_CONFIG.itinerary.map((item, index) => (
-          <div
-            key={index}
-            className="vintage-reveal-item relative flex items-start gap-4 border-b border-[#bba77f]/35 px-1 py-5 transition-all duration-500 hover:translate-x-1"
-          >
-            <div className="z-10 flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-full border border-[#c9a969]/65 bg-[#304238] text-[#f5e7bc] shadow-[0_6px_18px_rgba(43,59,50,.22),inset_0_0_0_3px_rgba(255,255,255,.06)]">
-              <span className="font-cinzel text-xs font-bold leading-none">
+              {/* Time */}
+              <span className="font-serif text-xs font-semibold tracking-wider text-[#344d66]">
                 {item.time}
               </span>
-            </div>
-            <div>
-              <h3 className="font-serif font-semibold text-base text-[#1a2520]">
+
+              {/* Title in Serif Upper */}
+              <h3 className="font-serif text-sm font-bold tracking-[0.2em] text-[#2c3e50] uppercase mt-0.5">
                 {item.title}
               </h3>
-              <p className="text-xs text-[#6e6359] mt-0.5">
+
+              {/* Subtitle in Delicate Script */}
+              <p className="font-script text-lg text-[#556987] mt-0.5">
                 {item.subtitle}
               </p>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
