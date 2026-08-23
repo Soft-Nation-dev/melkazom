@@ -10,9 +10,9 @@ interface EnvelopeOpenerProps {
 type OpeningStage = 'idle' | 'illuminating' | 'opening' | 'flooding' | 'revealed';
 
 const OPENING_TIMING = {
-  upperGlow: 900,
-  flapJourney: 5300,
-  finalFlood: 1250,
+  upperGlow: 800,
+  flapJourney: 2600,
+  finalFlood: 1000,
 } as const;
 
 interface BotanicalEmbroideryProps {
@@ -159,10 +159,8 @@ export const EnvelopeOpener: React.FC<EnvelopeOpenerProps> = ({ onOpen, onStart,
     if (stageRef.current !== 'idle' || isOpen) return;
     setStage('illuminating');
 
-    // Let the illuminated seal paint before audio decoding joins the main
-    // thread. This is only one displayed frame, so playback still feels
-    // immediate while the tap remains visually responsive on slower phones.
-    window.requestAnimationFrame(() => window.requestAnimationFrame(onStart));
+    // Trigger audio immediately in user interaction handler for reliable mobile playback
+    onStart();
 
     const timing = {
       open: OPENING_TIMING.upperGlow,
