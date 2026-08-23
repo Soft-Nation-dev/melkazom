@@ -1,7 +1,8 @@
 import React from 'react';
 import { MapPin, Navigation, ExternalLink } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
-import venueWatercolour from '../assets/images/venue-watercolour.jpg';
+import churchImg from '../assets/images/church-1280.webp';
+import churchImgSmall from '../assets/images/church-720.webp';
 import hallImg from '../assets/images/Hall image.webp';
 
 export const VenueSection: React.FC = () => {
@@ -20,13 +21,15 @@ export const VenueSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Floating Watercolor Artwork */}
+        {/* Floating Church Venue Artwork */}
         <div className="reference-media relative mx-auto aspect-[4/3] max-w-sm overflow-hidden sm:max-w-md">
           <img
-            src={venueWatercolour}
+            src={churchImg}
+            srcSet={`${churchImgSmall} 720w, ${churchImg} 1280w`}
+            sizes="(max-width: 640px) calc(100vw - 3.5rem), 448px"
             alt={WEDDING_CONFIG.event.church.name}
-            width={800}
-            height={600}
+            width={1280}
+            height={853}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"

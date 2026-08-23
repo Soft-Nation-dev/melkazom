@@ -33,8 +33,8 @@ export const CountdownTimer: React.FC = () => {
   ] as const;
 
   return (
-    <div className="relative my-20 px-4 text-center">
-      <h2 className="font-script text-4xl font-normal text-[#2c3e50] sm:text-5xl">
+    <div className="relative my-24 px-4 text-center">
+      <h2 className="font-script text-4xl font-normal text-[#2c3e50] sm:text-5xl transition-transform duration-300">
         Countdown
       </h2>
 
@@ -44,20 +44,28 @@ export const CountdownTimer: React.FC = () => {
         <span className="h-px flex-1 bg-[#6c829c]/40" />
       </div>
 
-      <div className="mx-auto grid max-w-sm grid-cols-4 gap-2 sm:gap-4">
-        {units.map(([label, value]) => (
-          <div
-            key={label}
-            className="reference-countdown-unit flex flex-col items-center justify-center py-3.5 px-2"
-          >
-            <span className="font-serif text-2xl font-light tabular-nums text-[#2c3e50] sm:text-4xl">
-              {String(value).padStart(2, '0')}
-            </span>
-            <span className="mt-1 font-serif text-[8px] tracking-[0.2em] text-[#556987] uppercase sm:text-[9px]">
-              {label}
-            </span>
-          </div>
-        ))}
+      <div className="mx-auto grid max-w-sm grid-cols-4 gap-2.5 sm:gap-4">
+        {units.map(([label, value]) => {
+          const isSeconds = label === 'SECONDS';
+          return (
+            <div
+              key={label}
+              className="reference-countdown-unit relative flex flex-col items-center justify-center py-3.5 px-2 rounded-2xl border border-white/60 bg-white/45 shadow-[0_4px_16px_rgba(40,60,90,0.06)] backdrop-blur-xs transition-all duration-300 hover:bg-white/65 hover:scale-[1.02]"
+            >
+              <span
+                key={isSeconds ? value : undefined}
+                className={`font-serif text-2xl font-light tabular-nums text-[#2c3e50] sm:text-4xl ${
+                  isSeconds ? 'animate-clock-tick' : ''
+                }`}
+              >
+                {String(value).padStart(2, '0')}
+              </span>
+              <span className="mt-1 font-serif text-[8px] tracking-[0.2em] text-[#556987] uppercase sm:text-[9px]">
+                {label}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
