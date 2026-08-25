@@ -92,6 +92,7 @@ export const WEDDING_CONFIG: WeddingConfig = {
       fullName: "Chiazokam Faith Okagu",
       shortName: "Chiazokam",
       father: "Late Mr. Charles Okagu",
+      mother: "Mrs. Cordelia Okagu",
       origin: "Igbo-Etiti Local Government Area, Enugu State"
     },
     hashtag: "#Melkazom",
@@ -123,10 +124,10 @@ export const WEDDING_CONFIG: WeddingConfig = {
     title: "Colors of the Day",
     description: "Guests are warmly encouraged to celebrate with us in our wedding color palette:",
     colors: [
-      { name: "Emerald Forest", hex: "#0E3B2E", note: "Royal Green" },
-      { name: "Champagne Gold", hex: "#D4AF37", note: "Luxe Gold" },
-      { name: "Warm Ivory", hex: "#F7F3EB", note: "Soft Pearl" },
-      { name: "Dusty Rose", hex: "#D8A49B", note: "Floral Accent" }
+      { name: "Beige", hex: "#E8D5B7", note: "Warm Neutral" },
+      { name: "Pink", hex: "#E8A0B0", note: "Soft Blush" },
+      { name: "Olive Green", hex: "#6B7B3A", note: "Nature Tone" },
+      { name: "Burgundy", hex: "#800020", note: "Deep Wine" }
     ]
   },
   quote: {
