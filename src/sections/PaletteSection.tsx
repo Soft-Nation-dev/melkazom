@@ -1,5 +1,4 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
 
 export const PaletteSection: React.FC = () => {

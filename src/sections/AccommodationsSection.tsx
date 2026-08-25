@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Hotel, MapPin } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
 
 export const AccommodationsSection: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { X, CheckCircle2, Heart, Music, Utensils, MessageSquare, Send, Printer, Edit3, Sparkles } from 'lucide-react';
+import { X, Send, Printer, Edit3, Sparkles } from 'lucide-react';
 import confirmationSeal from '../assets/images/melkazom-confirmation-seal.png';
 import rsvpActionSeal from '../assets/images/melkazom-rsvp-seal.png';
 import { WEDDING_CONFIG } from '../weddingData';
@@ -20,30 +20,35 @@ export interface RsvpReceiptData {
 const STORAGE_KEY = 'melkazom-rsvp-receipt-v1';
 
 export const RSVPSection: React.FC = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    attending: 'yes',
-    guestCount: '1',
-    mealPreference: 'meat',
-    songRequest: '',
-    message: '',
-  });
-
-  const [receipt, setReceipt] = useState<RsvpReceiptData | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-
-  // Load existing receipt if available in localStorage
-  useEffect(() => {
+  const [receipt, setReceipt] = useState<RsvpReceiptData | null>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as RsvpReceiptData;
-        if (parsed && parsed.code && parsed.fullName) {
-          setReceipt(parsed);
-          setFormData({
+        return parsed && parsed.code && parsed.fullName ? parsed : null;
+      }
+    } catch {
+      // ignore
+    }
+    return null;
+  });
+
+  const [formData, setFormData] = useState(() => {
+    const defaultData = {
+      fullName: '',
+      email: '',
+      attending: 'yes',
+      guestCount: '1',
+      mealPreference: 'meat',
+      songRequest: '',
+      message: '',
+    } as const;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as RsvpReceiptData;
+        if (parsed && parsed.fullName) {
+          return {
             fullName: parsed.fullName,
             email: parsed.email || '',
             attending: parsed.attending,
@@ -51,13 +56,18 @@ export const RSVPSection: React.FC = () => {
             mealPreference: parsed.mealPreference,
             songRequest: parsed.songRequest || '',
             message: parsed.message || '',
-          });
+          };
         }
       }
     } catch {
-      // Storage unavailable
+      // ignore
     }
-  }, []);
+    return defaultData;
+  });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   // Close modal on Escape
   useEffect(() => {
@@ -197,7 +207,7 @@ export const RSVPSection: React.FC = () => {
               setIsModalOpen(true);
             }}
             type="button"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b7934b]/50 bg-[#b7934b] px-7 py-3 font-serif text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-sm transition-all hover:bg-[#8f6b32] hover:shadow-md cursor-pointer"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b7934b]/50 bg-[#b7934b] px-7 py-3 font-serif text-xs font-semibold tracking-[0.2em] text-white uppercase"
           >
             <Sparkles className="h-4 w-4 text-[#fcfaf7]" />
             <span>{receipt ? 'View Keepsake Receipt' : 'Click Seal to RSVP'}</span>
@@ -221,7 +231,7 @@ export const RSVPSection: React.FC = () => {
             if (e.target === e.currentTarget) setIsModalOpen(false);
           }}
         >
-          <div className="relative w-full max-w-2xl min-h-[85vh] my-auto flex flex-col justify-center rounded-3xl border-2 border-[#b28a46]/50 bg-[#fdfcf9] p-6 sm:p-12 shadow-2xl text-center animate-digit-scroll-up">
+          <div className="relative w-full max-w-2xl min-h-[85vh] my-auto flex flex-col justify-center rounded-3xl border-2 border-[#b28a46]/50 bg-[#fdfcf9] p-6 sm:p-12 shadow-2xl text-center">
             {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}
@@ -315,7 +325,7 @@ export const RSVPSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={handlePrint}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b28a46] bg-[#b28a46] px-5 py-2.5 font-serif text-xs font-semibold tracking-wider text-white shadow-sm transition-all hover:bg-[#8f6b32] cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b28a46] bg-[#b28a46] px-5 py-2.5 font-serif text-xs font-semibold tracking-wider text-white"
                   >
                     <Printer className="h-4 w-4" />
                     <span>Print Receipt</span>
@@ -325,7 +335,7 @@ export const RSVPSection: React.FC = () => {
                     href={generateWhatsAppMessage()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] px-5 py-2.5 font-sans text-xs font-semibold tracking-wider text-white shadow-sm transition-all hover:bg-[#20bd5a]"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] px-5 py-2.5 font-sans text-xs font-semibold tracking-wider text-white"
                   >
                     <Send className="h-4 w-4" />
                     <span>Share on WhatsApp</span>
@@ -334,7 +344,7 @@ export const RSVPSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#cbd9e6] bg-white px-4 py-2.5 font-serif text-xs font-semibold tracking-wider text-[#34516d] transition-all hover:bg-[#edf4f9] cursor-pointer"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#cbd9e6] bg-white px-4 py-2.5 font-serif text-xs font-semibold tracking-wider text-[#34516d]"
                   >
                     <Edit3 className="h-3.5 w-3.5" />
                     <span>Edit Response</span>
@@ -370,7 +380,7 @@ export const RSVPSection: React.FC = () => {
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       placeholder="e.g. Chief & Lolo Emeka Okafor"
-                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[#b28a46]/30"
+                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[[...]]"
                     />
                   </div>
 
@@ -384,7 +394,7 @@ export const RSVPSection: React.FC = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="name@example.com"
-                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[#b28a46]/30"
+                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[[...]]"
                     />
                   </div>
 
@@ -505,7 +515,7 @@ export const RSVPSection: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full cursor-pointer rounded-full border border-[#b28a46]/50 bg-gradient-to-r from-[#0E3B2E] via-[#1a4a3c] to-[#0E3B2E] py-3.5 text-center font-serif text-xs font-semibold tracking-[0.2em] text-[#f7f3eb] uppercase shadow-md transition-all hover:scale-[1.01] hover:shadow-lg disabled:opacity-50"
+                      className="w-full cursor-pointer rounded-full border border-[#b28a46]/50 bg-gradient-to-r from-[#0E3B2E] via-[#1a4a3c] to-[#0E3B2E] py-3.5 text-center font-serif text-xs font-semibold tracking-wider text-white"
                     >
                       {isSubmitting ? 'Recording RSVP...' : isEditing ? 'Update Response' : 'Confirm RSVP & Generate Receipt'}
                     </button>

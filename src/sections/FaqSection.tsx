@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { WEDDING_CONFIG } from '../weddingData';
 
 export const FaqSection: React.FC = () => {
