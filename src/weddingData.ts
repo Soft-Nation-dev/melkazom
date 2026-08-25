@@ -82,13 +82,13 @@ export const WEDDING_CONFIG: WeddingConfig = {
     groom: {
       fullName: "Melford Chinwendu Ugwu",
       shortName: "Melford",
-      father: "Mr. & Mrs. Joseph Ugwu",
+      father: "Late Mr. & Mrs. Joseph Ugwu",
       origin: "Nsukka Local Government Area, Enugu State"
     },
     bride: {
       fullName: "Chiazokam Faith Okagu",
       shortName: "Chiazokam",
-      father: "Mr. & Mrs. Charles Okagu",
+      father: "Late Mr. & Mrs. Charles Okagu",
       origin: "Igbo-Etiti Local Government Area, Enugu State"
     },
     hashtag: "#Melkazom",

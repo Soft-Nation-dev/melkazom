@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import confetti from 'canvas-confetti';
 import { X, Send, Printer, Edit3, Sparkles } from 'lucide-react';
 import confirmationSeal from '../assets/images/melkazom-confirmation-seal.png';
 import rsvpActionSeal from '../assets/images/melkazom-rsvp-seal.png';
 import { WEDDING_CONFIG } from '../weddingData';
 
+const BACKEND_URL = 'https://melkazom-backend.ifeanyieee8105.workers.dev';
+
 export interface RsvpReceiptData {
   code: string;
   fullName: string;
-  email: string;
   attending: 'yes' | 'no';
   guestCount: string;
   mealPreference: string;
@@ -36,7 +38,6 @@ export const RSVPSection: React.FC = () => {
   const [formData, setFormData] = useState(() => {
     const defaultData = {
       fullName: '',
-      email: '',
       attending: 'yes',
       guestCount: '1',
       mealPreference: 'meat',
@@ -50,7 +51,6 @@ export const RSVPSection: React.FC = () => {
         if (parsed && parsed.fullName) {
           return {
             fullName: parsed.fullName,
-            email: parsed.email || '',
             attending: parsed.attending,
             guestCount: parsed.guestCount,
             mealPreference: parsed.mealPreference,
@@ -79,50 +79,79 @@ export const RSVPSection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isModalOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isModalOpen]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName.trim()) return;
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      const newCode = `MELKAZOM-RSVP-${Math.floor(1000 + Math.random() * 9000)}`;
-      const now = new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
+    const newCode = `MELKAZOM-RSVP-${Math.floor(1000 + Math.random() * 9000)}`;
+    const now = new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+
+    const newReceipt: RsvpReceiptData = {
+      code: receipt?.code || newCode,
+      fullName: formData.fullName.trim(),
+      attending: formData.attending as 'yes' | 'no',
+      guestCount: formData.guestCount,
+      mealPreference: formData.mealPreference,
+      songRequest: formData.songRequest.trim(),
+      message: formData.message.trim(),
+      submittedAt: now,
+    };
+
+    // Save to local storage for immediate persistence
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newReceipt));
+    } catch {
+      // Storage unavailable
+    }
+
+    // Submit to Cloudflare backend asynchronously
+    try {
+      await fetch(`${BACKEND_URL}/api/rsvp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: newReceipt.code,
+          fullName: newReceipt.fullName,
+          attending: newReceipt.attending,
+          guestCount: newReceipt.guestCount,
+          mealPreference: newReceipt.mealPreference,
+          songRequest: newReceipt.songRequest,
+          message: newReceipt.message,
+        }),
       });
+    } catch (err) {
+      console.warn('Backend sync failed, stored locally:', err);
+    }
 
-      const newReceipt: RsvpReceiptData = {
-        code: receipt?.code || newCode,
-        fullName: formData.fullName.trim(),
-        email: formData.email.trim(),
-        attending: formData.attending as 'yes' | 'no',
-        guestCount: formData.guestCount,
-        mealPreference: formData.mealPreference,
-        songRequest: formData.songRequest.trim(),
-        message: formData.message.trim(),
-        submittedAt: now,
-      };
+    setReceipt(newReceipt);
+    setIsSubmitting(false);
+    setIsEditing(false);
 
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(newReceipt));
-      } catch {
-        // Storage unavailable
-      }
-
-      setReceipt(newReceipt);
-      setIsSubmitting(false);
-      setIsEditing(false);
-
-      // Celebratory confetti
-      confetti({
-        particleCount: 120,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#0E3B2E', '#D4AF37', '#7090b8', '#F7F3EB'],
-      });
-    }, 700);
+    // Celebratory confetti
+    confetti({
+      particleCount: 120,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#0E3B2E', '#D4AF37', '#b7934b', '#F7F3EB'],
+    });
   };
 
   const generateWhatsAppMessage = () => {
@@ -184,18 +213,18 @@ export const RSVPSection: React.FC = () => {
               setIsModalOpen(true);
             }}
             type="button"
-            className="group relative cursor-pointer outline-none transition-transform duration-300 hover:scale-105 active:scale-95"
-            aria-label={receipt ? 'Open RSVP Keepsake Receipt' : 'Open RSVP Form'}
+            className="group relative cursor-pointer focus:outline-none transition-transform active:scale-95"
+            aria-label={receipt ? 'View your RSVP receipt' : 'Open RSVP Form'}
           >
-            {/* Glowing Halo */}
-            <div className="animate-pulse-soft absolute -inset-3 rounded-full bg-[#b7934b]/20 blur-md group-hover:bg-[#b7934b]/35" />
+            {/* Ambient Gold Glow behind the seal */}
+            <div className="absolute -inset-4 rounded-full bg-[#b7934b]/15 blur-lg transition-all group-hover:bg-[#b7934b]/30 group-hover:scale-110" />
 
-            {/* Seal Image with Constant 360-Degree Slow Motion Rotation & Transparent Multiply Blend */}
-            <div className="animate-spin-slow relative h-32 w-32 sm:h-36 sm:w-36 overflow-hidden rounded-full shadow-[0_10px_28px_rgba(76,39,35,0.25)] transition-all">
+            {/* Seal Image with Constant 360-Degree Slow Motion Rotation */}
+            <div className="animate-spin-slow relative h-32 w-32 sm:h-36 sm:w-36 overflow-hidden rounded-full drop-shadow-[0_10px_24px_rgba(60,40,30,0.25)] transition-all group-hover:scale-105">
               <img
                 src={receipt ? confirmationSeal : rsvpActionSeal}
                 alt={receipt ? 'Confirmed RSVP Wax Seal' : 'Click Seal to RSVP'}
-                className="h-full w-full object-cover mix-blend-multiply"
+                className="h-full w-full object-cover"
               />
             </div>
           </button>
@@ -207,7 +236,7 @@ export const RSVPSection: React.FC = () => {
               setIsModalOpen(true);
             }}
             type="button"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b7934b]/50 bg-[#b7934b] px-7 py-3 font-serif text-xs font-semibold tracking-[0.2em] text-white uppercase"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b7934b]/50 bg-[#b7934b] px-7 py-3 font-serif text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-sm transition-all hover:bg-[#967434] cursor-pointer"
           >
             <Sparkles className="h-4 w-4 text-[#fcfaf7]" />
             <span>{receipt ? 'View Keepsake Receipt' : 'Click Seal to RSVP'}</span>
@@ -220,83 +249,80 @@ export const RSVPSection: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* FULL SCREEN RSVP MODAL DIALOG */}
+      {/* TRUE FULL SCREEN PORTAL RSVP MODAL OVERLAY */}
       {/* ========================================================================= */}
-      {isModalOpen && (
+      {isModalOpen && typeof document !== 'undefined' && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-[#f6f1e8]/95 backdrop-blur-md transition-opacity duration-300 overflow-y-auto"
+          className="fixed inset-0 z-[99999] h-screen w-screen overflow-y-auto bg-[#fbf6ed] p-4 sm:p-8 flex flex-col items-center justify-start sm:justify-center transition-opacity duration-300"
           role="dialog"
           aria-modal="true"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setIsModalOpen(false);
-          }}
         >
-          <div className="relative w-full max-w-2xl min-h-[85vh] my-auto flex flex-col justify-center rounded-3xl border-2 border-[#b28a46]/50 bg-[#fdfcf9] p-6 sm:p-12 shadow-2xl text-center">
+          <div className="relative w-full max-w-xl my-auto rounded-3xl border border-[#b7934b]/35 bg-[#fdfaf5] p-6 sm:p-10 shadow-[0_20px_60px_rgba(74,45,40,0.18)] text-center">
             {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}
               type="button"
-              className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#f0e9df] text-[#2c3e50] hover:bg-[#e4dcce] transition-colors cursor-pointer shadow-xs"
+              className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#f2e9dc] text-[#4a2d28] hover:bg-[#e4dcce] transition-colors cursor-pointer shadow-xs"
               aria-label="Close dialog"
             >
               <X className="h-5 w-5" />
             </button>
 
             {/* Vintage Double-Line Ornamental Corners */}
-            <div className="pointer-events-none absolute top-4 left-4 h-8 w-8 border-t-2 border-l-2 border-[#b28a46] rounded-tl-md" />
-            <div className="pointer-events-none absolute top-4 right-4 h-8 w-8 border-t-2 border-r-2 border-[#b28a46] rounded-tr-md" />
-            <div className="pointer-events-none absolute bottom-4 left-4 h-8 w-8 border-b-2 border-l-2 border-[#b28a46] rounded-bl-md" />
-            <div className="pointer-events-none absolute bottom-4 right-4 h-8 w-8 border-b-2 border-r-2 border-[#b28a46] rounded-br-md" />
-            <div className="pointer-events-none absolute inset-4 rounded-2xl border border-[#b28a46]/20" />
+            <div className="pointer-events-none absolute top-4 left-4 h-8 w-8 border-t-2 border-l-2 border-[#b7934b] rounded-tl-md" />
+            <div className="pointer-events-none absolute top-4 right-4 h-8 w-8 border-t-2 border-r-2 border-[#b7934b] rounded-tr-md" />
+            <div className="pointer-events-none absolute bottom-4 left-4 h-8 w-8 border-b-2 border-l-2 border-[#b7934b] rounded-bl-md" />
+            <div className="pointer-events-none absolute bottom-4 right-4 h-8 w-8 border-b-2 border-r-2 border-[#b7934b] rounded-br-md" />
+            <div className="pointer-events-none absolute inset-4 rounded-2xl border border-[#b7934b]/20" />
 
             {/* RECEIPT VIEW IN MODAL */}
             {receipt && !isEditing ? (
               <article>
-                <p className="font-serif text-[10px] font-bold tracking-[0.3em] uppercase text-[#b28a46]">
-                  A Joyful Union • #Melkazom
+                <p className="font-serif text-[10px] font-bold tracking-[0.3em] uppercase text-[#b7934b]">
+                  A Joyful Union &bull; #Melkazom
                 </p>
-                <h3 className="font-serif text-2xl font-medium tracking-wide text-[#2c3e50] sm:text-3xl mt-1">
+                <h3 className="font-serif text-2xl font-medium tracking-wide text-[#4a2d28] sm:text-3xl mt-1">
                   {receipt.attending === 'yes' ? 'Your Place Is Reserved' : 'Your Response Is Received'}
                 </h3>
-                <p className="mt-1 font-serif text-xs italic text-[#556987]">
+                <p className="mt-1 font-serif text-xs italic text-[#6b4c46]">
                   This certifies the official RSVP response of
                 </p>
-                <h4 className="font-serif text-xl font-bold tracking-wide text-[#1e2f42] sm:text-2xl mt-1">
+                <h4 className="font-serif text-xl font-bold tracking-wide text-[#4a2d28] sm:text-2xl mt-1">
                   {receipt.fullName}
                 </h4>
 
                 {/* Star Divider */}
                 <div className="mx-auto my-4 flex w-36 items-center justify-center gap-2" aria-hidden="true">
-                  <span className="h-px flex-1 bg-[#b28a46]/40" />
-                  <span className="text-xs text-[#b28a46]">✦</span>
-                  <span className="h-px flex-1 bg-[#b28a46]/40" />
+                  <span className="h-px flex-1 bg-[#b7934b]/40" />
+                  <span className="text-xs text-[#b7934b]">✦</span>
+                  <span className="h-px flex-1 bg-[#b7934b]/40" />
                 </div>
 
                 {/* Details List */}
-                <dl className="mx-auto max-w-sm space-y-2 text-left font-serif text-xs text-[#344d66] bg-white/80 p-4 rounded-xl border border-[#b28a46]/20">
-                  <div className="flex justify-between border-b border-[#b28a46]/15 pb-1">
-                    <dt className="text-[#7a6a58] uppercase tracking-wider text-[10px]">Celebration</dt>
-                    <dd className="font-semibold text-[#1e2f42]">{WEDDING_CONFIG.couple.groom.shortName} &amp; {WEDDING_CONFIG.couple.bride.shortName}</dd>
+                <dl className="mx-auto max-w-sm space-y-2 text-left font-serif text-xs text-[#4a2d28] bg-white/80 p-4 rounded-xl border border-[#b7934b]/20">
+                  <div className="flex justify-between border-b border-[#b7934b]/15 pb-1">
+                    <dt className="text-[#7a5c4e] uppercase tracking-wider text-[10px]">Celebration</dt>
+                    <dd className="font-semibold text-[#4a2d28]">{WEDDING_CONFIG.couple.groom.shortName} &amp; {WEDDING_CONFIG.couple.bride.shortName}</dd>
                   </div>
-                  <div className="flex justify-between border-b border-[#b28a46]/15 pb-1">
-                    <dt className="text-[#7a6a58] uppercase tracking-wider text-[10px]">Wedding Date</dt>
-                    <dd className="font-semibold text-[#1e2f42]">{WEDDING_CONFIG.event.date}</dd>
+                  <div className="flex justify-between border-b border-[#b7934b]/15 pb-1">
+                    <dt className="text-[#7a5c4e] uppercase tracking-wider text-[10px]">Wedding Date</dt>
+                    <dd className="font-semibold text-[#4a2d28]">{WEDDING_CONFIG.event.date}</dd>
                   </div>
-                  <div className="flex justify-between border-b border-[#b28a46]/15 pb-1">
-                    <dt className="text-[#7a6a58] uppercase tracking-wider text-[10px]">Response</dt>
+                  <div className="flex justify-between border-b border-[#b7934b]/15 pb-1">
+                    <dt className="text-[#7a5c4e] uppercase tracking-wider text-[10px]">Response</dt>
                     <dd className={`font-semibold ${receipt.attending === 'yes' ? 'text-[#0E3B2E]' : 'text-[#964b4b]'}`}>
                       {receipt.attending === 'yes' ? `Joyfully Accepts (${receipt.guestCount} guest)` : 'Regretfully Declines'}
                     </dd>
                   </div>
                   {receipt.attending === 'yes' && (
-                    <div className="flex justify-between border-b border-[#b28a46]/15 pb-1">
-                      <dt className="text-[#7a6a58] uppercase tracking-wider text-[10px]">Meal Preference</dt>
-                      <dd className="font-semibold text-[#1e2f42] capitalize">{receipt.mealPreference}</dd>
+                    <div className="flex justify-between border-b border-[#b7934b]/15 pb-1">
+                      <dt className="text-[#7a5c4e] uppercase tracking-wider text-[10px]">Meal Preference</dt>
+                      <dd className="font-semibold text-[#4a2d28] capitalize">{receipt.mealPreference}</dd>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <dt className="text-[#7a6a58] uppercase tracking-wider text-[10px]">Receipt ID</dt>
-                    <dd className="font-mono font-bold text-[#b28a46]">{receipt.code}</dd>
+                    <dt className="text-[#7a5c4e] uppercase tracking-wider text-[10px]">Receipt ID</dt>
+                    <dd className="font-mono font-bold text-[#b7934b]">{receipt.code}</dd>
                   </div>
                 </dl>
 
@@ -309,12 +335,12 @@ export const RSVPSection: React.FC = () => {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <span className="mt-1 font-serif text-[9px] tracking-[0.25em] text-[#7a6a58] uppercase">
+                  <span className="mt-1 font-serif text-[9px] tracking-[0.25em] text-[#7a5c4e] uppercase">
                     Official Melkazom Wax Seal
                   </span>
                 </div>
 
-                <p className="font-serif text-xs italic text-[#556987] max-w-sm mx-auto mb-6">
+                <p className="font-serif text-xs italic text-[#6b4c46] max-w-sm mx-auto mb-6">
                   {receipt.attending === 'yes'
                     ? 'Please download or print this keepsake as confirmation of your place at our celebration.'
                     : 'Thank you for your warm thoughts and prayers for our special day.'}
@@ -325,7 +351,7 @@ export const RSVPSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={handlePrint}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b28a46] bg-[#b28a46] px-5 py-2.5 font-serif text-xs font-semibold tracking-wider text-white"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b7934b] bg-[#b7934b] px-5 py-2.5 font-serif text-xs font-semibold tracking-wider text-white shadow-sm transition-all hover:bg-[#967434] cursor-pointer"
                   >
                     <Printer className="h-4 w-4" />
                     <span>Print Receipt</span>
@@ -335,7 +361,7 @@ export const RSVPSection: React.FC = () => {
                     href={generateWhatsAppMessage()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] px-5 py-2.5 font-sans text-xs font-semibold tracking-wider text-white"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] px-5 py-2.5 font-sans text-xs font-semibold tracking-wider text-white shadow-sm hover:bg-[#1faa4f] transition-colors"
                   >
                     <Send className="h-4 w-4" />
                     <span>Share on WhatsApp</span>
@@ -344,7 +370,7 @@ export const RSVPSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#cbd9e6] bg-white px-4 py-2.5 font-serif text-xs font-semibold tracking-wider text-[#34516d]"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#b7934b]/40 bg-white px-4 py-2.5 font-serif text-xs font-semibold tracking-wider text-[#4a2d28] hover:bg-[#fbf6ed] transition-colors cursor-pointer"
                   >
                     <Edit3 className="h-3.5 w-3.5" />
                     <span>Edit Response</span>
@@ -355,23 +381,23 @@ export const RSVPSection: React.FC = () => {
               /* FORM VIEW IN MODAL */
               <div className="text-left">
                 <div className="mb-6 text-center">
-                  <p className="font-serif text-[10px] font-bold tracking-[0.3em] uppercase text-[#b28a46]">
+                  <p className="font-serif text-[10px] font-bold tracking-[0.3em] uppercase text-[#b7934b]">
                     Melkazom Guest Ledger
                   </p>
-                  <h3 className="font-serif text-2xl font-normal tracking-wide text-[#2c3e50] sm:text-3xl mt-0.5">
+                  <h3 className="font-serif text-2xl font-normal tracking-wide text-[#4a2d28] sm:text-3xl mt-0.5">
                     {isEditing ? 'Update Your Attendance' : 'Confirm Your Attendance'}
                   </h3>
                   <div className="mx-auto mt-2 flex w-16 items-center justify-center gap-2" aria-hidden="true">
-                    <span className="h-px flex-1 bg-[#b28a46]/40" />
-                    <span className="text-[10px] text-[#b28a46]">✦</span>
-                    <span className="h-px flex-1 bg-[#b28a46]/40" />
+                    <span className="h-px flex-1 bg-[#b7934b]/40" />
+                    <span className="text-[10px] text-[#b7934b]">✦</span>
+                    <span className="h-px flex-1 bg-[#b7934b]/40" />
                   </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Full Name */}
                   <div>
-                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1">
+                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
                       Full Name <span className="text-[#964b4b]">*</span>
                     </label>
                     <input
@@ -380,27 +406,13 @@ export const RSVPSection: React.FC = () => {
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       placeholder="e.g. Chief & Lolo Emeka Okafor"
-                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[[...]]"
-                    />
-                  </div>
-
-                  {/* Email Address */}
-                  <div>
-                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1">
-                      Email Address (Optional)
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="name@example.com"
-                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[[...]]"
+                      className="w-full rounded-xl border border-[#b7934b]/30 bg-white px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
                     />
                   </div>
 
                   {/* Attendance */}
                   <div>
-                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1.5">
+                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1.5">
                       Will you attend? <span className="text-[#964b4b]">*</span>
                     </label>
                     <div className="grid grid-cols-2 gap-2.5">
@@ -410,7 +422,7 @@ export const RSVPSection: React.FC = () => {
                         className={`cursor-pointer rounded-xl py-2.5 px-3 text-center font-serif text-xs font-semibold tracking-wider uppercase transition-all ${
                           formData.attending === 'yes'
                             ? 'bg-[#0E3B2E] text-white shadow-sm'
-                            : 'border border-[#cbd9e6] bg-white text-[#34516d] hover:bg-[#f7fafc]'
+                            : 'border border-[#b7934b]/30 bg-white text-[#4a2d28] hover:bg-[#fbf6ed]'
                         }`}
                       >
                         Joyfully Accept
@@ -421,7 +433,7 @@ export const RSVPSection: React.FC = () => {
                         className={`cursor-pointer rounded-xl py-2.5 px-3 text-center font-serif text-xs font-semibold tracking-wider uppercase transition-all ${
                           formData.attending === 'no'
                             ? 'bg-[#5c4040] text-white shadow-sm'
-                            : 'border border-[#cbd9e6] bg-white text-[#34516d] hover:bg-[#f7fafc]'
+                            : 'border border-[#b7934b]/30 bg-white text-[#4a2d28] hover:bg-[#fbf6ed]'
                         }`}
                       >
                         Regretfully Decline
@@ -433,13 +445,13 @@ export const RSVPSection: React.FC = () => {
                     <>
                       {/* Party Size */}
                       <div>
-                        <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1">
+                        <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
                           Number of Guests Attending
                         </label>
                         <select
                           value={formData.guestCount}
                           onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
-                          className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2.5 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46]"
+                          className="w-full rounded-xl border border-[#b7934b]/30 bg-white px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b]"
                         >
                           <option value="1">1 Guest (Myself)</option>
                           <option value="2">2 Guests (+1 Partner)</option>
@@ -448,83 +460,68 @@ export const RSVPSection: React.FC = () => {
                         </select>
                       </div>
 
-                      {/* Meal Selection */}
+                      {/* Meal Preference */}
                       <div>
-                        <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1">
-                          Banquet Meal Selection
+                        <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
+                          Meal Preference
                         </label>
-                        <div className="grid grid-cols-3 gap-2">
-                          {[
-                            { key: 'meat', label: 'Meat Feast', note: 'Jollof & Beef' },
-                            { key: 'fish', label: 'Fresh Fish', note: 'Croaker Fish' },
-                            { key: 'vegetarian', label: 'Vegetarian', note: 'Plantain & Veg' },
-                          ].map((meal) => (
-                            <button
-                              key={meal.key}
-                              type="button"
-                              onClick={() => setFormData({ ...formData, mealPreference: meal.key })}
-                              className={`cursor-pointer rounded-xl p-2 text-center transition-all ${
-                                formData.mealPreference === meal.key
-                                  ? 'border-2 border-[#b28a46] bg-[#fcfaf7] shadow-xs'
-                                  : 'border border-[#cbd9e6] bg-white hover:bg-[#f7fafc]'
-                              }`}
-                            >
-                              <span className="block font-serif text-[11px] font-bold text-[#2c3e50]">
-                                {meal.label}
-                              </span>
-                              <span className="block text-[8px] text-[#556987]">
-                                {meal.note}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
+                        <select
+                          value={formData.mealPreference}
+                          onChange={(e) => setFormData({ ...formData, mealPreference: e.target.value })}
+                          className="w-full rounded-xl border border-[#b7934b]/30 bg-white px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b]"
+                        >
+                          <option value="meat">Assorted Meat &amp; Nigerian Delicacies</option>
+                          <option value="fish">Fresh Fish &amp; Seafood Classics</option>
+                          <option value="chicken">Spiced Peppered Chicken</option>
+                          <option value="vegetarian">Vegetarian / Plant-Based Feast</option>
+                        </select>
                       </div>
 
                       {/* Song Request */}
                       <div>
-                        <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1">
-                          Song Request for the Dance Floor
+                        <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
+                          Song Request for the DJ (Optional)
                         </label>
                         <input
                           type="text"
                           value={formData.songRequest}
                           onChange={(e) => setFormData({ ...formData, songRequest: e.target.value })}
-                          placeholder="e.g. Beautiful People by Chike"
-                          className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46]"
+                          placeholder="e.g. Flavour – Ada Ada"
+                          className="w-full rounded-xl border border-[#b7934b]/30 bg-white px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b]"
                         />
                       </div>
                     </>
                   )}
 
-                  {/* Message */}
+                  {/* Message for Couple */}
                   <div>
-                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#2c3e50] uppercase mb-1">
-                      Blessings &amp; Message for the Couple
+                    <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
+                      Warm Wishes or Prayers (Optional)
                     </label>
                     <textarea
-                      rows={2}
+                      rows={3}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="Share a sweet note or blessing for Melford & Chiazokam..."
-                      className="w-full rounded-xl border border-[#cbd9e6] bg-white px-4 py-2 text-sm text-[#2c3e50] outline-none transition-all focus:border-[#b28a46]"
+                      placeholder="Share a heartfelt blessing for Melford &amp; Chiazokam..."
+                      className="w-full rounded-xl border border-[#b7934b]/30 bg-white px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b]"
                     />
                   </div>
 
                   {/* Submit Button */}
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full cursor-pointer rounded-full border border-[#b28a46]/50 bg-gradient-to-r from-[#0E3B2E] via-[#1a4a3c] to-[#0E3B2E] py-3.5 text-center font-serif text-xs font-semibold tracking-wider text-white"
-                    >
-                      {isSubmitting ? 'Recording RSVP...' : isEditing ? 'Update Response' : 'Confirm RSVP & Generate Receipt'}
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="cursor-pointer inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#b7934b] bg-[#b7934b] py-3.5 px-6 font-serif text-xs font-bold tracking-[0.2em] text-white uppercase shadow-md transition-all hover:bg-[#967434] active:scale-[0.99] disabled:opacity-50"
+                  >
+                    <Send className="h-4 w-4" />
+                    <span>{isSubmitting ? 'Recording in Ledger...' : 'Submit Official RSVP'}</span>
+                  </button>
                 </form>
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

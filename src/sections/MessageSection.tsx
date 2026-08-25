@@ -1,26 +1,50 @@
 import React, { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Heart } from 'lucide-react';
+
+const BACKEND_URL = 'https://melkazom-backend.ifeanyieee8105.workers.dev';
 
 export const MessageSection: React.FC = () => {
   const [senderName, setSenderName] = useState('');
-  const [senderEmail, setSenderEmail] = useState('');
   const [coupleMessage, setCoupleMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!senderName.trim() || !coupleMessage.trim()) return;
 
+    setIsSending(true);
+
+    // Save to Cloudflare Backend Database
+    try {
+      await fetch(`${BACKEND_URL}/api/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          senderName: senderName.trim(),
+          message: coupleMessage.trim(),
+        }),
+      });
+    } catch (err) {
+      console.warn('Backend message save failed:', err);
+    }
+
+    // Optional WhatsApp bridge text
     const text = [
       `*A wedding message for Melford & Chiazokam (#Melkazom)*`,
       ``,
-      `*From:* ${senderName}`,
-      senderEmail ? `*Email:* ${senderEmail}` : null,
+      `*From:* ${senderName.trim()}`,
       ``,
       `*Message:*`,
-      `${coupleMessage}`,
-    ].filter(Boolean).join('\n');
+      `${coupleMessage.trim()}`,
+    ].join('\n');
 
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    setIsSending(false);
+    setIsSent(true);
+
+    // Also prompt WhatsApp if they wish to open it
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -43,56 +67,68 @@ export const MessageSection: React.FC = () => {
       </div>
 
       <div className="mx-auto max-w-md text-left">
-        <form onSubmit={handleSendMessage} className="space-y-4">
-          <div>
-            <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
-              Your Name <span className="text-[#964b4b]">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={senderName}
-              onChange={(e) => setSenderName(e.target.value)}
-              placeholder="e.g. Obinna & Amaka"
-              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b]"
-            />
+        {isSent ? (
+          <div className="rounded-3xl border border-[#b7934b]/30 bg-[#fdfaf5] p-8 text-center shadow-md space-y-4">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#0E3B2E]/10 text-[#0E3B2E]">
+              <Heart className="h-7 w-7 fill-[#0E3B2E]" />
+            </div>
+            <h3 className="font-serif text-xl font-semibold text-[#4a2d28]">
+              Thank You, {senderName}!
+            </h3>
+            <p className="font-serif text-xs italic leading-relaxed text-[#6b4c46]">
+              Your blessing has been lovingly recorded in our guest ledger for Melford &amp; Chiazokam.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setIsSent(false);
+                setCoupleMessage('');
+              }}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#b7934b] px-5 py-2 font-serif text-xs font-semibold text-[#4a2d28] hover:bg-[#b7934b] hover:text-white transition-all cursor-pointer"
+            >
+              <span>Send Another Message</span>
+            </button>
           </div>
+        ) : (
+          <form onSubmit={handleSendMessage} className="space-y-4">
+            <div>
+              <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
+                Your Name <span className="text-[#964b4b]">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+                placeholder="e.g. Obinna & Amaka"
+                className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
+              />
+            </div>
 
-          <div>
-            <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
-              Email Address (Optional)
-            </label>
-            <input
-              type="email"
-              value={senderEmail}
-              onChange={(e) => setSenderEmail(e.target.value)}
-              placeholder="name@example.com"
-              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b]"
-            />
-          </div>
+            <div>
+              <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
+                Your Message or Blessing <span className="text-[#964b4b]">*</span>
+              </label>
+              <textarea
+                required
+                rows={4}
+                value={coupleMessage}
+                onChange={(e) => setCoupleMessage(e.target.value)}
+                placeholder="Write your prayers and congratulations..."
+                className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
+              />
+            </div>
 
-          <div>
-            <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
-              Your Message or Blessing <span className="text-[#964b4b]">*</span>
-            </label>
-            <textarea
-              required
-              rows={4}
-              value={coupleMessage}
-              onChange={(e) => setCoupleMessage(e.target.value)}
-              placeholder="Write your prayers and congratulations..."
-              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b]"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] py-3.5 px-6 font-sans text-xs font-semibold tracking-wider text-white"
-          >
-            <Send className="h-4 w-4" />
-            <span>Send Message via WhatsApp</span>
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={isSending}
+              className="cursor-pointer inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#b7934b] bg-[#b7934b] py-3.5 px-6 font-serif text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#967434] active:scale-[0.99] disabled:opacity-50"
+            >
+              <Send className="h-4 w-4" />
+              <span>{isSending ? 'Saving Message...' : 'Send Message to Couple'}</span>
+            </button>
+          </form>
+        )}
       </div>
     </section>
   );

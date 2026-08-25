@@ -1,0 +1,11 @@
+name = "melkazom-backend"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "melkazom-db"
+database_id = "311eb759-34a1-4ad9-9035-952301f49d9a"
+
+[vars]
+ADMIN_PASSWORD = "Melkazom2027!SecurePass@Enugu"
