@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WEDDING_CONFIG } from '../weddingData';
 
 function getTimeLeft() {
@@ -14,38 +14,39 @@ function getTimeLeft() {
 
 /** Single rolling digit slot — slides the new number in from below */
 function RollingDigit({ value }: { value: string }) {
+  // `displayed` holds the currently visible digit. When `value` changes
+  // we render both the exiting (displayed) and entering (value) digits and
+  // let CSS animations run. The final state update (setting `displayed` to
+  // `value`) happens in the animation end handler — this avoids calling
+  // setState synchronously inside an effect.
   const [displayed, setDisplayed] = useState(value);
-  const [prev, setPrev] = useState(value);
-  const [animating, setAnimating] = useState(false);
 
-  useEffect(() => {
-    if (value === displayed) return;
-    setPrev(displayed);
-    setAnimating(true);
-  }, [value, displayed]);
+  const isAnimating = value !== displayed;
 
   const onAnimEnd = () => {
+    // When the entering animation finishes, commit the new displayed value.
+    // This is an event handler (not an effect), so it's safe and doesn't
+    // trigger the react-hooks/set-state-in-effect lint rule.
     setDisplayed(value);
-    setAnimating(false);
   };
 
   return (
     <span className="relative inline-block overflow-hidden align-top" style={{ height: '1.05em', minWidth: '0.62em' }}>
       {/* Exiting digit — slides up and fades */}
-      {animating && (
+      {isAnimating && (
         <span
-          key={`out-${prev}`}
+          key={`out-${displayed}`}
           className="absolute inset-0 flex items-center justify-center"
           style={{ animation: 'cd-exit 0.45s ease forwards' }}
         >
-          {prev}
+          {displayed}
         </span>
       )}
       {/* Entering digit — slides up from below */}
       <span
-        key={`in-${value}-${animating}`}
+        key={`in-${value}-${isAnimating}`}
         className="absolute inset-0 flex items-center justify-center"
-        style={animating ? { animation: 'cd-enter 0.45s ease forwards' } : {}}
+        style={isAnimating ? { animation: 'cd-enter 0.45s ease forwards' } : {}}
         onAnimationEnd={onAnimEnd}
       >
         {value}

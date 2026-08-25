@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
-import heroSwanLakeOriginal from '../assets/images/hero-swan-lake.jpg';
 import heroSwanLakeV2 from '../assets/images/hero-swan-lake-v2.jpg';
 import { WEDDING_CONFIG } from '../weddingData';
 
@@ -14,7 +13,7 @@ interface HeroSectionProps {
 const flowerBurst = [
   ['❀', '-42vw', '-58vh', '-150deg', '0ms', '#7090b8'],
   ['✿', '-31vw', '-40vh', '105deg', '80ms', '#c29352'],
-  ['❁', '-20vw', '-67vh', '-85deg', '150ms', '#8fa4c4'],
+  ['❁', '-20vw', '-67vh', '-85deg', '#8fa4c4'],
   ['✾', '-9vw', '-48vh', '175deg', '240ms', '#d8a49b'],
   ['❀', '4vw', '-72vh', '-140deg', '110ms', '#e2c27c'],
   ['✿', '15vw', '-53vh', '120deg', '310ms', '#8aa3b8'],
@@ -46,7 +45,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
   };
 
   return (
-    <section className="reference-hero relative isolate -mx-4 -mt-4 flex min-h-[100svh] flex-col items-center justify-between overflow-hidden px-6 pt-14 pb-8 text-center text-[#20241f] select-none sm:mx-0 sm:mt-0 sm:min-h-[960px] sm:px-12 sm:pt-16 sm:pb-10">
+    <section className="reference-hero relative isolate -mx-4 -mt-4 flex min-h-[100svh] flex-col items-center justify-between overflow-hidden px-6 pt-14 pb-8 text-center text-[#20241f] select-none">
       {/* Gothic Stone Arch with Swans, Castle & Lake Background Artwork */}
       <img
         src={activeHeroImage}
@@ -93,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
           </h1>
         </div>
 
-        <p className={`hero-detail hero-detail--copy font-serif mt-5 max-w-[17rem] text-[0.75rem] leading-[1.8] font-medium tracking-[0.28em] text-[#fbf8f0] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] sm:mt-6 sm:text-[0.82rem] ${isVisible ? 'is-visible' : ''}`}>
+        <p className={`hero-detail hero-detail--copy font-serif mt-5 max-w-[17rem] text-[0.75rem] leading-[1.8] font-medium tracking-[0.28em] text-[#fbf8f0] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] sm:tex`}>
           We would like to
           <br />
           invite you for
@@ -109,7 +108,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
 
         <time
           dateTime={WEDDING_CONFIG.event.dateISO}
-          className={`hero-detail hero-detail--date font-serif mt-3 text-[1.35rem] leading-none font-normal tracking-[0.08em] text-[#fffbf2] italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] sm:text-[1.6rem] ${isVisible ? 'is-visible' : ''}`}
+          className={`hero-detail hero-detail--date font-serif mt-3 text-[1.35rem] leading-none font-normal tracking-[0.08em] text-[#fffbf2] italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] sm:tex`}
         >
           {dateLabel}
         </time>
@@ -119,7 +118,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
       <button
         onClick={handleScrollDown}
         type="button"
-        className="relative z-10 mb-2 flex cursor-pointer flex-col items-center gap-1.5 rounded-full border border-white/60 bg-white/50 px-5 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-xs transition-all hover:bg-white/80 hover:scale-105 active:scale-95"
+        className="relative z-10 mb-2 flex cursor-pointer flex-col items-center gap-1.5 rounded-full border border-white/60 bg-white/50 px-5 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-b"
       >
         <span className="font-serif text-[9px] font-bold tracking-[0.28em] text-[#1e2f42] uppercase">
           Scroll to Explore

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, Send, Heart } from 'lucide-react';
-import { WEDDING_CONFIG } from '../weddingData';
+import { Send } from 'lucide-react';
 
 export const MessageSection: React.FC = () => {
   const [senderName, setSenderName] = useState('');
@@ -55,7 +54,7 @@ export const MessageSection: React.FC = () => {
               value={senderName}
               onChange={(e) => setSenderName(e.target.value)}
               placeholder="e.g. Obinna & Amaka"
-              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
+              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b]"
             />
           </div>
 
@@ -68,7 +67,7 @@ export const MessageSection: React.FC = () => {
               value={senderEmail}
               onChange={(e) => setSenderEmail(e.target.value)}
               placeholder="name@example.com"
-              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
+              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b]"
             />
           </div>
 
@@ -82,13 +81,13 @@ export const MessageSection: React.FC = () => {
               value={coupleMessage}
               onChange={(e) => setCoupleMessage(e.target.value)}
               placeholder="Write your prayers and congratulations..."
-              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
+              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b]"
             />
           </div>
 
           <button
             type="submit"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] py-3.5 px-6 font-sans text-xs font-semibold tracking-wider text-white shadow-sm transition-all hover:bg-[#20bd5a] cursor-pointer"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366] py-3.5 px-6 font-sans text-xs font-semibold tracking-wider text-white"
           >
             <Send className="h-4 w-4" />
             <span>Send Message via WhatsApp</span>
