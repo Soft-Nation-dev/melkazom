@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WEDDING_CONFIG } from '../weddingData';
 
 function getTimeLeft() {
@@ -20,12 +20,6 @@ function RollingDigit({ value }: { value: string }) {
   // `value`) happens in the animation end handler — this avoids calling
   // setState synchronously inside an effect.
   const [displayed, setDisplayed] = useState(value);
-  const prevRef = useRef(displayed);
-
-  // Keep prevRef synced to the last committed `displayed` value. We update
-  // the ref during render (no state change) so the outgoing digit can read
-  // the correct previous value.
-  prevRef.current = displayed;
 
   const isAnimating = value !== displayed;
 
@@ -41,11 +35,11 @@ function RollingDigit({ value }: { value: string }) {
       {/* Exiting digit — slides up and fades */}
       {isAnimating && (
         <span
-          key={`out-${prevRef.current}`}
+          key={`out-${displayed}`}
           className="absolute inset-0 flex items-center justify-center"
           style={{ animation: 'cd-exit 0.45s ease forwards' }}
         >
-          {prevRef.current}
+          {displayed}
         </span>
       )}
       {/* Entering digit — slides up from below */}
