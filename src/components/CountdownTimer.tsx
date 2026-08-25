@@ -92,49 +92,49 @@ export const CountdownTimer: React.FC = () => {
       </div>
 
       {/* Rolling countdown — large serif numbers, colon separators, label beneath */}
-      <div className="mx-auto flex items-start justify-center gap-0">
+      <div className="mx-auto flex w-full max-w-[360px] items-start justify-center gap-2 sm:gap-4 flex-nowrap overflow-hidden">
         {/* DAYS */}
-        <div className="flex flex-col items-center">
-          <span className="font-cormorant text-[clamp(3rem,10vw,5rem)] leading-none font-light text-[#4a2d28]">
+        <div className="flex flex-col items-center min-w-0">
+          <span className="font-cormorant text-[clamp(2.2rem,8vw,5rem)] leading-none font-light text-[#4a2d28]">
             <RollingNumber value={timeLeft.days} isDays />
           </span>
-          <span className="mt-1.5 font-sans text-[0.6rem] tracking-[0.28em] text-[#7a5c4e] uppercase">
+          <span className="mt-1.5 font-sans text-[0.55rem] tracking-[0.2em] text-[#7a5c4e] uppercase">
             Days
           </span>
         </div>
 
-        <span className="font-cormorant text-[clamp(2.2rem,8vw,4rem)] text-[#b7934b]/50 leading-none self-start pt-1 px-1 select-none" aria-hidden="true">:</span>
+        <span className="font-cormorant text-[clamp(1.6rem,6vw,4rem)] text-[#b7934b]/50 leading-none self-start pt-1 px-0.5 select-none shrink-0" aria-hidden="true">:</span>
 
         {/* HOURS */}
-        <div className="flex flex-col items-center">
-          <span className="font-cormorant text-[clamp(3rem,10vw,5rem)] leading-none font-light text-[#4a2d28]">
+        <div className="flex flex-col items-center min-w-0">
+          <span className="font-cormorant text-[clamp(2.2rem,8vw,5rem)] leading-none font-light text-[#4a2d28]">
             <RollingNumber value={timeLeft.hours} />
           </span>
-          <span className="mt-1.5 font-sans text-[0.6rem] tracking-[0.28em] text-[#7a5c4e] uppercase">
+          <span className="mt-1.5 font-sans text-[0.55rem] tracking-[0.2em] text-[#7a5c4e] uppercase">
             Hours
           </span>
         </div>
 
-        <span className="font-cormorant text-[clamp(2.2rem,8vw,4rem)] text-[#b7934b]/50 leading-none self-start pt-1 px-1 select-none" aria-hidden="true">:</span>
+        <span className="font-cormorant text-[clamp(1.6rem,6vw,4rem)] text-[#b7934b]/50 leading-none self-start pt-1 px-0.5 select-none shrink-0" aria-hidden="true">:</span>
 
         {/* MINUTES */}
-        <div className="flex flex-col items-center">
-          <span className="font-cormorant text-[clamp(3rem,10vw,5rem)] leading-none font-light text-[#4a2d28]">
+        <div className="flex flex-col items-center min-w-0">
+          <span className="font-cormorant text-[clamp(2.2rem,8vw,5rem)] leading-none font-light text-[#4a2d28]">
             <RollingNumber value={timeLeft.minutes} />
           </span>
-          <span className="mt-1.5 font-sans text-[0.6rem] tracking-[0.28em] text-[#7a5c4e] uppercase">
+          <span className="mt-1.5 font-sans text-[0.55rem] tracking-[0.2em] text-[#7a5c4e] uppercase">
             Mins
           </span>
         </div>
 
-        <span className="font-cormorant text-[clamp(2.2rem,8vw,4rem)] text-[#b7934b]/50 leading-none self-start pt-1 px-1 select-none" aria-hidden="true">:</span>
+        <span className="font-cormorant text-[clamp(1.6rem,6vw,4rem)] text-[#b7934b]/50 leading-none self-start pt-1 px-0.5 select-none shrink-0" aria-hidden="true">:</span>
 
         {/* SECONDS */}
-        <div className="flex flex-col items-center">
-          <span className="font-cormorant text-[clamp(3rem,10vw,5rem)] leading-none font-light text-[#b7934b]">
+        <div className="flex flex-col items-center min-w-0">
+          <span className="font-cormorant text-[clamp(2.2rem,8vw,5rem)] leading-none font-light text-[#b7934b]">
             <RollingNumber value={timeLeft.seconds} />
           </span>
-          <span className="mt-1.5 font-sans text-[0.6rem] tracking-[0.28em] text-[#7a5c4e] uppercase">
+          <span className="mt-1.5 font-sans text-[0.55rem] tracking-[0.2em] text-[#7a5c4e] uppercase">
             Secs
           </span>
         </div>

@@ -75,7 +75,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
       </div>
 
       {/* Top Center Content: Couple Names & Invitation Text positioned further down */}
-      <div className="relative z-10 mx-auto mt-20 flex w-full max-w-[22rem] flex-col items-center sm:mt-28 sm:max-w-md">
+      <div className="relative z-10 mx-auto mt-40 flex w-full max-w-[22rem] flex-col items-center sm:mt-44 sm:max-w-md">
         <div className="flex flex-col items-center drop-shadow-[0_3px_8px_rgba(0,0,0,0.75)]">
           <h1 aria-label={`${groom.shortName}`} className="w-full font-script text-[clamp(3rem,12vw,4.4rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#fffbf2]">
             <span className={`hero-typewriter hero-typewriter--groom ${isVisible ? 'is-writing' : ''}`}>
@@ -92,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
           </h1>
         </div>
 
-        <p className={`hero-detail hero-detail--copy font-serif mt-5 max-w-[17rem] text-[0.75rem] leading-[1.8] font-medium tracking-[0.28em] text-[#fbf8f0] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] sm:tex`}>
+        <p className={`hero-detail hero-detail--copy font-serif mt-5 max-w-[17rem] text-[0.75rem] leading-[1.8] font-medium tracking-[0.28em] text-[#fbf8f0] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] sm:mt-6 sm:text-[0.82rem] ${isVisible ? 'is-visible' : ''}`}>
           We would like to
           <br />
           invite you for
@@ -108,7 +108,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
 
         <time
           dateTime={WEDDING_CONFIG.event.dateISO}
-          className={`hero-detail hero-detail--date font-serif mt-3 text-[1.35rem] leading-none font-normal tracking-[0.08em] text-[#fffbf2] italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] sm:tex`}
+          className={`hero-detail hero-detail--date font-serif mt-4 text-[1.1rem] leading-none font-semibold tracking-[0.06em] text-[#fff8e8] drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] sm:text-[1.35rem] ${isVisible ? 'is-visible' : ''}`}
         >
           {dateLabel}
         </time>
