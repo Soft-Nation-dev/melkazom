@@ -18,9 +18,39 @@ interface MessagePayload {
   message: string;
 }
 
+interface RsvpRow {
+  id: number;
+  code: string;
+  full_name: string;
+  attending: string;
+  guest_count: string;
+  meal_preference: string;
+  song_request?: string | null;
+  message?: string | null;
+  created_at: string;
+  ip_address?: string | null;
+}
+
+interface MessageRow {
+  id: number;
+  sender_name: string;
+  message: string;
+  created_at: string;
+  ip_address?: string | null;
+}
+
+interface CountResult {
+  total: number;
+}
+
+interface AcceptedResult {
+  count: number;
+  totalGuests: number | null;
+}
+
 const DEFAULT_ADMIN_PASSWORD = "Melkazom2027!SecurePass@Enugu";
 
-function getCorsHeaders(request: Request): HeadersInit {
+function getCorsHeaders(): HeadersInit {
   return {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -29,12 +59,12 @@ function getCorsHeaders(request: Request): HeadersInit {
   };
 }
 
-function jsonResponse(data: unknown, status = 200, request?: Request): Response {
+function jsonResponse(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "Content-Type": "application/json",
-      ...(request ? getCorsHeaders(request) : { "Access-Control-Allow-Origin": "*" }),
+      ...getCorsHeaders(),
     },
   });
 }
@@ -79,7 +109,7 @@ function escapeCsvField(val: unknown): string {
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -87,7 +117,7 @@ export default {
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
-        headers: getCorsHeaders(request),
+        headers: getCorsHeaders(),
       });
     }
 
@@ -100,7 +130,7 @@ export default {
       try {
         const body = (await request.json()) as RsvpPayload;
         if (!body.fullName || !body.code) {
-          return jsonResponse({ error: "Full name and receipt code are required." }, 400, request);
+          return jsonResponse({ error: "Full name and receipt code are required." }, 400);
         }
 
         const existing = await env.DB.prepare("SELECT id FROM rsvps WHERE code = ?")
@@ -142,9 +172,10 @@ export default {
             .run();
         }
 
-        return jsonResponse({ success: true, message: "RSVP recorded successfully.", code: body.code }, 200, request);
-      } catch (err: any) {
-        return jsonResponse({ error: err.message || "Failed to record RSVP" }, 500, request);
+        return jsonResponse({ success: true, message: "RSVP recorded successfully.", code: body.code }, 200);
+      } catch (err: unknown) {
+        const errMsg = err instanceof Error ? err.message : "Failed to record RSVP";
+        return jsonResponse({ error: errMsg }, 500);
       }
     }
 
@@ -155,7 +186,7 @@ export default {
       try {
         const body = (await request.json()) as MessagePayload;
         if (!body.senderName || !body.message) {
-          return jsonResponse({ error: "Sender name and message are required." }, 400, request);
+          return jsonResponse({ error: "Sender name and message are required." }, 400);
         }
 
         await env.DB.prepare(
@@ -164,9 +195,10 @@ export default {
           .bind(body.senderName.trim(), body.message.trim(), clientIp)
           .run();
 
-        return jsonResponse({ success: true, message: "Message sent with love to the couple!" }, 200, request);
-      } catch (err: any) {
-        return jsonResponse({ error: err.message || "Failed to save message" }, 500, request);
+        return jsonResponse({ success: true, message: "Message sent with love to the couple!" }, 200);
+      } catch (err: unknown) {
+        const errMsg = err instanceof Error ? err.message : "Failed to save message";
+        return jsonResponse({ error: errMsg }, 500);
       }
     }
 
@@ -183,13 +215,13 @@ export default {
             headers: {
               "Content-Type": "application/json",
               "Set-Cookie": `melkazom_auth=${encodeURIComponent(adminPass)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`,
-              ...getCorsHeaders(request),
+              ...getCorsHeaders(),
             },
           });
         }
-        return jsonResponse({ error: "Invalid admin password" }, 401, request);
+        return jsonResponse({ error: "Invalid admin password" }, 401);
       } catch {
-        return jsonResponse({ error: "Invalid request" }, 400, request);
+        return jsonResponse({ error: "Invalid request" }, 400);
       }
     }
 
@@ -198,43 +230,43 @@ export default {
     // -----------------------------------------------------------------------
     if (path.startsWith("/api/rsvps") || path.startsWith("/api/messages") || path.startsWith("/api/export") || path.startsWith("/api/stats")) {
       if (!verifyAuth(request, env)) {
-        return jsonResponse({ error: "Unauthorized. Provide valid admin password in Header, Query, or Cookie." }, 401, request);
+        return jsonResponse({ error: "Unauthorized. Provide valid admin password in Header, Query, or Cookie." }, 401);
       }
 
       // Stats
       if (path === "/api/stats") {
-        const totalRsvps = await env.DB.prepare("SELECT COUNT(*) as total FROM rsvps").first<any>();
-        const accepted = await env.DB.prepare("SELECT COUNT(*) as count, SUM(CAST(guest_count AS INTEGER)) as totalGuests FROM rsvps WHERE attending = 'yes'").first<any>();
-        const declined = await env.DB.prepare("SELECT COUNT(*) as count FROM rsvps WHERE attending = 'no'").first<any>();
-        const totalMessages = await env.DB.prepare("SELECT COUNT(*) as total FROM messages").first<any>();
+        const totalRsvps = await env.DB.prepare("SELECT COUNT(*) as total FROM rsvps").first<CountResult>();
+        const accepted = await env.DB.prepare("SELECT COUNT(*) as count, SUM(CAST(guest_count AS INTEGER)) as totalGuests FROM rsvps WHERE attending = 'yes'").first<AcceptedResult>();
+        const declined = await env.DB.prepare("SELECT COUNT(*) as total FROM rsvps WHERE attending = 'no'").first<CountResult>();
+        const totalMessages = await env.DB.prepare("SELECT COUNT(*) as total FROM messages").first<CountResult>();
 
         return jsonResponse({
           totalRsvps: totalRsvps?.total || 0,
           totalAccepted: accepted?.count || 0,
           totalHeadcount: accepted?.totalGuests || 0,
-          totalDeclined: declined?.count || 0,
+          totalDeclined: declined?.total || 0,
           totalMessages: totalMessages?.total || 0,
-        }, 200, request);
+        }, 200);
       }
 
       // Get RSVPs List
       if (path === "/api/rsvps" && request.method === "GET") {
-        const results = await env.DB.prepare("SELECT * FROM rsvps ORDER BY created_at DESC").all();
-        return jsonResponse({ rsvps: results.results }, 200, request);
+        const results = await env.DB.prepare("SELECT * FROM rsvps ORDER BY created_at DESC").all<RsvpRow>();
+        return jsonResponse({ rsvps: results.results }, 200);
       }
 
       // Get Messages List
       if (path === "/api/messages" && request.method === "GET") {
-        const results = await env.DB.prepare("SELECT * FROM messages ORDER BY created_at DESC").all();
-        return jsonResponse({ messages: results.results }, 200, request);
+        const results = await env.DB.prepare("SELECT * FROM messages ORDER BY created_at DESC").all<MessageRow>();
+        return jsonResponse({ messages: results.results }, 200);
       }
 
       // CSV Export - RSVPs
       if (path === "/api/export/rsvps.csv") {
-        const results = await env.DB.prepare("SELECT * FROM rsvps ORDER BY created_at DESC").all();
+        const results = await env.DB.prepare("SELECT * FROM rsvps ORDER BY created_at DESC").all<RsvpRow>();
         const rows = results.results || [];
         let csv = "ID,Code,Full Name,Attending,Party Size,Meal Preference,Song Request,Message,Submission Date\n";
-        for (const r of rows as any[]) {
+        for (const r of rows) {
           csv += [
             r.id,
             escapeCsvField(r.code),
@@ -251,17 +283,17 @@ export default {
           headers: {
             "Content-Type": "text/csv; charset=utf-8",
             "Content-Disposition": `attachment; filename="melkazom-rsvps-${Date.now()}.csv"`,
-            ...getCorsHeaders(request),
+            ...getCorsHeaders(),
           },
         });
       }
 
       // CSV Export - Messages
       if (path === "/api/export/messages.csv") {
-        const results = await env.DB.prepare("SELECT * FROM messages ORDER BY created_at DESC").all();
+        const results = await env.DB.prepare("SELECT * FROM messages ORDER BY created_at DESC").all<MessageRow>();
         const rows = results.results || [];
         let csv = "ID,Sender Name,Message,Submitted At\n";
-        for (const m of rows as any[]) {
+        for (const m of rows) {
           csv += [
             m.id,
             escapeCsvField(m.sender_name),
@@ -273,7 +305,7 @@ export default {
           headers: {
             "Content-Type": "text/csv; charset=utf-8",
             "Content-Disposition": `attachment; filename="melkazom-messages-${Date.now()}.csv"`,
-            ...getCorsHeaders(request),
+            ...getCorsHeaders(),
           },
         });
       }
@@ -299,7 +331,7 @@ export default {
         download_rsvps_csv: "GET /api/export/rsvps.csv?password=YOUR_PASSWORD",
         download_messages_csv: "GET /api/export/messages.csv?password=YOUR_PASSWORD",
       },
-    }, 200, request);
+    }, 200);
   },
 };
 
