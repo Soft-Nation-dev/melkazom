@@ -7,40 +7,40 @@ export const PaletteSection: React.FC = () => {
     <section className="my-16 space-y-6 text-center px-4">
       {/* Header */}
       <div>
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">
-          Dress Code &amp; Palette
+        <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
+          Dress Code
         </p>
-        <h2 className="font-serif text-3xl font-normal tracking-wide text-[#2c3e50] sm:text-4xl mt-1">
+        <h2 className="font-serif text-2xl font-normal tracking-wide text-[#4a2d28] sm:text-3xl mt-1">
           Attire &amp; Colour Palette
         </h2>
         <div className="mx-auto mt-2.5 flex w-20 items-center justify-center gap-2" aria-hidden="true">
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
-          <span className="text-[10px] text-[#b28a46]">✦</span>
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
+          <span className="text-[10px] text-[#b7934b]">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
         </div>
       </div>
 
-      {/* Attire Card */}
-      <div className="mx-auto max-w-md rounded-2xl border border-[#b28a46]/30 bg-white/70 p-6 shadow-[0_4px_16px_rgba(40,60,90,0.05)] backdrop-blur-xs">
-        <span className="font-serif text-sm font-bold tracking-[0.25em] text-[#1e2f42] uppercase">
+      {/* Subtle 3D Same-Color Embossed Card */}
+      <div className="paper-emboss-card mx-auto max-w-md rounded-3xl p-6 sm:p-8">
+        <span className="font-serif text-xs font-bold tracking-[0.25em] text-[#4a2d28] uppercase">
           BLACK TIE / ELEGANT FORMAL
         </span>
-        <p className="mx-auto mt-2 max-w-sm font-serif text-xs italic text-[#556987] leading-relaxed">
+        <p className="mx-auto mt-2 max-w-sm font-serif text-xs italic text-[#6b4c46] leading-relaxed">
           {WEDDING_CONFIG.palette.description}
         </p>
 
-        {/* Palette Swatches */}
+        {/* Palette Swatches with subtle 3D debossed pill border */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
           {WEDDING_CONFIG.palette.colors.map((c, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 rounded-full border border-[#b28a46]/25 bg-[#fdfcf9] py-1.5 px-3.5 shadow-xs"
+              className="paper-deboss-pill flex items-center gap-2 rounded-full py-1.5 px-3.5"
             >
               <div
                 className="h-4 w-4 rounded-full border border-black/10 shadow-xs"
                 style={{ backgroundColor: c.hex }}
               />
-              <span className="font-serif text-xs font-semibold text-[#1e2f42]">
+              <span className="font-serif text-xs font-semibold text-[#4a2d28]">
                 {c.name}
               </span>
             </div>

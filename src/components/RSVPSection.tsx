@@ -140,33 +140,33 @@ export const RSVPSection: React.FC = () => {
   };
 
   return (
-    <section id="rsvp-section" className="my-20 px-4 text-center">
+    <section id="rsvp-section" className="relative my-20 px-4 text-center">
       {/* Section Header */}
       <div className="mb-8">
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">
+        <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
           The Honour of Your Reply
         </p>
-        <h2 className="font-serif text-3xl font-normal tracking-wide text-[#2c3e50] sm:text-4xl mt-1">
+        <h2 className="font-serif text-2xl font-normal tracking-wide text-[#4a2d28] sm:text-3xl mt-1">
           RSVP &amp; Attendance
         </h2>
         <div className="mx-auto mt-2.5 flex w-20 items-center justify-center gap-2" aria-hidden="true">
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
-          <span className="text-[10px] text-[#b28a46]">✦</span>
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
+          <span className="text-[10px] text-[#b7934b]">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
         </div>
       </div>
 
       {/* ========================================================================= */}
       {/* INTERACTIVE WAX SEAL BUTTON CARD */}
       {/* ========================================================================= */}
-      <div className="relative mx-auto max-w-sm rounded-3xl border border-[#b28a46]/30 bg-white/60 p-8 shadow-[0_8px_30px_rgba(40,60,90,0.06)] backdrop-blur-xs text-center">
+      <div className="paper-emboss-card relative mx-auto max-w-sm rounded-3xl p-8 text-center">
         {/* Decorative corner brackets */}
-        <div className="pointer-events-none absolute top-3 left-3 h-5 w-5 border-t-2 border-l-2 border-[#b28a46]/50 rounded-tl-sm" />
-        <div className="pointer-events-none absolute top-3 right-3 h-5 w-5 border-t-2 border-r-2 border-[#b28a46]/50 rounded-tr-sm" />
-        <div className="pointer-events-none absolute bottom-3 left-3 h-5 w-5 border-b-2 border-l-2 border-[#b28a46]/50 rounded-bl-sm" />
-        <div className="pointer-events-none absolute bottom-3 right-3 h-5 w-5 border-b-2 border-r-2 border-[#b28a46]/50 rounded-br-sm" />
+        <div className="pointer-events-none absolute top-3 left-3 h-5 w-5 border-t-2 border-l-2 border-[#b7934b]/50 rounded-tl-sm" />
+        <div className="pointer-events-none absolute top-3 right-3 h-5 w-5 border-t-2 border-r-2 border-[#b7934b]/50 rounded-tr-sm" />
+        <div className="pointer-events-none absolute bottom-3 left-3 h-5 w-5 border-b-2 border-l-2 border-[#b7934b]/50 rounded-bl-sm" />
+        <div className="pointer-events-none absolute bottom-3 right-3 h-5 w-5 border-b-2 border-r-2 border-[#b7934b]/50 rounded-br-sm" />
 
-        <p className="font-serif text-xs italic text-[#556987] mb-6">
+        <p className="font-serif text-xs italic text-[#6b4c46] mb-6">
           {receipt
             ? `Welcome, ${receipt.fullName}. Your RSVP is certified in our ledger.`
             : 'Kindly break the seal below to submit your attendance and receive your official keepsake receipt.'}

@@ -27,26 +27,26 @@ export const MessageSection: React.FC = () => {
   return (
     <section className="my-24 px-4 text-center">
       <div className="mb-8">
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">
+        <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
           With Love &amp; Warm Wishes
         </p>
-        <h2 className="font-serif text-3xl font-normal tracking-wide text-[#2c3e50] sm:text-4xl mt-1">
+        <h2 className="font-serif text-2xl font-normal tracking-wide text-[#4a2d28] sm:text-3xl mt-1">
           Send a Message to the Couple
         </h2>
         <div className="mx-auto mt-2.5 flex w-16 items-center justify-center gap-2" aria-hidden="true">
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
-          <span className="text-[10px] text-[#b28a46]">✦</span>
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
+          <span className="text-[10px] text-[#b7934b]">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
         </div>
-        <p className="mx-auto mt-2 max-w-md font-serif text-xs italic tracking-wider text-[#556987]">
+        <p className="mx-auto mt-2 max-w-md font-serif text-xs italic tracking-wider text-[#6b4c46]">
           Share your heartfelt prayers, advice, or celebratory words directly with Melford &amp; Chiazokam.
         </p>
       </div>
 
-      <div className="mx-auto max-w-md text-left">
+      <div className="paper-emboss-card mx-auto max-w-md rounded-3xl p-6 sm:p-8 text-left">
         <form onSubmit={handleSendMessage} className="space-y-4">
           <div>
-            <label className="block text-xs font-serif font-semibold tracking-wider text-[#17233a] uppercase mb-1">
+            <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
               Your Name <span className="text-[#964b4b]">*</span>
             </label>
             <input
@@ -55,12 +55,12 @@ export const MessageSection: React.FC = () => {
               value={senderName}
               onChange={(e) => setSenderName(e.target.value)}
               placeholder="e.g. Obinna & Amaka"
-              className="w-full rounded-xl border border-[#b28a46]/30 bg-white px-4 py-2.5 text-sm text-[#17233a] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[#b28a46]/30"
+              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-serif font-semibold tracking-wider text-[#17233a] uppercase mb-1">
+            <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
               Email Address (Optional)
             </label>
             <input
@@ -68,12 +68,12 @@ export const MessageSection: React.FC = () => {
               value={senderEmail}
               onChange={(e) => setSenderEmail(e.target.value)}
               placeholder="name@example.com"
-              className="w-full rounded-xl border border-[#b28a46]/30 bg-white px-4 py-2.5 text-sm text-[#17233a] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[#b28a46]/30"
+              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-serif font-semibold tracking-wider text-[#17233a] uppercase mb-1">
+            <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">
               Your Message or Blessing <span className="text-[#964b4b]">*</span>
             </label>
             <textarea
@@ -82,7 +82,7 @@ export const MessageSection: React.FC = () => {
               value={coupleMessage}
               onChange={(e) => setCoupleMessage(e.target.value)}
               placeholder="Write your prayers and congratulations..."
-              className="w-full rounded-xl border border-[#b28a46]/30 bg-white px-4 py-2.5 text-sm text-[#17233a] outline-none transition-all focus:border-[#b28a46] focus:ring-1 focus:ring-[#b28a46]/30"
+              className="w-full rounded-2xl border border-[#b7934b]/30 bg-white/85 px-4 py-2.5 text-sm text-[#4a2d28] outline-none transition-all focus:border-[#b7934b] focus:ring-1 focus:ring-[#b7934b]/30"
             />
           </div>
 

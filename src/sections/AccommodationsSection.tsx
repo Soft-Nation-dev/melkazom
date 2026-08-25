@@ -6,50 +6,50 @@ export const AccommodationsSection: React.FC = () => {
   return (
     <section className="my-16 space-y-6 text-center px-4">
       <div>
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">
+        <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
           Guest Lodging
         </p>
-        <h2 className="font-serif text-3xl font-normal tracking-wide text-[#2c3e50] sm:text-4xl mt-1">
+        <h2 className="font-serif text-2xl font-normal tracking-wide text-[#4a2d28] sm:text-3xl mt-1">
           Recommended Accommodations
         </h2>
-        <p className="mx-auto mt-2 max-w-md font-serif text-xs italic text-[#556987]">
+        <p className="mx-auto mt-2 max-w-md font-serif text-xs italic text-[#6b4c46]">
           Curated hotels in Enugu for our beloved travelling family and friends
         </p>
         <div className="mx-auto mt-2.5 flex w-20 items-center justify-center gap-2" aria-hidden="true">
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
-          <span className="text-[10px] text-[#b28a46]">✦</span>
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
+          <span className="text-[10px] text-[#b7934b]">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
         </div>
       </div>
 
-      {/* Borderless Hotel Listings */}
-      <div className="mx-auto grid max-w-lg grid-cols-1 gap-6 text-left px-2 sm:grid-cols-2">
+      {/* Hotel Listings with subtle 3D same-color cards */}
+      <div className="mx-auto grid max-w-lg grid-cols-1 gap-4 text-left px-2 sm:grid-cols-2">
         {WEDDING_CONFIG.accommodations.map((hotel, i) => (
           <div
             key={i}
-            className="flex flex-col justify-between"
+            className="paper-emboss-card rounded-2xl p-5 flex flex-col justify-between"
           >
             <div>
-              <h3 className="font-serif text-sm font-semibold tracking-wide text-[#1e2f42] uppercase">
+              <h3 className="font-serif text-xs font-bold tracking-wider text-[#4a2d28] uppercase">
                 {hotel.name}
               </h3>
-              <p className="mt-1 font-serif text-xs italic leading-relaxed text-[#556987]">
+              <p className="mt-1 font-serif text-xs italic leading-relaxed text-[#6b4c46]">
                 {hotel.description}
               </p>
             </div>
 
-            <div className="mt-3 flex items-center justify-between">
-              <span className="font-serif text-xs font-semibold text-[#b28a46]">
+            <div className="mt-4 flex items-center justify-between border-t border-[#b7934b]/20 pt-2.5">
+              <span className="font-serif text-xs font-semibold text-[#b7934b]">
                 {hotel.rate}
               </span>
               <a
                 href={hotel.bookingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-serif text-[11px] font-semibold text-[#1e2f42] hover:text-[#b28a46] transition-colors"
+                className="inline-flex items-center gap-1 font-serif text-[11px] font-semibold text-[#4a2d28] hover:text-[#b7934b] transition-colors"
               >
                 <span>View Details</span>
-                <ExternalLink className="h-3 w-3" />
+                <ExternalLink className="h-3 w-3 text-[#b7934b]" />
               </a>
             </div>
           </div>
