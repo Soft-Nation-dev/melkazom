@@ -43,7 +43,7 @@ export const MessageSection: React.FC = () => {
         </p>
       </div>
 
-      <div className="paper-emboss-card mx-auto max-w-md rounded-3xl p-6 sm:p-8 text-left">
+      <div className="mx-auto max-w-md text-left">
         <form onSubmit={handleSendMessage} className="space-y-4">
           <div>
             <label className="block text-xs font-serif font-semibold tracking-wider text-[#4a2d28] uppercase mb-1">

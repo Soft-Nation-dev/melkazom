@@ -25,18 +25,18 @@ export const FaqSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="mx-auto max-w-md space-y-3.5 px-4 text-left">
+      <div className="mx-auto max-w-md px-4 text-left divide-y divide-[#b7934b]/20">
         {WEDDING_CONFIG.faqs.map((faq, index) => {
           const isOpen = openFaq === index;
           return (
             <div
               key={index}
-              className="paper-emboss-card rounded-2xl overflow-hidden transition-all duration-300"
+              className="py-3 transition-all duration-300"
             >
               <button
                 onClick={() => toggleFaq(index)}
                 type="button"
-                className="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left"
+                className="flex w-full cursor-pointer items-center justify-between gap-3 py-2 text-left"
               >
                 <span className="font-serif text-xs font-semibold tracking-wider text-[#4a2d28] uppercase">
                   {faq.question}
@@ -53,7 +53,7 @@ export const FaqSection: React.FC = () => {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="border-t border-[#b7934b]/15 px-4 pt-3 pb-4 font-serif text-xs italic leading-relaxed text-[#6b4c46]">
+                  <p className="pt-2 pb-3 font-serif text-xs italic leading-relaxed text-[#6b4c46]">
                     {faq.answer}
                   </p>
                 </div>
