@@ -9,12 +9,14 @@ export interface WeddingConfig {
       fullName: string;
       shortName: string;
       father: string;
+      mother: string;
       origin: string;
     };
     bride: {
       fullName: string;
       shortName: string;
       father: string;
+      mother?: string;
       origin: string;
     };
     hashtag: string;
@@ -82,13 +84,14 @@ export const WEDDING_CONFIG: WeddingConfig = {
     groom: {
       fullName: "Melford Chinwendu Ugwu",
       shortName: "Melford",
-      father: "Late Mr. & Mrs. Joseph Ugwu",
+      father: "Late Mr. Joseph Ugwu",
+      mother: "Mrs. Florence Ugwu",
       origin: "Nsukka Local Government Area, Enugu State"
     },
     bride: {
       fullName: "Chiazokam Faith Okagu",
       shortName: "Chiazokam",
-      father: "Late Mr. & Mrs. Charles Okagu",
+      father: "Late Mr. Charles Okagu",
       origin: "Igbo-Etiti Local Government Area, Enugu State"
     },
     hashtag: "#Melkazom",

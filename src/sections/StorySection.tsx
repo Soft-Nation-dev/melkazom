@@ -60,6 +60,9 @@ export const StorySection: React.FC = () => {
           <p className="font-serif text-sm font-semibold text-[#4a2d28]">
             {groom.father}
           </p>
+          <p className="font-serif text-sm font-semibold text-[#4a2d28]">
+            {groom.mother}
+          </p>
           <p className="font-serif text-[0.72rem] italic text-[#7a5c4e]">
             {groom.origin}
           </p>
