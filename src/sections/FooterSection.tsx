@@ -10,11 +10,12 @@ export const FooterSection: React.FC = () => {
           src={heroBg}
           alt=""
           aria-hidden="true"
-          className="h-full w-full object-cover object-bottom opacity-20 filter brightness-105 contrast-120"
+          className="h-full w-full object-cover object-bottom opacity-25 filter brightness-105 contrast-120"
         />
         {/* Soft golden parchment gradient wash */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#fbf5ea]/86 via-[#fcf8f0]/80 to-[#fbf5ea]/86" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fbf5ea]/82 via-[#fcf8f0]/75 to-[#fbf5ea]/82" />
       </div>
+
 
       <div className="relative z-10 mx-auto max-w-md">
         {/* Ornamental divider */}
