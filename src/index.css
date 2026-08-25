@@ -2,27 +2,66 @@
 
 @layer base {
   body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #faf7f2;
-    color: #2c2521;
+    font-family: 'Montserrat', Inter, sans-serif;
+    background-color: #eee4dc;
+    color: #4b2930;
     overflow-x: hidden;
   }
 
   h1, h2, h3, .font-serif-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+    color: #4a2d28;
+  }
+
+  .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
   }
 
   .font-script {
-    font-family: 'Alex Brush', cursive;
+    font-family: 'Great Vibes', 'Alex Brush', cursive;
   }
 
   .font-script-accent {
     font-family: 'Great Vibes', cursive;
   }
 
+  .font-pinyon {
+    font-family: 'Pinyon Script', cursive;
+  }
+
+  .font-cormorant {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
   .font-cinzel {
     font-family: 'Cinzel', serif;
   }
+}
+
+/* 360-degree slow motion rotation for RSVP wax seal */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+  will-change: transform;
+}
+
+/* Countdown rolling digit animations */
+@keyframes cd-exit {
+  0%   { transform: translateY(0);      opacity: 1; }
+  100% { transform: translateY(-110%);  opacity: 0; }
+}
+
+@keyframes cd-enter {
+  0%   { transform: translateY(110%);   opacity: 0; }
+  100% { transform: translateY(0);      opacity: 1; }
 }
 
 /* Audio Equalizer animation */
@@ -1034,42 +1073,23 @@
 
 .invitation-canvas {
   background:
-    radial-gradient(ellipse at 82% 7%, rgba(201, 190, 226, .48), transparent 29rem),
-    radial-gradient(ellipse at 8% 36%, rgba(191, 211, 229, .45), transparent 31rem),
-    linear-gradient(180deg, #f9f4f1 0%, #faf7f5 45%, #f0eef8 100%);
+    radial-gradient(circle at 16% 5%, rgba(255, 255, 255, 0.85), transparent 25rem),
+    #eee4dc;
 }
 
 .invitation-canvas::before {
-  z-index: 0;
-  opacity: 1;
-  background:
-    radial-gradient(rgba(96, 76, 93, .11) .38px, transparent .62px),
-    linear-gradient(90deg, rgba(255,255,255,.36), rgba(237,231,241,.18), rgba(255,255,255,.32));
-  background-size: 8px 8px, 100% 100%;
+  display: none !important;
 }
 
 .reference-floral-frame {
-  position: fixed;
-  z-index: 0;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.reference-floral-frame img {
-  width: min(100%, 48rem);
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  opacity: .22;
-  mix-blend-mode: multiply;
+  display: none !important;
 }
 
 .invitation-document {
-  max-width: 44rem;
+  max-width: 46rem;
   padding-bottom: 5rem;
+  background: #fbf6ed;
+  box-shadow: 0 0 4.5rem rgba(76, 39, 35, 0.16);
 }
 
 .invitation-document::before,
@@ -1080,46 +1100,67 @@
   position: relative;
   margin-top: 0;
   margin-bottom: 0;
-  padding: 4.75rem clamp(.25rem, 2.5vw, 1rem);
+  padding: 3.5rem clamp(.5rem, 3vw, 1.5rem);
 }
 
 .invitation-document > section:not(:first-child)::after {
-  position: absolute;
-  right: 20%;
-  bottom: 0;
-  left: 20%;
-  height: 1px;
-  content: '';
-  background: linear-gradient(90deg, transparent, rgba(117, 95, 125, .28), transparent);
+  display: none !important;
 }
 
 .reference-hero {
-  background: #edf0f4;
-  box-shadow: 0 18px 42px rgba(69, 55, 78, .08);
+  background: #111827;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .25);
 }
 
 .reference-hero::before {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255,249,247,.48) 0%, rgba(255,252,249,.12) 48%, rgba(246,234,235,.2) 100%),
-    radial-gradient(ellipse at 50% 34%, transparent 32%, rgba(255,255,255,.1) 70%);
+  display: none !important;
 }
 
-.reference-hero .hero-frame { filter: saturate(.78) contrast(.96) brightness(1.045); }
-.reference-hero .hero-frame.is-visible { animation-name: reference-hero-develop; }
-.reference-hero h1 { color: #4b4054 !important; }
-.reference-hero .hero-ampersand { color: #9b7489 !important; }
-.reference-hero .hero-detail--copy { color: #665569 !important; }
-.reference-hero .hero-detail--date { color: #514255 !important; }
-.reference-hero .hero-detail--divider span { background-color: rgba(135, 102, 128, .48) !important; }
-.reference-hero .hero-detail--divider span:nth-child(2) { background-color: #95728a !important; }
+.reference-hero .hero-frame {
+  filter: saturate(1.06) contrast(1.04) brightness(1.02);
+  opacity: 1;
+}
+
+.reference-hero .hero-frame.is-visible {
+  animation-name: reference-hero-develop;
+}
 
 @keyframes reference-hero-develop {
-  to { opacity: .92; transform: scale(1); filter: saturate(.78) contrast(.96) brightness(1.045); }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1.06) contrast(1.04) brightness(1.02);
+  }
+}
+
+@keyframes digit-scroll-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-digit-scroll-up {
+  animation: digit-scroll-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+  will-change: transform;
 }
 
 .invitation-section {

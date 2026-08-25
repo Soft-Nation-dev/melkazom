@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { EnvelopeOpener } from './components/EnvelopeOpener';
 import { AudioPlayer, type AudioPlayerHandle } from './components/AudioPlayer';
 import { ScrollToRsvp } from './components/ScrollToRsvp';
-import { FloralFrameOverlay } from './components/FloralFrameOverlay';
 
 // Modular Subfolder Sections for Easy Editing
 import { HeroSection } from './sections/HeroSection';
@@ -77,10 +76,9 @@ export default function App() {
         onOpen={() => setIsOpened(true)}
       />
 
-      {/* 2. Floating Bottom Controls & Persistent Floral Framing */}
+      {/* 2. Floating Bottom Controls */}
       <AudioPlayer ref={audioPlayerRef} />
       {isDocumentReady && <ScrollToRsvp />}
-      {isDocumentReady && <FloralFrameOverlay />}
 
       {/* Main Wedding Invitation Document */}
       <main className={`invitation-document relative z-10 mx-auto max-w-2xl px-4 py-4 sm:px-7 sm:py-8 ${isDocumentReady ? 'is-ready' : ''}`}>
