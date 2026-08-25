@@ -41,7 +41,7 @@ export const AccommodationsSection: React.FC = () => {
 
               <div className="mt-4 flex items-center justify-between border-t border-[#b7934b]/20 pt-2.5">
                 <span className="font-serif text-xs font-semibold text-[#b7934b]">
-                  {hotel.rate}
+                  {hotel.distance}
                 </span>
                 <a
                   href={hotel.bookingUrl}
