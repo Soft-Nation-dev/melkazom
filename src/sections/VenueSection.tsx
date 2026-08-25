@@ -8,27 +8,27 @@ import hallImg from '../assets/images/Hall image.webp';
 export const VenueSection: React.FC = () => {
   return (
     <section className="my-24 space-y-16 text-center">
-      {/* Section Header — matching staceys-invitation kicker + title pattern */}
+      {/* Section Header */}
       <div className="space-y-1">
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">
+        <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
           Join Us
         </p>
-        <h2 className="font-serif text-3xl font-normal tracking-wide text-[#2c3e50] sm:text-4xl">
+        <h2 className="font-serif text-2xl font-normal tracking-wide text-[#4a2d28] sm:text-3xl">
           Venues &amp; Directions
         </h2>
         <div className="mx-auto mt-2.5 flex w-20 items-center justify-center gap-2" aria-hidden="true">
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
-          <span className="text-[10px] text-[#b28a46]">✦</span>
-          <span className="h-px flex-1 bg-[#b28a46]/40" />
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
+          <span className="text-[10px] text-[#b7934b]">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/40" />
         </div>
       </div>
 
       {/* Church Solemnization */}
-      <div className="space-y-6">
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">Holy Matrimony</p>
+      <div className="space-y-5">
+        <p className="font-serif text-[10px] font-bold tracking-[0.28em] text-[#b7934b] uppercase">Holy Matrimony</p>
 
-        {/* Church Venue Artwork */}
-        <div className="reference-media relative mx-auto aspect-[4/3] max-w-sm overflow-hidden sm:max-w-md">
+        {/* Church Venue Artwork with rounded edges and soft shadow */}
+        <div className="relative mx-auto aspect-[4/3] max-w-sm overflow-hidden rounded-3xl shadow-[0_10px_30px_rgba(60,40,30,0.1)] sm:max-w-md border border-[#b7934b]/20">
           <img
             src={churchImg}
             srcSet={`${churchImgSmall} 720w, ${churchImg} 1280w`}
@@ -42,18 +42,18 @@ export const VenueSection: React.FC = () => {
           />
         </div>
 
-        <div className="reference-mark mx-auto flex h-11 w-11 items-center justify-center text-[#b28a46]">
+        <div className="mx-auto flex h-10 w-10 items-center justify-center text-[#b7934b]">
           <MapPin className="h-5 w-5" />
         </div>
 
         <div>
-          <h3 className="font-script text-3xl text-[#2c3e50] sm:text-4xl">
+          <h3 className="font-script text-3xl text-[#4a2d28] sm:text-4xl">
             {WEDDING_CONFIG.event.church.name}
           </h3>
-          <p className="mt-1 font-serif text-xs italic tracking-wider text-[#556987]">
+          <p className="mt-1 font-serif text-xs italic tracking-wider text-[#6b4c46]">
             {WEDDING_CONFIG.event.church.address}
           </p>
-          <p className="mt-2 font-serif text-xs font-semibold tracking-[0.2em] text-[#b28a46] uppercase">
+          <p className="mt-2 font-serif text-xs font-semibold tracking-[0.2em] text-[#b7934b] uppercase">
             {WEDDING_CONFIG.event.church.time}
           </p>
         </div>
@@ -63,9 +63,9 @@ export const VenueSection: React.FC = () => {
             href={WEDDING_CONFIG.event.church.mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="reference-link inline-flex min-h-11 items-center justify-center gap-2 px-6 py-2.5 text-center font-sans text-xs font-semibold tracking-wide text-[#344d66] transition-all"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#b7934b]/30 bg-white/70 px-6 py-2.5 text-center font-serif text-xs font-semibold tracking-wider text-[#4a2d28] shadow-xs transition-all hover:bg-white hover:border-[#b7934b]/60"
           >
-            <Navigation className="h-3.5 w-3.5 rotate-45 text-[#b28a46]" />
+            <Navigation className="h-3.5 w-3.5 rotate-45 text-[#b7934b]" />
             <span>Get directions · Open in Google Maps</span>
             <ExternalLink className="h-3 w-3 opacity-60" />
           </a>
@@ -73,11 +73,11 @@ export const VenueSection: React.FC = () => {
       </div>
 
       {/* Reception Hall */}
-      <div className="space-y-6 pt-4">
-        <p className="font-sans text-[10px] font-bold tracking-[0.28em] text-[#b28a46] uppercase">Grand Reception</p>
+      <div className="space-y-5 pt-4">
+        <p className="font-serif text-[10px] font-bold tracking-[0.28em] text-[#b7934b] uppercase">Grand Reception</p>
 
         {/* Reception Artwork */}
-        <div className="reference-media relative mx-auto aspect-[16/9] max-w-sm overflow-hidden sm:max-w-md">
+        <div className="relative mx-auto aspect-[16/9] max-w-sm overflow-hidden rounded-3xl shadow-[0_10px_30px_rgba(60,40,30,0.1)] sm:max-w-md border border-[#b7934b]/20">
           <img
             src={hallImg}
             alt={WEDDING_CONFIG.event.reception.center}
@@ -89,18 +89,18 @@ export const VenueSection: React.FC = () => {
           />
         </div>
 
-        <div className="reference-mark mx-auto flex h-11 w-11 items-center justify-center text-[#b28a46]">
+        <div className="mx-auto flex h-10 w-10 items-center justify-center text-[#b7934b]">
           <MapPin className="h-5 w-5" />
         </div>
 
         <div>
-          <h3 className="font-script text-3xl text-[#2c3e50] sm:text-4xl">
+          <h3 className="font-script text-3xl text-[#4a2d28] sm:text-4xl">
             {WEDDING_CONFIG.event.reception.hall}
           </h3>
-          <p className="mt-1 font-serif text-xs italic tracking-wider text-[#556987]">
+          <p className="mt-1 font-serif text-xs italic tracking-wider text-[#6b4c46]">
             {WEDDING_CONFIG.event.reception.address}
           </p>
-          <p className="mt-2 font-serif text-xs font-semibold tracking-[0.2em] text-[#b28a46] uppercase">
+          <p className="mt-2 font-serif text-xs font-semibold tracking-[0.2em] text-[#b7934b] uppercase">
             {WEDDING_CONFIG.event.reception.time}
           </p>
         </div>
@@ -110,9 +110,9 @@ export const VenueSection: React.FC = () => {
             href={WEDDING_CONFIG.event.reception.mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="reference-link inline-flex min-h-11 items-center justify-center gap-2 px-6 py-2.5 text-center font-sans text-xs font-semibold tracking-wide text-[#344d66] transition-all"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#b7934b]/30 bg-white/70 px-6 py-2.5 text-center font-serif text-xs font-semibold tracking-wider text-[#4a2d28] shadow-xs transition-all hover:bg-white hover:border-[#b7934b]/60"
           >
-            <Navigation className="h-3.5 w-3.5 rotate-45 text-[#b28a46]" />
+            <Navigation className="h-3.5 w-3.5 rotate-45 text-[#b7934b]" />
             <span>Get directions · Open in Google Maps</span>
             <ExternalLink className="h-3 w-3 opacity-60" />
           </a>

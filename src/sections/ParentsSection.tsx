@@ -4,7 +4,7 @@ import { WEDDING_CONFIG } from '../weddingData';
 
 export const ParentsSection: React.FC = () => {
   return (
-    <section className="my-16 space-y-8 text-center px-4">
+    <section className="my-20 space-y-8 text-center px-4">
       <div>
         <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
           Family Heritage &amp; Blessings
@@ -22,33 +22,36 @@ export const ParentsSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-lg grid-cols-1 gap-4 text-center px-2 sm:grid-cols-2">
-        {/* Groom's Family with subtle 3D same-color card */}
-        <div className="paper-emboss-card rounded-3xl p-6 flex flex-col items-center">
-          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b] mb-1">
-            Groom&apos;s Family
-          </p>
-          <h3 className="font-serif text-base font-semibold text-[#4a2d28]">
-            {WEDDING_CONFIG.couple.groom.father}
-          </h3>
-          <p className="mt-1 flex items-center justify-center gap-1.5 font-serif text-xs italic text-[#6b4c46]">
-            <Compass className="h-3.5 w-3.5 text-[#b7934b] shrink-0" />
-            <span>{WEDDING_CONFIG.couple.groom.origin}</span>
-          </p>
-        </div>
+      {/* Open Editorial Two-Column Family Hierarchy (No box border) */}
+      <div className="mx-auto max-w-lg py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+          {/* Groom's Family */}
+          <div className="flex flex-col items-center text-center">
+            <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b] mb-1.5">
+              Groom&apos;s Family
+            </p>
+            <h3 className="font-serif text-lg font-medium text-[#4a2d28] leading-snug">
+              {WEDDING_CONFIG.couple.groom.father}
+            </h3>
+            <p className="mt-2 flex items-center justify-center gap-1.5 font-serif text-xs italic text-[#7a5c4e]">
+              <Compass className="h-3.5 w-3.5 text-[#b7934b] shrink-0" />
+              <span>{WEDDING_CONFIG.couple.groom.origin}</span>
+            </p>
+          </div>
 
-        {/* Bride's Family with subtle 3D same-color card */}
-        <div className="paper-emboss-card rounded-3xl p-6 flex flex-col items-center">
-          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b] mb-1">
-            Bride&apos;s Family
-          </p>
-          <h3 className="font-serif text-base font-semibold text-[#4a2d28]">
-            {WEDDING_CONFIG.couple.bride.father}
-          </h3>
-          <p className="mt-1 flex items-center justify-center gap-1.5 font-serif text-xs italic text-[#6b4c46]">
-            <Compass className="h-3.5 w-3.5 text-[#b7934b] shrink-0" />
-            <span>{WEDDING_CONFIG.couple.bride.origin}</span>
-          </p>
+          {/* Bride's Family */}
+          <div className="flex flex-col items-center text-center sm:border-l sm:border-[#b7934b]/25 sm:pl-8">
+            <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b] mb-1.5">
+              Bride&apos;s Family
+            </p>
+            <h3 className="font-serif text-lg font-medium text-[#4a2d28] leading-snug">
+              {WEDDING_CONFIG.couple.bride.father}
+            </h3>
+            <p className="mt-2 flex items-center justify-center gap-1.5 font-serif text-xs italic text-[#7a5c4e]">
+              <Compass className="h-3.5 w-3.5 text-[#b7934b] shrink-0" />
+              <span>{WEDDING_CONFIG.couple.bride.origin}</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>

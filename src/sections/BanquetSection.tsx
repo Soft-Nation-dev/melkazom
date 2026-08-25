@@ -21,39 +21,56 @@ export const BanquetSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Menu Courses with subtle 3D same-color cards */}
-      <div className="mx-auto max-w-md space-y-4 text-center">
-        <div className="paper-emboss-card rounded-2xl p-5">
-          <h3 className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b]">
+      {/* Open Classical Fine-Dining Menu Listing (No box border) */}
+      <div className="mx-auto max-w-md py-4 space-y-6 text-center">
+        {/* Starter */}
+        <div>
+          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b]">
             Starter Course
-          </h3>
-          <h4 className="font-serif text-base font-semibold text-[#4a2d28] mt-0.5">
+          </p>
+          <h3 className="font-serif text-lg font-medium text-[#4a2d28] mt-0.5">
             {WEDDING_CONFIG.menu.starter.title}
-          </h4>
+          </h3>
           <p className="mt-1 font-serif text-xs italic leading-relaxed text-[#6b4c46]">
             {WEDDING_CONFIG.menu.starter.desc}
           </p>
         </div>
 
-        <div className="paper-emboss-card rounded-2xl p-5">
-          <h3 className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b]">
+        {/* Delicate divider */}
+        <div className="mx-auto flex w-16 items-center justify-center gap-2" aria-hidden="true">
+          <span className="h-px flex-1 bg-[#b7934b]/25" />
+          <span className="text-[8px] text-[#b7934b]/60">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/25" />
+        </div>
+
+        {/* Main */}
+        <div>
+          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b]">
             Main Course
-          </h3>
-          <h4 className="font-serif text-base font-semibold text-[#4a2d28] mt-0.5">
+          </p>
+          <h3 className="font-serif text-lg font-medium text-[#4a2d28] mt-0.5">
             {WEDDING_CONFIG.menu.main.title}
-          </h4>
+          </h3>
           <p className="mt-1 font-serif text-xs italic leading-relaxed text-[#6b4c46]">
             {WEDDING_CONFIG.menu.main.desc}
           </p>
         </div>
 
-        <div className="paper-emboss-card rounded-2xl p-5">
-          <h3 className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b]">
+        {/* Delicate divider */}
+        <div className="mx-auto flex w-16 items-center justify-center gap-2" aria-hidden="true">
+          <span className="h-px flex-1 bg-[#b7934b]/25" />
+          <span className="text-[8px] text-[#b7934b]/60">✦</span>
+          <span className="h-px flex-1 bg-[#b7934b]/25" />
+        </div>
+
+        {/* Dessert */}
+        <div>
+          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.25em] text-[#b7934b]">
             Dessert &amp; Toasts
-          </h3>
-          <h4 className="font-serif text-base font-semibold text-[#4a2d28] mt-0.5">
+          </p>
+          <h3 className="font-serif text-lg font-medium text-[#4a2d28] mt-0.5">
             {WEDDING_CONFIG.menu.dessert.title}
-          </h4>
+          </h3>
           <p className="mt-1 font-serif text-xs italic leading-relaxed text-[#6b4c46]">
             {WEDDING_CONFIG.menu.dessert.desc}
           </p>

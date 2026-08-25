@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { X, CheckCircle2, Heart, Music, Utensils, MessageSquare, Send, Printer, Edit3, Sparkles } from 'lucide-react';
-import confirmationSeal from '../assets/images/melkazom-confirmation-seal.jpg';
-import rsvpActionSeal from '../assets/images/melkazom-rsvp-seal.jpg';
+import confirmationSeal from '../assets/images/melkazom-confirmation-seal.png';
+import rsvpActionSeal from '../assets/images/melkazom-rsvp-seal.png';
 import { WEDDING_CONFIG } from '../weddingData';
 
 export interface RsvpReceiptData {
@@ -157,15 +157,9 @@ export const RSVPSection: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* INTERACTIVE WAX SEAL BUTTON CARD */}
+      {/* INTERACTIVE WAX SEAL BUTTON — PREMIUM BORDERLESS STATIONERY */}
       {/* ========================================================================= */}
-      <div className="paper-emboss-card relative mx-auto max-w-sm rounded-3xl p-8 text-center">
-        {/* Decorative corner brackets */}
-        <div className="pointer-events-none absolute top-3 left-3 h-5 w-5 border-t-2 border-l-2 border-[#b7934b]/50 rounded-tl-sm" />
-        <div className="pointer-events-none absolute top-3 right-3 h-5 w-5 border-t-2 border-r-2 border-[#b7934b]/50 rounded-tr-sm" />
-        <div className="pointer-events-none absolute bottom-3 left-3 h-5 w-5 border-b-2 border-l-2 border-[#b7934b]/50 rounded-bl-sm" />
-        <div className="pointer-events-none absolute bottom-3 right-3 h-5 w-5 border-b-2 border-r-2 border-[#b7934b]/50 rounded-br-sm" />
-
+      <div className="relative mx-auto max-w-sm text-center">
         <p className="font-serif text-xs italic text-[#6b4c46] mb-6">
           {receipt
             ? `Welcome, ${receipt.fullName}. Your RSVP is certified in our ledger.`
@@ -184,14 +178,14 @@ export const RSVPSection: React.FC = () => {
             aria-label={receipt ? 'Open RSVP Keepsake Receipt' : 'Open RSVP Form'}
           >
             {/* Glowing Halo */}
-            <div className="animate-pulse-soft absolute -inset-3 rounded-full bg-[#b28a46]/25 blur-md group-hover:bg-[#b28a46]/40" />
+            <div className="animate-pulse-soft absolute -inset-3 rounded-full bg-[#b7934b]/20 blur-md group-hover:bg-[#b7934b]/35" />
 
-            {/* Seal Image with Constant 360-Degree Slow Motion Rotation */}
-            <div className="animate-spin-slow relative h-32 w-32 sm:h-36 sm:w-36 overflow-hidden rounded-full shadow-[0_10px_30px_rgba(14,59,46,0.35)] transition-all">
+            {/* Seal Image with Constant 360-Degree Slow Motion Rotation & Transparent Multiply Blend */}
+            <div className="animate-spin-slow relative h-32 w-32 sm:h-36 sm:w-36 overflow-hidden rounded-full shadow-[0_10px_28px_rgba(76,39,35,0.25)] transition-all">
               <img
                 src={receipt ? confirmationSeal : rsvpActionSeal}
                 alt={receipt ? 'Confirmed RSVP Wax Seal' : 'Click Seal to RSVP'}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover mix-blend-multiply"
               />
             </div>
           </button>
@@ -203,13 +197,13 @@ export const RSVPSection: React.FC = () => {
               setIsModalOpen(true);
             }}
             type="button"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b28a46]/60 bg-[#b28a46] px-7 py-3 font-serif text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-sm transition-all hover:bg-[#8f6b32] hover:shadow-md cursor-pointer"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b7934b]/50 bg-[#b7934b] px-7 py-3 font-serif text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-sm transition-all hover:bg-[#8f6b32] hover:shadow-md cursor-pointer"
           >
             <Sparkles className="h-4 w-4 text-[#fcfaf7]" />
             <span>{receipt ? 'View Keepsake Receipt' : 'Click Seal to RSVP'}</span>
           </button>
 
-          <p className="mt-3 font-serif text-[10px] tracking-wider text-[#7a6a58] uppercase">
+          <p className="mt-3 font-serif text-[10px] tracking-wider text-[#7a5c4e] uppercase">
             Kindly respond on or before 1st Dec 2026
           </p>
         </div>

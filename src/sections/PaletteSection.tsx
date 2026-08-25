@@ -4,7 +4,7 @@ import { WEDDING_CONFIG } from '../weddingData';
 
 export const PaletteSection: React.FC = () => {
   return (
-    <section className="my-16 space-y-6 text-center px-4">
+    <section className="my-20 space-y-6 text-center px-4">
       {/* Header */}
       <div>
         <p className="font-script text-3xl leading-none text-[#b7934b] sm:text-4xl">
@@ -20,11 +20,11 @@ export const PaletteSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Subtle 3D Same-Color Embossed Card */}
-      <div className="paper-emboss-card mx-auto max-w-md rounded-3xl p-6 sm:p-8">
-        <span className="font-serif text-xs font-bold tracking-[0.25em] text-[#4a2d28] uppercase">
+      {/* Open Editorial Attire Block */}
+      <div className="mx-auto max-w-md text-center">
+        <p className="font-serif text-xs font-bold tracking-[0.25em] text-[#4a2d28] uppercase">
           BLACK TIE / ELEGANT FORMAL
-        </span>
+        </p>
         <p className="mx-auto mt-2 max-w-sm font-serif text-xs italic text-[#6b4c46] leading-relaxed">
           {WEDDING_CONFIG.palette.description}
         </p>
@@ -37,7 +37,7 @@ export const PaletteSection: React.FC = () => {
               className="paper-deboss-pill flex items-center gap-2 rounded-full py-1.5 px-3.5"
             >
               <div
-                className="h-4 w-4 rounded-full border border-black/10 shadow-xs"
+                className="h-3.5 w-3.5 rounded-full border border-black/10 shadow-xs"
                 style={{ backgroundColor: c.hex }}
               />
               <span className="font-serif text-xs font-semibold text-[#4a2d28]">

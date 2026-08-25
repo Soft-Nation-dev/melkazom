@@ -1,7 +1,11 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
-import heroSwanLake from '../assets/images/hero-swan-lake.jpg';
+import heroSwanLakeOriginal from '../assets/images/hero-swan-lake.jpg';
+import heroSwanLakeV2 from '../assets/images/hero-swan-lake-v2.jpg';
 import { WEDDING_CONFIG } from '../weddingData';
+
+// Switch between v1 (heroSwanLakeOriginal) and v2 (heroSwanLakeV2)
+const activeHeroImage = heroSwanLakeV2;
 
 interface HeroSectionProps {
   isVisible: boolean;
@@ -45,7 +49,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
     <section className="reference-hero relative isolate -mx-4 -mt-4 flex min-h-[100svh] flex-col items-center justify-between overflow-hidden px-6 pt-14 pb-8 text-center text-[#20241f] select-none sm:mx-0 sm:mt-0 sm:min-h-[960px] sm:px-12 sm:pt-16 sm:pb-10">
       {/* Gothic Stone Arch with Swans, Castle & Lake Background Artwork */}
       <img
-        src={heroSwanLake}
+        src={activeHeroImage}
         alt="Melford & Chiazokam"
         width={1080}
         height={1920}
