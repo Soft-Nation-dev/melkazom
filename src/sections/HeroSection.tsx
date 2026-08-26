@@ -84,24 +84,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
             background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.65) 40%, rgba(255, 255, 255, 0.22) 68%, transparent 85%)',
           }}
         />
-        {/* Couple Names in Rich Wine-Brown Ink */}
+        {/* Couple Names in Deep Emerald & Regal Pinyon Script */}
         <div className="flex flex-col items-center">
-          <h1 aria-label={`${groom.shortName}`} className="w-full font-script text-[clamp(3.2rem,11vw,4.4rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#3d1e18]">
+          <h1 aria-label={`${groom.shortName}`} className="w-full font-pinyon text-[clamp(3.4rem,12vw,4.8rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#0E3B2E]">
             <span className={`hero-typewriter hero-typewriter--groom ${isVisible ? 'is-writing' : ''}`}>
               {groom.shortName}
             </span>
           </h1>
-          <span className={`hero-ampersand font-script text-[2rem] sm:text-[2.4rem] font-normal leading-none text-[#b7934b] my-0.5 ${isVisible ? 'is-visible' : ''}`}>
+          <span className={`hero-ampersand font-pinyon text-[2.2rem] sm:text-[2.6rem] font-normal leading-none text-[#C29352] my-0.5 ${isVisible ? 'is-visible' : ''}`}>
             &amp;
           </span>
-          <h1 aria-label={`${bride.shortName}`} className="w-full font-script text-[clamp(3.2rem,11vw,4.4rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#3d1e18]">
+          <h1 aria-label={`${bride.shortName}`} className="w-full font-pinyon text-[clamp(3.4rem,12vw,4.8rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#0E3B2E]">
             <span className={`hero-typewriter hero-typewriter--bride ${isVisible ? 'is-writing' : ''}`}>
               {bride.shortName}
             </span>
           </h1>
         </div>
 
-        <p className={`hero-detail hero-detail--copy font-serif mt-5 max-w-[17rem] text-[0.75rem] sm:text-[0.82rem] leading-[1.8] font-semibold tracking-[0.26em] text-[#4a2d28] uppercase ${isVisible ? 'is-visible' : ''}`}>
+        <p className={`hero-detail hero-detail--copy font-cinzel mt-5 max-w-[17rem] text-[0.72rem] sm:text-[0.78rem] leading-[1.85] font-medium tracking-[0.24em] text-[#0E3B2E] uppercase ${isVisible ? 'is-visible' : ''}`}>
           We would like to
           <br />
           invite you for
@@ -110,14 +110,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
         </p>
 
         <div aria-hidden="true" className={`hero-detail hero-detail--divider my-4 flex w-[10rem] sm:w-[12rem] items-center justify-center gap-3 ${isVisible ? 'is-visible' : ''}`}>
-          <span className="h-[1.5px] flex-1 bg-[#b7934b]" />
-          <span className="text-[11px] text-[#b7934b]">✦</span>
-          <span className="h-[1.5px] flex-1 bg-[#b7934b]" />
+          <span className="h-[1.5px] flex-1 bg-[#C29352]" />
+          <span className="text-[11px] text-[#C29352]">✦</span>
+          <span className="h-[1.5px] flex-1 bg-[#C29352]" />
         </div>
 
         <time
           dateTime={WEDDING_CONFIG.event.dateISO}
-          className={`hero-detail hero-detail--date font-serif text-[1.25rem] sm:text-[1.45rem] leading-none font-semibold tracking-[0.08em] text-[#3d1e18] italic ${isVisible ? 'is-visible' : ''}`}
+          className={`hero-detail hero-detail--date font-cinzel text-[1.15rem] sm:text-[1.35rem] leading-none font-semibold tracking-[0.14em] text-[#0E3B2E] ${isVisible ? 'is-visible' : ''}`}
         >
           {dateLabel}
         </time>
@@ -129,10 +129,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
         type="button"
         className="relative z-10 mb-2 flex cursor-pointer flex-col items-center gap-1.5 rounded-full border border-white/60 bg-white/70 px-5 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-xs transition-all hover:bg-white/90 hover:scale-105 active:scale-95"
       >
-        <span className="font-serif text-[9px] font-bold tracking-[0.28em] text-[#4a2d28] uppercase">
+        <span className="font-cinzel text-[8.5px] font-bold tracking-[0.24em] text-[#0E3B2E] uppercase">
           Scroll to Explore
         </span>
-        <div className="animate-bounce-slow flex h-5 w-5 items-center justify-center rounded-full bg-[#b7934b] text-white shadow-xs">
+        <div className="animate-bounce-slow flex h-5 w-5 items-center justify-center rounded-full bg-[#C29352] text-white shadow-xs">
           <ChevronDown className="h-3.5 w-3.5" />
         </div>
       </button>
