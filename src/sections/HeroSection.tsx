@@ -75,7 +75,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
       </div>
 
       {/* Top Center Content: Couple Names & Invitation Text floating directly on Hero scene */}
-      <div className="relative z-10 mx-auto mt-28 sm:mt-36 flex w-full max-w-[22rem] sm:max-w-md flex-col items-center drop-shadow-[0_2px_8px_rgba(255,255,255,0.7)]">
+      <div className="relative z-10 mx-auto mt-29 sm:mt-36 flex w-full max-w-[22rem] sm:max-w-md flex-col items-center drop-shadow-[0_2px_8px_rgba(255,255,255,0.7)]">
         {/* Soft luminous localized white aura ONLY behind the text area */}
         <div
           aria-hidden="true"
@@ -86,7 +86,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
         />
         {/* Couple names: an editorial serif keeps the moment elevated but legible. */}
         <div className="flex flex-col items-center">
-          <h1 aria-label={`${groom.shortName}`} className="w-full font-cormorant text-[clamp(3.2rem,11.2vw,4.45rem)] leading-[0.88] font-medium tracking-[0.015em] text-[#0E3B2E]">
+          <h1 aria-label={`${groom.shortName}`} className="w-full font-hero-display text-[clamp(3rem,10.6vw,4.25rem)] leading-[0.92] font-medium tracking-[0.01em] text-[#0E3B2E] italic">
             <span className={`hero-typewriter hero-typewriter--groom ${isVisible ? 'is-writing' : ''}`}>
               {groom.shortName}
             </span>
@@ -94,7 +94,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
           <span className={`hero-ampersand font-script-accent text-[2rem] sm:text-[2.35rem] font-normal leading-none text-[#C29352] my-1 ${isVisible ? 'is-visible' : ''}`}>
             &amp;
           </span>
-          <h1 aria-label={`${bride.shortName}`} className="w-full font-cormorant text-[clamp(3.2rem,11.2vw,4.45rem)] leading-[0.88] font-medium tracking-[0.015em] text-[#0E3B2E]">
+          <h1 aria-label={`${bride.shortName}`} className="w-full font-hero-display text-[clamp(3rem,10.6vw,4.25rem)] leading-[0.92] font-medium tracking-[0.01em] text-[#0E3B2E] italic">
             <span className={`hero-typewriter hero-typewriter--bride ${isVisible ? 'is-writing' : ''}`}>
               {bride.shortName}
             </span>
