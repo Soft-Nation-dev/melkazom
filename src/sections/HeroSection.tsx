@@ -84,17 +84,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
             background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.65) 40%, rgba(255, 255, 255, 0.22) 68%, transparent 85%)',
           }}
         />
-        {/* Couple Names in Deep Emerald & Regal Pinyon Script */}
+        {/* Couple names: an editorial serif keeps the moment elevated but legible. */}
         <div className="flex flex-col items-center">
-          <h1 aria-label={`${groom.shortName}`} className="w-full font-pinyon text-[clamp(3.4rem,12vw,4.8rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#0E3B2E]">
+          <h1 aria-label={`${groom.shortName}`} className="w-full font-cormorant text-[clamp(3.2rem,11.2vw,4.45rem)] leading-[0.88] font-medium tracking-[0.015em] text-[#0E3B2E]">
             <span className={`hero-typewriter hero-typewriter--groom ${isVisible ? 'is-writing' : ''}`}>
               {groom.shortName}
             </span>
           </h1>
-          <span className={`hero-ampersand font-pinyon text-[2.2rem] sm:text-[2.6rem] font-normal leading-none text-[#C29352] my-0.5 ${isVisible ? 'is-visible' : ''}`}>
+          <span className={`hero-ampersand font-script-accent text-[2rem] sm:text-[2.35rem] font-normal leading-none text-[#C29352] my-1 ${isVisible ? 'is-visible' : ''}`}>
             &amp;
           </span>
-          <h1 aria-label={`${bride.shortName}`} className="w-full font-pinyon text-[clamp(3.4rem,12vw,4.8rem)] leading-[0.95] font-normal tracking-[0.01em] text-[#0E3B2E]">
+          <h1 aria-label={`${bride.shortName}`} className="w-full font-cormorant text-[clamp(3.2rem,11.2vw,4.45rem)] leading-[0.88] font-medium tracking-[0.015em] text-[#0E3B2E]">
             <span className={`hero-typewriter hero-typewriter--bride ${isVisible ? 'is-writing' : ''}`}>
               {bride.shortName}
             </span>
