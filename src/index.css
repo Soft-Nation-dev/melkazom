@@ -1091,7 +1091,7 @@
 
 .invitation-document {
   max-width: 46rem;
-  padding-bottom: 5rem;
+  padding-bottom: 0;
   background: #fbf6ed;
   box-shadow: 0 0 4.5rem rgba(76, 39, 35, 0.16);
 }

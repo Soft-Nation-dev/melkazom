@@ -321,7 +321,12 @@ export default {
       });
     }
 
-    // Root Welcome
+    // Make the custom ledger hostname land on the protected response dashboard.
+    if (request.method === "GET" && path === "/") {
+      return Response.redirect(new URL("/admin", url), 302);
+    }
+
+    // API reference for non-dashboard paths.
     return jsonResponse({
       service: "Melkazom Wedding Backend",
       endpoints: {
