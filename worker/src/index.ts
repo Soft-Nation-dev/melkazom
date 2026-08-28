@@ -121,6 +121,11 @@ export default {
       });
     }
 
+    // Keep the ledger tab branded with the same seal used by the invitation.
+    if (request.method === "GET" && path === "/favicon.png") {
+      return Response.redirect("https://melkazom.com.ng/favicon.png", 302);
+    }
+
     const clientIp = request.headers.get("CF-Connecting-IP") || "";
 
     // -----------------------------------------------------------------------
@@ -346,6 +351,8 @@ function renderAdminHtml(isAuthenticated: boolean): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
   <title>Melkazom Admin Portal • RSVP & Guest Ledger</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
