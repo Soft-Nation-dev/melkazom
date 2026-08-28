@@ -1513,12 +1513,12 @@
 
 /* Print only the RSVP certificate—not the invitation, modal controls, or browser UI. */
 @media print {
-  @page { size: A4 portrait; margin: 0; }
+  @page { size: A5 portrait; margin: 0; }
 
   html,
   body {
-    width: 210mm !important;
-    min-height: 297mm !important;
+    width: 148mm !important;
+    min-height: 210mm !important;
     margin: 0 !important;
     background: #fbf6ed !important;
   }
@@ -1533,9 +1533,9 @@
   .rsvp-print-modal {
     position: static !important;
     display: block !important;
-    width: 210mm !important;
-    height: 297mm !important;
-    min-height: 297mm !important;
+    width: 148mm !important;
+    height: 210mm !important;
+    min-height: 210mm !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
@@ -1545,11 +1545,11 @@
   .rsvp-receipt-shell {
     box-sizing: border-box !important;
     display: block !important;
-    width: 210mm !important;
+    width: 148mm !important;
     max-width: none !important;
-    min-height: 297mm !important;
+    min-height: 210mm !important;
     margin: 0 !important;
-    padding: 22mm 25mm !important;
+    padding: 15mm 17mm !important;
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -1560,14 +1560,14 @@
 
   .rsvp-receipt {
     display: flex !important;
-    min-height: 253mm;
+    min-height: 180mm;
     flex-direction: column;
     justify-content: space-between;
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
-  .rsvp-receipt dl { max-width: 122mm !important; }
+  .rsvp-receipt dl { max-width: 112mm !important; }
   .rsvp-print-hidden { display: none !important; }
   .rsvp-print-decoration { display: block !important; }
 }
