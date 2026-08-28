@@ -252,31 +252,31 @@ export const RSVPSection: React.FC = () => {
       {/* ========================================================================= */}
       {isModalOpen && typeof document !== 'undefined' && createPortal(
         <div
-          className="fixed inset-0 z-[99999] h-screen w-screen overflow-y-auto bg-[#fbf6ed] p-4 sm:p-8 flex flex-col items-center justify-start sm:justify-center transition-opacity duration-300"
+          className="rsvp-print-modal fixed inset-0 z-[99999] h-screen w-screen overflow-y-auto bg-[#fbf6ed] p-4 sm:p-8 flex flex-col items-center justify-start sm:justify-center transition-opacity duration-300"
           role="dialog"
           aria-modal="true"
         >
-          <div className="relative w-full max-w-xl my-auto rounded-3xl border border-[#b7934b]/35 bg-[#fdfaf5] p-6 sm:p-10 shadow-[0_20px_60px_rgba(74,45,40,0.18)] text-center">
+          <div className="rsvp-receipt-shell relative w-full max-w-xl my-auto rounded-3xl border border-[#b7934b]/35 bg-[#fdfaf5] p-6 sm:p-10 shadow-[0_20px_60px_rgba(74,45,40,0.18)] text-center">
             {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}
               type="button"
-              className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#f2e9dc] text-[#4a2d28] hover:bg-[#e4dcce] transition-colors cursor-pointer shadow-xs"
+              className="rsvp-print-hidden absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#f2e9dc] text-[#4a2d28] hover:bg-[#e4dcce] transition-colors cursor-pointer shadow-xs"
               aria-label="Close dialog"
             >
               <X className="h-5 w-5" />
             </button>
 
             {/* Vintage Double-Line Ornamental Corners */}
-            <div className="pointer-events-none absolute top-4 left-4 h-8 w-8 border-t-2 border-l-2 border-[#b7934b] rounded-tl-md" />
-            <div className="pointer-events-none absolute top-4 right-4 h-8 w-8 border-t-2 border-r-2 border-[#b7934b] rounded-tr-md" />
-            <div className="pointer-events-none absolute bottom-4 left-4 h-8 w-8 border-b-2 border-l-2 border-[#b7934b] rounded-bl-md" />
-            <div className="pointer-events-none absolute bottom-4 right-4 h-8 w-8 border-b-2 border-r-2 border-[#b7934b] rounded-br-md" />
-            <div className="pointer-events-none absolute inset-4 rounded-2xl border border-[#b7934b]/20" />
+            <div className="rsvp-print-decoration pointer-events-none absolute top-4 left-4 h-8 w-8 border-t-2 border-l-2 border-[#b7934b] rounded-tl-md" />
+            <div className="rsvp-print-decoration pointer-events-none absolute top-4 right-4 h-8 w-8 border-t-2 border-r-2 border-[#b7934b] rounded-tr-md" />
+            <div className="rsvp-print-decoration pointer-events-none absolute bottom-4 left-4 h-8 w-8 border-b-2 border-l-2 border-[#b7934b] rounded-bl-md" />
+            <div className="rsvp-print-decoration pointer-events-none absolute bottom-4 right-4 h-8 w-8 border-b-2 border-r-2 border-[#b7934b] rounded-br-md" />
+            <div className="rsvp-print-decoration pointer-events-none absolute inset-4 rounded-2xl border border-[#b7934b]/20" />
 
             {/* RECEIPT VIEW IN MODAL */}
             {receipt && !isEditing ? (
-              <article>
+              <article className="rsvp-receipt">
                 <p className="font-serif text-[10px] font-bold tracking-[0.3em] uppercase text-[#b7934b]">
                   A Joyful Union &bull; #Melkazom
                 </p>
@@ -346,7 +346,7 @@ export const RSVPSection: React.FC = () => {
                 </p>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <div className="rsvp-print-hidden flex flex-col gap-3 sm:flex-row sm:justify-center">
                   <button
                     type="button"
                     onClick={handlePrint}

@@ -38,7 +38,8 @@ export default function App() {
 
   useEffect(() => {
     let isMounted = true;
-    const minimumDisplayTime = new Promise<void>((resolve) => window.setTimeout(resolve, 1050));
+    // The prelude should be experienced—not flash past on a fast connection.
+    const minimumDisplayTime = new Promise<void>((resolve) => window.setTimeout(resolve, 2800));
     const appReady = Promise.all([
       loadInvitationBody(),
       preloadImage(heroSwanLake),
@@ -46,8 +47,9 @@ export default function App() {
       document.fonts?.ready ?? Promise.resolve(),
     ]).then(() => undefined);
 
-    // Slow networks should never leave a guest looking at a static loader.
-    const safetyRelease = new Promise<void>((resolve) => window.setTimeout(resolve, 5000));
+    // This is deliberately longer than the prelude: readiness remains the
+    // priority, while an extreme connection delay still has a graceful exit.
+    const safetyRelease = new Promise<void>((resolve) => window.setTimeout(resolve, 9000));
 
     void Promise.all([minimumDisplayTime, Promise.race([appReady, safetyRelease])]).then(() => {
       if (!isMounted) return;

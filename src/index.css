@@ -1510,3 +1510,64 @@
   .invitation-loader__content,
   .invitation-loader__message { animation: none; }
 }
+
+/* Print only the RSVP certificate—not the invitation, modal controls, or browser UI. */
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+
+  html,
+  body {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    background: #fbf6ed !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body > *:not(.rsvp-print-modal) { display: none !important; }
+
+  .rsvp-print-modal {
+    position: static !important;
+    display: block !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fbf6ed !important;
+  }
+
+  .rsvp-receipt-shell {
+    box-sizing: border-box !important;
+    display: block !important;
+    width: 210mm !important;
+    max-width: none !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: 22mm 25mm !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background:
+      linear-gradient(135deg, rgba(183, 147, 75, .09), transparent 34%),
+      #fdfaf5 !important;
+  }
+
+  .rsvp-receipt {
+    display: flex !important;
+    min-height: 253mm;
+    flex-direction: column;
+    justify-content: space-between;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .rsvp-receipt dl { max-width: 122mm !important; }
+  .rsvp-print-hidden { display: none !important; }
+  .rsvp-print-decoration { display: block !important; }
+}
