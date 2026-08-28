@@ -5,8 +5,7 @@ import { X, Send, Printer, Edit3, Sparkles } from 'lucide-react';
 import confirmationSeal from '../assets/images/melkazom-confirmation-seal.png';
 import rsvpActionSeal from '../assets/images/melkazom-rsvp-seal.png';
 import { WEDDING_CONFIG } from '../weddingData';
-
-const BACKEND_URL = 'https://melkazom-backend.ifeanyieee8105.workers.dev';
+import { API_BASE_URL } from '../config';
 
 export interface RsvpReceiptData {
   code: string;
@@ -124,7 +123,7 @@ export const RSVPSection: React.FC = () => {
 
     // Submit to Cloudflare backend asynchronously
     try {
-      await fetch(`${BACKEND_URL}/api/rsvp`, {
+      await fetch(`${API_BASE_URL}/api/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

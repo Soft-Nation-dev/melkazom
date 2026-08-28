@@ -2,6 +2,9 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { EnvelopeOpener } from './components/EnvelopeOpener';
 import { AudioPlayer, type AudioPlayerHandle } from './components/AudioPlayer';
 import { ScrollToRsvp } from './components/ScrollToRsvp';
+import { LoadingScreen } from './components/LoadingScreen';
+import heroSwanLake from './assets/images/hero-swan-lake-v2.jpg';
+import botanicalSeal from './assets/images/wax-seal-botanical-v2.webp';
 
 // Modular Subfolder Sections for Easy Editing
 import { HeroSection } from './sections/HeroSection';
@@ -19,10 +22,45 @@ const loadInvitationBody = () => {
 
 const InvitationBody = lazy(loadInvitationBody);
 
+const preloadImage = (src: string) => new Promise<void>((resolve) => {
+  const image = new Image();
+  image.onload = () => resolve();
+  image.onerror = () => resolve();
+  image.src = src;
+});
+
 export default function App() {
+  const [isBooting, setIsBooting] = useState(true);
+  const [showLoader, setShowLoader] = useState(true);
   const [isOpened, setIsOpened] = useState(false);
   const [isDocumentReady, setIsDocumentReady] = useState(false);
   const audioPlayerRef = useRef<AudioPlayerHandle>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const minimumDisplayTime = new Promise<void>((resolve) => window.setTimeout(resolve, 1050));
+    const appReady = Promise.all([
+      loadInvitationBody(),
+      preloadImage(heroSwanLake),
+      preloadImage(botanicalSeal),
+      document.fonts?.ready ?? Promise.resolve(),
+    ]).then(() => undefined);
+
+    // Slow networks should never leave a guest looking at a static loader.
+    const safetyRelease = new Promise<void>((resolve) => window.setTimeout(resolve, 5000));
+
+    void Promise.all([minimumDisplayTime, Promise.race([appReady, safetyRelease])]).then(() => {
+      if (!isMounted) return;
+      setIsBooting(false);
+      window.setTimeout(() => {
+        if (isMounted) setShowLoader(false);
+      }, 620);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpened) return;
@@ -69,6 +107,8 @@ export default function App() {
 
   return (
     <div className="invitation-canvas relative min-h-screen overflow-x-hidden font-sans text-[#382f28] antialiased selection:bg-[#b7899a]/20 selection:text-[#38485d]">
+      {showLoader && <LoadingScreen isLeaving={!isBooting} />}
+
       {/* 1. Full-Screen Origami Envelope Opener */}
       <EnvelopeOpener
         isOpen={isOpened}

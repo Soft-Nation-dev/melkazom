@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Heart } from 'lucide-react';
-
-const BACKEND_URL = 'https://melkazom-backend.ifeanyieee8105.workers.dev';
+import { API_BASE_URL } from '../config';
 
 export const MessageSection: React.FC = () => {
   const [senderName, setSenderName] = useState('');
@@ -17,7 +16,7 @@ export const MessageSection: React.FC = () => {
 
     // Save to Cloudflare Backend Database
     try {
-      await fetch(`${BACKEND_URL}/api/messages`, {
+      await fetch(`${API_BASE_URL}/api/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1367,3 +1367,146 @@
   .invitation-document > footer { padding-top: 4rem; padding-bottom: 4rem; }
   .reference-hero { box-shadow: none; }
 }
+
+/* First-visit prelude: allow the invitation to compose before it is revealed. */
+.invitation-loader {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(255,255,255,.88), transparent 42%),
+    linear-gradient(145deg, #f8f3ef 0%, #f0e8ea 52%, #e9edf3 100%);
+  color: #4b2930;
+  isolation: isolate;
+  transition: opacity .62s cubic-bezier(.22,.61,.36,1), visibility .62s step-end;
+}
+
+.invitation-loader::before,
+.invitation-loader::after {
+  position: absolute;
+  z-index: -1;
+  width: min(78vw, 32rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(164, 123, 144, .24);
+  border-radius: 50%;
+  content: '';
+}
+
+.invitation-loader::before { animation: loader-orbit 16s linear infinite; }
+.invitation-loader::after {
+  width: min(58vw, 23rem);
+  border-color: rgba(194, 147, 82, .22);
+  animation: loader-orbit 11s linear infinite reverse;
+}
+
+.invitation-loader.is-leaving {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.invitation-loader__wash {
+  position: absolute;
+  inset: -30%;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(192, 167, 203, .28) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 82% 74%, rgba(184, 147, 82, .22) 0 1px, transparent 1.5px);
+  background-size: 18px 18px, 24px 24px;
+  opacity: .58;
+  transform: rotate(-8deg);
+}
+
+.invitation-loader__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(86vw, 25rem);
+  text-align: center;
+  animation: loader-content-in 1s cubic-bezier(.16,1,.3,1) both;
+}
+
+.invitation-loader__eyebrow,
+.invitation-loader__year,
+.invitation-loader__message {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: .57rem;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+}
+
+.invitation-loader__eyebrow { color: #836376; }
+
+.invitation-loader__monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+  margin: 1.1rem 0 .55rem;
+  color: #9a7189;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.4rem, 14vw, 5.5rem);
+  font-style: italic;
+  line-height: .76;
+}
+
+.invitation-loader__monogram i {
+  width: 1.5rem;
+  height: 1px;
+  background: #c29352;
+  transform: rotate(-28deg);
+}
+
+.invitation-loader h1 {
+  margin: 0;
+  color: #4e3340;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.35rem, 9vw, 3.65rem);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+
+.invitation-loader__year {
+  margin-top: .48rem;
+  color: #a27788;
+}
+
+.invitation-loader__line {
+  display: flex;
+  align-items: center;
+  width: min(12rem, 62vw);
+  gap: .8rem;
+  margin: 1.65rem 0 .9rem;
+  color: #bd9258;
+}
+
+.invitation-loader__line i {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.invitation-loader__line i:last-child { transform: scaleX(-1); }
+.invitation-loader__line b { font-size: .6rem; font-weight: 400; }
+.invitation-loader__message { color: #72556a; animation: loader-message 1.7s ease-in-out infinite; }
+
+@keyframes loader-content-in {
+  from { opacity: 0; transform: translateY(16px) scale(.975); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes loader-orbit { to { transform: rotate(360deg); } }
+@keyframes loader-message { 50% { opacity: .42; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .invitation-loader::before,
+  .invitation-loader::after,
+  .invitation-loader__content,
+  .invitation-loader__message { animation: none; }
+}

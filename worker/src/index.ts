@@ -52,7 +52,7 @@ const DEFAULT_ADMIN_PASSWORD = "Melkazom2027!SecurePass@Enugu";
 
 function getCorsHeaders(): HeadersInit {
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://melkazom.com.ng",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Admin-Password",
     "Access-Control-Max-Age": "86400",
