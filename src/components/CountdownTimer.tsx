@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { WEDDING_CONFIG } from '../weddingData';
 
 function getTimeLeft() {
@@ -69,14 +69,53 @@ function RollingNumber({ value, isDays }: { value: number; isDays?: boolean }) {
 
 export const CountdownTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft);
+  const timerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const interval = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000);
-    return () => window.clearInterval(interval);
+    const timer = timerRef.current;
+    if (!timer) return;
+
+    let interval: number | undefined;
+    let inView = false;
+
+    const stop = () => {
+      if (interval === undefined) return;
+      window.clearInterval(interval);
+      interval = undefined;
+    };
+
+    const start = () => {
+      if (interval !== undefined || !inView || document.hidden) return;
+      setTimeLeft(getTimeLeft());
+      interval = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) start();
+        else stop();
+      },
+      { rootMargin: '160px 0px' },
+    );
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    observer.observe(timer);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      stop();
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   return (
-    <div className="relative my-14 px-4 text-center">
+    <div ref={timerRef} className="relative my-14 px-4 text-center">
       {/* Section kicker — gold script matching staceys */}
       <p className="font-script text-[2rem] leading-none text-[#b7934b] sm:text-[2.5rem]">
         Counting Down

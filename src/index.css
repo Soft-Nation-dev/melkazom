@@ -1511,6 +1511,69 @@
   .invitation-loader__message { animation: none; }
 }
 
+/* Mobile scrolling should stay composed even on lower-powered devices. These
+   rules only affect the document after the envelope has opened. */
+@media (max-width: 700px) {
+  .invitation-canvas::before {
+    /* A fixed, full-screen gradient can trigger repaint work on every scroll. */
+    position: absolute;
+  }
+
+  .invitation-section {
+    transform: translate3d(0, 24px, 0);
+    filter: none;
+    transition:
+      opacity .42s cubic-bezier(.22,.61,.36,1) var(--section-delay),
+      transform .52s cubic-bezier(.16,1,.3,1) var(--section-delay);
+  }
+
+  .invitation-section.is-revealed {
+    transform: translate3d(0, 0, 0);
+    filter: none;
+  }
+
+  /* The parent reveal already gives headings a graceful entrance. Avoid
+     animating every individual letter, which creates many layers at once. */
+  .vintage-letter {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .invitation-section.is-revealed .vintage-letter {
+    animation: none;
+  }
+
+  .invitation-section.is-revealed .vintage-reveal-item {
+    animation-duration: .52s;
+  }
+
+  .invitation-section.is-revealed .vintage-eyebrow,
+  .invitation-section.is-revealed .vintage-divider,
+  .invitation-section.is-revealed .vintage-subtitle {
+    animation-duration: .52s;
+  }
+
+  /* Reveal photographs with a composited fade-and-rise instead of animating
+     their clipping mask while the page is moving. */
+  .vintage-media {
+    clip-path: none;
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+
+  .invitation-section.is-revealed .vintage-media {
+    animation: vintage-item-rise .58s cubic-bezier(.16,1,.3,1) .08s forwards;
+  }
+
+  .audio-control {
+    /* Backdrop sampling beneath a fixed button is expensive during scrolling. */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: #6f5c70;
+  }
+}
+
 /* Print only the RSVP certificate—not the invitation, modal controls, or browser UI. */
 @media print {
   @page { size: A5 portrait; margin: 0; }
