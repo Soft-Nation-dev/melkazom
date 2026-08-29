@@ -124,10 +124,10 @@ export const WEDDING_CONFIG: WeddingConfig = {
     title: "Colors of the Day",
     description: "Guests are warmly encouraged to celebrate with us in our wedding color palette:",
     colors: [
-      { name: "Beige", hex: "#E8D5B7", note: "Warm Neutral" },
-      { name: "Pink", hex: "#E8A0B0", note: "Soft Blush" },
-      { name: "Olive Green", hex: "#6B7B3A", note: "Nature Tone" },
-      { name: "Burgundy", hex: "#800020", note: "Deep Wine" }
+      { name: "Dusty Pink", hex: "#C98E9B", note: "Muted Rose" },
+      { name: "Beige", hex: "#DCC7A1", note: "Warm Neutral" },
+      { name: "Sky Blue", hex: "#9BC8E3", note: "Soft Blue" },
+      { name: "Burgundy", hex: "#701C2A", note: "Deep Wine" }
     ]
   },
   quote: {
@@ -196,7 +196,7 @@ export const WEDDING_CONFIG: WeddingConfig = {
     },
     {
       question: "What is the dress code?",
-      answer: "Black Tie / Elegant Traditional Attire adhering to our color palette (Emerald Green, Champagne Gold, and Warm Ivory)."
+      answer: "Black Tie / Elegant Traditional Attire in our colour palette: Dusty Pink, Beige, Sky Blue, and Burgundy."
     },
     {
       question: "When should I RSVP by?",
