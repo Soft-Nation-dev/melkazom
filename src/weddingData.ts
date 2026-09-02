@@ -103,12 +103,12 @@ export const WEDDING_CONFIG: WeddingConfig = {
     dayOfWeek: "Monday",
     dateISO: "2027-01-04T10:00:00",
     church: {
-      name: "Christ the King Church",
+      name: "Christ the King Chaplaincy",
       time: "10:00 AM",
-      location: "Enugu, Nigeria",
+      location: "GRA, Enugu, Nigeria",
       state: "Enugu State",
-      address: "Christ the King Catholic Church, Ogui Road / Independence Layout, Enugu, Nigeria",
-      mapUrl: "https://maps.google.com/?q=Christ+the+King+Church+Enugu+Nigeria"
+      address: "Christ the King Chaplaincy, GRA, Enugu, Enugu State, Nigeria",
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=Christ%20the%20King%20Chaplaincy%2C%20GRA%2C%20Enugu%2C%20Enugu%20State%2C%20Nigeria"
     },
     reception: {
       hall: "Amadeo Hall",
@@ -139,7 +139,7 @@ export const WEDDING_CONFIG: WeddingConfig = {
     {
       time: "10:00",
       title: "CHURCH CEREMONY",
-      subtitle: "Solemnization of Holy Matrimony at Christ the King Church",
+      subtitle: "Solemnization of Holy Matrimony at Christ the King Chaplaincy, GRA",
       icon: "church"
     },
     {
