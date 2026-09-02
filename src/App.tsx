@@ -38,29 +38,27 @@ export default function App() {
 
   useEffect(() => {
     let isMounted = true;
-    // The prelude should be experienced—not flash past on a fast connection.
-    const minimumDisplayTime = new Promise<void>((resolve) => window.setTimeout(resolve, 2800));
-    const appReady = Promise.all([
-      loadInvitationBody(),
-      preloadImage(heroSwanLake),
-      preloadImage(botanicalSeal),
-      document.fonts?.ready ?? Promise.resolve(),
-    ]).then(() => undefined);
+    // Start non-critical work immediately, but never make a guest wait for it.
+    // The envelope is fully self-contained, so it can be shown while the hero,
+    // the remainder of the document, and fonts continue preparing in the background.
+    void loadInvitationBody();
+    void preloadImage(heroSwanLake);
+    void preloadImage(botanicalSeal);
+    void document.fonts?.ready;
 
-    // This is deliberately longer than the prelude: readiness remains the
-    // priority, while an extreme connection delay still has a graceful exit.
-    const safetyRelease = new Promise<void>((resolve) => window.setTimeout(resolve, 9000));
-
-    void Promise.all([minimumDisplayTime, Promise.race([appReady, safetyRelease])]).then(() => {
+    // Keep the prelude intentional on a fast connection without turning it into
+    // a loading gate on a slow mobile network.
+    const timer = window.setTimeout(() => {
       if (!isMounted) return;
       setIsBooting(false);
       window.setTimeout(() => {
         if (isMounted) setShowLoader(false);
-      }, 620);
-    });
+      }, 280);
+    }, 1200);
 
     return () => {
       isMounted = false;
+      window.clearTimeout(timer);
     };
   }, []);
 
@@ -91,15 +89,14 @@ export default function App() {
   useEffect(() => {
     if (!isOpened) return;
 
-    // Keep the hero entrance free from the cost of mounting the full document.
-    // Guests naturally remain on the full-height hero while the remaining
-    // sections are prepared below the fold.
+    // The document has been warming in the background since first paint. Yield
+    // one frame after the envelope handoff, then reveal it as soon as it is ready.
     let cancelled = false;
     const timer = window.setTimeout(() => {
       void loadInvitationBody().then(() => {
         if (!cancelled) setIsDocumentReady(true);
       });
-    }, 2600);
+    }, 320);
 
     return () => {
       cancelled = true;

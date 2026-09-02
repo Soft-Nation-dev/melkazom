@@ -1381,7 +1381,7 @@
     linear-gradient(145deg, #f8f3ef 0%, #f0e8ea 52%, #e9edf3 100%);
   color: #4b2930;
   isolation: isolate;
-  transition: opacity .62s cubic-bezier(.22,.61,.36,1), visibility .62s step-end;
+  transition: opacity .28s cubic-bezier(.22,.61,.36,1), visibility .28s step-end;
 }
 
 .invitation-loader::before,
