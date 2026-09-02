@@ -1,26 +1,14 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EnvelopeOpener } from './components/EnvelopeOpener';
 import { AudioPlayer, type AudioPlayerHandle } from './components/AudioPlayer';
 import { ScrollToRsvp } from './components/ScrollToRsvp';
 import { LoadingScreen } from './components/LoadingScreen';
+import InvitationBody from './components/InvitationBody';
 import heroSwanLake from './assets/images/hero-swan-lake-v2.jpg';
 import botanicalSeal from './assets/images/wax-seal-botanical-v2.webp';
 
 // Modular Subfolder Sections for Easy Editing
 import { HeroSection } from './sections/HeroSection';
-
-let invitationBodyPromise: ReturnType<typeof importInvitationBody> | undefined;
-
-function importInvitationBody() {
-  return import('./components/InvitationBody');
-}
-
-const loadInvitationBody = () => {
-  invitationBodyPromise ??= importInvitationBody();
-  return invitationBodyPromise;
-};
-
-const InvitationBody = lazy(loadInvitationBody);
 
 const preloadImage = (src: string) => new Promise<void>((resolve) => {
   const image = new Image();
@@ -41,7 +29,6 @@ export default function App() {
     // Start non-critical work immediately, but never make a guest wait for it.
     // The envelope is fully self-contained, so it can be shown while the hero,
     // the remainder of the document, and fonts continue preparing in the background.
-    void loadInvitationBody();
     void preloadImage(heroSwanLake);
     void preloadImage(botanicalSeal);
     void document.fonts?.ready;
@@ -89,14 +76,12 @@ export default function App() {
   useEffect(() => {
     if (!isOpened) return;
 
-    // The document has been warming in the background since first paint. Yield
-    // one frame after the envelope handoff, then reveal it as soon as it is ready.
+    // The document is included in the first app bundle, avoiding a second
+    // network request that can leave a guest stranded on the hero screen.
     let cancelled = false;
     const timer = window.setTimeout(() => {
-      void loadInvitationBody().then(() => {
-        if (!cancelled) setIsDocumentReady(true);
-      });
-    }, 320);
+      if (!cancelled) setIsDocumentReady(true);
+    }, 120);
 
     return () => {
       cancelled = true;
@@ -124,11 +109,7 @@ export default function App() {
         {/* Section 1: Hero matching screenshot with corner floral foliage */}
         <HeroSection isVisible={isOpened} />
 
-        {isDocumentReady && (
-          <Suspense fallback={null}>
-            <InvitationBody />
-          </Suspense>
-        )}
+        {isDocumentReady && <InvitationBody />}
       </main>
     </div>
   );
