@@ -104,7 +104,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible }) => {
         <p className={`hero-detail hero-detail--copy font-cinzel mt-5 max-w-[17rem] text-[0.72rem] sm:text-[0.78rem] leading-[1.85] font-medium tracking-[0.24em] text-[#0E3B2E] uppercase ${isVisible ? 'is-visible' : ''}`}>
           We would like to
           <br />
-          invite you for
+          invite you to
           <br />
           our wedding
         </p>

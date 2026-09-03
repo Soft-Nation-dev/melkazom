@@ -86,14 +86,14 @@ export const WEDDING_CONFIG: WeddingConfig = {
       shortName: "Melford",
       father: "Late Mr. Joseph Ugwu",
       mother: "Mrs. Florence Ugwu",
-      origin: "Nsukka Local Government Area, Enugu State"
+      origin: "Ubogidi Edem Ani, Nsukka Local Government Area, Enugu State, Nigeria"
     },
     bride: {
       fullName: "Chiazokam Faith Okagu",
       shortName: "Chiazokam",
       father: "Late Mr. Charles Okagu",
-      mother: "Mrs. Cordelia Okagu",
-      origin: "Igbo-Etiti Local Government Area, Enugu State"
+      mother: "Ezinne Mrs Cordelia Okagu",
+      origin: "Ama-uwelu Obie, Aku, Igbo-Etiti Local Government Area, Enugu State, Nigeria"
     },
     hashtag: "#Melkazom",
     themeTitle: "A Symphony of Everlasting Grace"
@@ -103,12 +103,12 @@ export const WEDDING_CONFIG: WeddingConfig = {
     dayOfWeek: "Monday",
     dateISO: "2027-01-04T10:00:00",
     church: {
-      name: "Christ the King Chaplaincy",
+      name: "Christ the King Parish",
       time: "10:00 AM",
       location: "GRA, Enugu, Nigeria",
       state: "Enugu State",
-      address: "Christ the King Chaplaincy, GRA, Enugu, Enugu State, Nigeria",
-      mapUrl: "https://www.google.com/maps/search/?api=1&query=Christ%20the%20King%20Chaplaincy%2C%20GRA%2C%20Enugu%2C%20Enugu%20State%2C%20Nigeria"
+      address: "Christ the King Parish, GRA, Enugu, Enugu State, Nigeria",
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=Christ%20the%20King%20Parish%2C%20GRA%2C%20Enugu%2C%20Enugu%20State%2C%20Nigeria"
     },
     reception: {
       hall: "Amadeo Hall",
@@ -139,7 +139,7 @@ export const WEDDING_CONFIG: WeddingConfig = {
     {
       time: "10:00",
       title: "CHURCH CEREMONY",
-      subtitle: "Solemnization of Holy Matrimony at Christ the King Chaplaincy, GRA",
+      subtitle: "Solemnization of Holy Matrimony at Christ the King Parish, GRA",
       icon: "church"
     },
     {
